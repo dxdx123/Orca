@@ -25,6 +25,54 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""LightAttack1"",
+                    ""type"": ""Button"",
+                    ""id"": ""306530b3-419f-4e00-9ed7-fa9d08bfc61c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""LightAttack2"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd3c1335-34e6-4c29-b78e-81efb68d877c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""HeavyAttack1"",
+                    ""type"": ""Button"",
+                    ""id"": ""00e2251e-7ef3-40e0-9ed9-25f66d7e98ed"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""HeavyAttack2"",
+                    ""type"": ""Button"",
+                    ""id"": ""2b2e19c1-d875-4b31-a4c6-e0975d8d8045"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""LevelUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c005ace-0afd-4e42-a6e5-9e484daea6ab"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Die"",
+                    ""type"": ""Button"",
+                    ""id"": ""65d4915d-d2d8-469a-a93c-34450b8cbd03"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -82,6 +130,72 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14605974-562a-46f4-aaeb-e24efe4d33a9"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""LightAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""312bea1b-5f31-4547-b35b-9f47f3b9dd52"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""LightAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7228fa34-4370-4070-9349-0347ea024125"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""HeavyAttack1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3cad452e-5fb9-46a2-9245-712b8f84a412"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""HeavyAttack2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b10134d-0ccb-465f-bf21-8c2c10d9b527"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""LevelUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""737e804e-8fcd-428c-b886-134decaab3f4"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Die"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -108,6 +222,12 @@ public class @InputActions : IInputActionCollection, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_LightAttack1 = m_Player.FindAction("LightAttack1", throwIfNotFound: true);
+        m_Player_LightAttack2 = m_Player.FindAction("LightAttack2", throwIfNotFound: true);
+        m_Player_HeavyAttack1 = m_Player.FindAction("HeavyAttack1", throwIfNotFound: true);
+        m_Player_HeavyAttack2 = m_Player.FindAction("HeavyAttack2", throwIfNotFound: true);
+        m_Player_LevelUp = m_Player.FindAction("LevelUp", throwIfNotFound: true);
+        m_Player_Die = m_Player.FindAction("Die", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -158,11 +278,23 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_LightAttack1;
+    private readonly InputAction m_Player_LightAttack2;
+    private readonly InputAction m_Player_HeavyAttack1;
+    private readonly InputAction m_Player_HeavyAttack2;
+    private readonly InputAction m_Player_LevelUp;
+    private readonly InputAction m_Player_Die;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
         public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @LightAttack1 => m_Wrapper.m_Player_LightAttack1;
+        public InputAction @LightAttack2 => m_Wrapper.m_Player_LightAttack2;
+        public InputAction @HeavyAttack1 => m_Wrapper.m_Player_HeavyAttack1;
+        public InputAction @HeavyAttack2 => m_Wrapper.m_Player_HeavyAttack2;
+        public InputAction @LevelUp => m_Wrapper.m_Player_LevelUp;
+        public InputAction @Die => m_Wrapper.m_Player_Die;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -175,6 +307,24 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @LightAttack1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack1;
+                @LightAttack1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack1;
+                @LightAttack1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack1;
+                @LightAttack2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack2;
+                @LightAttack2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack2;
+                @LightAttack2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLightAttack2;
+                @HeavyAttack1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack1;
+                @HeavyAttack1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack1;
+                @HeavyAttack1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack1;
+                @HeavyAttack2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack2;
+                @HeavyAttack2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack2;
+                @HeavyAttack2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeavyAttack2;
+                @LevelUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLevelUp;
+                @LevelUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLevelUp;
+                @LevelUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLevelUp;
+                @Die.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDie;
+                @Die.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDie;
+                @Die.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDie;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -182,6 +332,24 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @LightAttack1.started += instance.OnLightAttack1;
+                @LightAttack1.performed += instance.OnLightAttack1;
+                @LightAttack1.canceled += instance.OnLightAttack1;
+                @LightAttack2.started += instance.OnLightAttack2;
+                @LightAttack2.performed += instance.OnLightAttack2;
+                @LightAttack2.canceled += instance.OnLightAttack2;
+                @HeavyAttack1.started += instance.OnHeavyAttack1;
+                @HeavyAttack1.performed += instance.OnHeavyAttack1;
+                @HeavyAttack1.canceled += instance.OnHeavyAttack1;
+                @HeavyAttack2.started += instance.OnHeavyAttack2;
+                @HeavyAttack2.performed += instance.OnHeavyAttack2;
+                @HeavyAttack2.canceled += instance.OnHeavyAttack2;
+                @LevelUp.started += instance.OnLevelUp;
+                @LevelUp.performed += instance.OnLevelUp;
+                @LevelUp.canceled += instance.OnLevelUp;
+                @Die.started += instance.OnDie;
+                @Die.performed += instance.OnDie;
+                @Die.canceled += instance.OnDie;
             }
         }
     }
@@ -198,5 +366,11 @@ public class @InputActions : IInputActionCollection, IDisposable
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnLightAttack1(InputAction.CallbackContext context);
+        void OnLightAttack2(InputAction.CallbackContext context);
+        void OnHeavyAttack1(InputAction.CallbackContext context);
+        void OnHeavyAttack2(InputAction.CallbackContext context);
+        void OnLevelUp(InputAction.CallbackContext context);
+        void OnDie(InputAction.CallbackContext context);
     }
 }
