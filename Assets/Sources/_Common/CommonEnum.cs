@@ -18,7 +18,7 @@ public enum CharacterAction
     Die, 
 }
 
-public enum ChacaterState
+public enum CharacterState
 {
     Idle,
     Run,

@@ -33,7 +33,7 @@ public class TranslateInputActionSystem : ReactiveSystem<InputEntity>
         var input = entities.SingleEntity();
 
         CharacterAction action = input.inputAction.action;
-        ChacaterState state = ParseActionState(action);
+        CharacterState state = ParseActionState(action);
         
         foreach (var e in _underControlGroup.GetEntities(_cleanBuffer))
         {
@@ -41,27 +41,27 @@ public class TranslateInputActionSystem : ReactiveSystem<InputEntity>
         }
     }
 
-    private ChacaterState ParseActionState(CharacterAction action)
+    private CharacterState ParseActionState(CharacterAction action)
     {
         switch (action)
         {
             case CharacterAction.LightAttack1:
-                return ChacaterState.LightAttack1;
+                return CharacterState.LightAttack1;
             
             case CharacterAction.LightAttack2:
-                return ChacaterState.LightAttack2;
+                return CharacterState.LightAttack2;
             
             case CharacterAction.HeavyAttack1:
-                return ChacaterState.HeavyAttack1;
+                return CharacterState.HeavyAttack1;
             
             case CharacterAction.HeavyAttack2:
-                return ChacaterState.HeavyAttack2;
+                return CharacterState.HeavyAttack2;
             
             case CharacterAction.LevelUp:
-                return ChacaterState.LevelUp;
+                return CharacterState.LevelUp;
             
             case CharacterAction.Die:
-                return ChacaterState.Die;
+                return CharacterState.Die;
             
             default:
                 throw new Exception($"Invalid {action}");

@@ -167,7 +167,7 @@ MonoBehaviour:
       eventFloat: 0
     fps: 12
     loopStart: 0
-    wrapMode: 0
+    wrapMode: 2
   - name: HeavyAttack1
     frames:
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,
@@ -235,7 +235,7 @@ MonoBehaviour:
       eventFloat: 0
     fps: 12
     loopStart: 0
-    wrapMode: 0
+    wrapMode: 2
   - name: Die
     frames:
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,
@@ -282,7 +282,7 @@ MonoBehaviour:
       eventFloat: 0
     fps: 12
     loopStart: 0
-    wrapMode: 0
+    wrapMode: 2
   - name: Disappear
     frames:
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,
@@ -392,7 +392,7 @@ MonoBehaviour:
       eventFloat: 0
     fps: 12
     loopStart: 0
-    wrapMode: 0
+    wrapMode: 2
   - name: Idle
     frames:
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,
@@ -591,7 +591,7 @@ MonoBehaviour:
       eventFloat: 0
     fps: 12
     loopStart: 0
-    wrapMode: 0
+    wrapMode: 2
   - name: Run
     frames:
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,
@@ -811,7 +811,7 @@ MonoBehaviour:
       eventFloat: 0
     fps: 12
     loopStart: 0
-    wrapMode: 0
+    wrapMode: 2
   - name: LightAttack2
     frames:
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,
@@ -942,7 +942,7 @@ MonoBehaviour:
       eventFloat: 0
     fps: 12
     loopStart: 0
-    wrapMode: 0
+    wrapMode: 2
   - name: HeavyAttack2
     frames:
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,
@@ -1101,4 +1101,4 @@ MonoBehaviour:
       eventFloat: 0
     fps: 12
     loopStart: 0
-    wrapMode: 0
+    wrapMode: 2

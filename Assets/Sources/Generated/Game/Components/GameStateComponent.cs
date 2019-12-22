@@ -11,14 +11,14 @@ public partial class GameEntity {
     public StateComponent state { get { return (StateComponent)GetComponent(GameComponentsLookup.State); } }
     public bool hasState { get { return HasComponent(GameComponentsLookup.State); } }
 
-    public void AddState(ChacaterState newState) {
+    public void AddState(CharacterState newState) {
         var index = GameComponentsLookup.State;
         var component = (StateComponent)CreateComponent(index, typeof(StateComponent));
         component.state = newState;
         AddComponent(index, component);
     }
 
-    public void ReplaceState(ChacaterState newState) {
+    public void ReplaceState(CharacterState newState) {
         var index = GameComponentsLookup.State;
         var component = (StateComponent)CreateComponent(index, typeof(StateComponent));
         component.state = newState;

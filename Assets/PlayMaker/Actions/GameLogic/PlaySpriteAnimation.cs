@@ -26,23 +26,32 @@ namespace HutongGames.PlayMaker.Actions
 			var animator = entity.view.viewController.displaySpriteAnimator;
 			var state = entity.state.state;
 
-			PlaySprite(animator, state)
-				.Then(() =>
-				{
-					entity.ReplaceState(ChacaterState.Idle);
-					animator.Play(ChacaterState.Idle.GetCacheString());
-					
-					Finish();
-				})
-				.Catch(ex => Debug.LogException(ex));
+			if (state == CharacterState.Idle)
+			{
+				// nothing
+			}
+			else if (state == CharacterState.Run)
+			{
+				animator.Play(state.GetCacheString());
+			}
+			else
+			{
+				PlaySprite(animator, state)
+					.Then(() =>
+					{
+						Finish();
+
+						entity.ReplaceState(CharacterState.Idle);
+						animator.Play(CharacterState.Idle.GetCacheString());
+					})
+					.Catch(ex => Debug.LogException(ex));
+			}
 		}
 
-		private IPromise PlaySprite(tk2dSpriteAnimator animator, ChacaterState state)
+		private IPromise PlaySprite(tk2dSpriteAnimator animator, CharacterState state)
 		{
 			string stateName = state.GetCacheString();
 			var clip = animator.GetClipByName(stateName);
-			if (clip == null)
-				return Promise.Resolved();
 			
 			float duration = clip.frames.Length / clip.fps;
 			
@@ -52,7 +61,7 @@ namespace HutongGames.PlayMaker.Actions
 			});
 		}
 
-		private IEnumerator PlaySpriteInternal(Action resolve, Action<Exception> reject, tk2dSpriteAnimator animator, ChacaterState state, float duration)
+		private IEnumerator PlaySpriteInternal(Action resolve, Action<Exception> reject, tk2dSpriteAnimator animator, CharacterState state, float duration)
 		{
 			animator.Play(state.GetCacheString());
 			

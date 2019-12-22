@@ -64,7 +64,7 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
             tk2dSpriteAnimation spriteAnimation = spriteAnimationGo.GetComponent<tk2dSpriteAnimation>();
             tk2dAnimator.Library = spriteAnimation;
             
-            tk2dAnimator.Play("Idle");
+            tk2dAnimator.Play(CharacterState.Idle.GetCacheString());
          })
          .Catch(ex => Debug.LogException(ex))
          ;

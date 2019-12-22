@@ -4,7 +4,7 @@ using Entitas;
 using UnityEngine;
 
 [Game]
-public class StateComponent : IComponent
+public class MovingComponent : IComponent
 {
-   public CharacterState state;
+    
 }

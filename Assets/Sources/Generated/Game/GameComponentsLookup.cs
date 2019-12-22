@@ -12,20 +12,22 @@ public static class GameComponentsLookup {
     public const int Config = 1;
     public const int Destroy = 2;
     public const int FSM = 3;
-    public const int Position = 4;
-    public const int State = 5;
-    public const int Transform = 6;
-    public const int UnderControl = 7;
-    public const int Velocity = 8;
-    public const int View = 9;
+    public const int Moving = 4;
+    public const int Position = 5;
+    public const int State = 6;
+    public const int Transform = 7;
+    public const int UnderControl = 8;
+    public const int Velocity = 9;
+    public const int View = 10;
 
-    public const int TotalComponents = 10;
+    public const int TotalComponents = 11;
 
     public static readonly string[] componentNames = {
         "Character",
         "Config",
         "Destroy",
         "FSM",
+        "Moving",
         "Position",
         "State",
         "Transform",
@@ -39,6 +41,7 @@ public static class GameComponentsLookup {
         typeof(ConfigComponent),
         typeof(DestroyComponent),
         typeof(FSMComponent),
+        typeof(MovingComponent),
         typeof(PositionComponent),
         typeof(StateComponent),
         typeof(TransformComponent),

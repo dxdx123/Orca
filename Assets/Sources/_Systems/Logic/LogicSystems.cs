@@ -9,9 +9,12 @@ public class LogicSystems : Feature
     {
         Add(new InitializeSystem(contexts));
         Add(new CreatePlayerSystem(contexts));
+
+        Add(new TranslateMovingSystem(contexts));
         Add(new VelocitySystem(contexts));
         Add(new PositionSystem(contexts));
 
         Add(new StateSystem(contexts));
+        Add(new MovingStateSystem(contexts));
     }
 }

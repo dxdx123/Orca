@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class MethodExtensions
 {
-   private static readonly Dictionary<ChacaterState, string> _characterStateDict = new Dictionary<ChacaterState, string>();
+   private static readonly Dictionary<CharacterState, string> _characterStateDict = new Dictionary<CharacterState, string>();
    
-   public static string GetCacheString(this ChacaterState characterState)
+   public static string GetCacheString(this CharacterState characterState)
    {
       string cacheString;
 
