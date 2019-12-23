@@ -39,15 +39,6 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
       tk2dSprite sprite = gameObject.GetComponent<tk2dSprite>();
       tk2dSpriteAnimator tk2dAnimator = gameObject.GetComponent<tk2dSpriteAnimator>();
       
-      // Add Components
-      e.AddTransform(gameObject.transform);
-
-      ViewController viewController = gameObject.GetComponent<ViewController>();
-      viewController.Initialize(e);
-      
-      e.AddView(viewController);
-      e.AddFSM(viewController);
-
       var spriteTuple = _gameContext.config.spriteConfig.GetSpriteConfig(character);
       string collectionDataPath = spriteTuple.Item1;
       ResourceManager.Instance.GetAsset<GameObject>(collectionDataPath, this)
@@ -63,8 +54,15 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
          {
             tk2dSpriteAnimation spriteAnimation = spriteAnimationGo.GetComponent<tk2dSpriteAnimation>();
             tk2dAnimator.Library = spriteAnimation;
-            
-            tk2dAnimator.Play(CharacterState.Idle.GetCacheString());
+
+            // Add Components
+            e.AddTransform(gameObject.transform);
+
+            ViewController viewController = gameObject.GetComponent<ViewController>();
+            viewController.Initialize(e);
+
+            e.AddView(viewController);
+            e.AddFSM(viewController);
          })
          .Catch(ex => Debug.LogException(ex))
          ;

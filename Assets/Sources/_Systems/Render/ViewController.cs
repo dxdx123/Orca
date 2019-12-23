@@ -31,10 +31,14 @@ public class ViewController : MonoBehaviour, IViewController, IFSM
 
         var containerGo = _fsm.FsmVariables.GetFsmGameObject("containerGo");
         containerGo.Value = gameObject;
+
+        _fsm.enabled = true;
     }
 
     public void Destroy()
     {
+        _fsm.enabled = false;
+        
         EntityLink link = gameObject.GetEntityLink();
         link.Unlink();
 

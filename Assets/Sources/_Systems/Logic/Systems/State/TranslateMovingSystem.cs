@@ -30,6 +30,24 @@ public class TranslateMovingSystem : IExecuteSystem
         bool hasInputMove = buffer.Count > 0;
 
         SetControlGroupMoving(hasInputMove);
+
+        TranslateIdleToRunState();
+    }
+
+    private void TranslateIdleToRunState()
+    {
+        var buffer = _underControlGroup.GetEntities(_cleanGameBuffer);
+
+        for (int i = 0, length = buffer.Count; i < length; ++i)
+        {
+            var e = buffer[i];
+
+            if (e.isMoving && e.state.state == CharacterState.Idle)
+            {
+                e.ReplaceState(CharacterState.Run);
+            }
+        }
+
     }
 
     private void SetControlGroupMoving(bool moving)

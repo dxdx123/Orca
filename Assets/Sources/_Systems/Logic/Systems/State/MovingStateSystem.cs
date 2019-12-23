@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using Entitas;
+using UnityEngine;
 
 public class MovingStateSystem : ReactiveSystem<GameEntity>
 {
@@ -37,8 +38,6 @@ public class MovingStateSystem : ReactiveSystem<GameEntity>
                 else
                 {
                     e.ReplaceState(CharacterState.Idle);
-                    e.fSM.fsm.fsm.SetState(CharacterState.Idle.GetCacheString());
-                    e.view.viewController.displaySpriteAnimator.Play(CharacterState.Idle.GetCacheString());
                 }
             }
             else if (state == CharacterState.Idle)
@@ -46,7 +45,6 @@ public class MovingStateSystem : ReactiveSystem<GameEntity>
                 if (e.isMoving)
                 {
                     e.ReplaceState(CharacterState.Run);
-                    e.fSM.fsm.fsm.SendEvent(CharacterState.Run.GetCacheString());
                 }
                 else
                 {

@@ -18,20 +18,27 @@ public class VelocitySystem : ReactiveSystem<GameEntity>
 
     protected override bool Filter(GameEntity entity)
     {
-        return entity.hasPosition;
+        return entity.hasPosition && entity.hasState;
     }
 
     protected override void Execute(List<GameEntity> entities)
     {
         foreach (var e in entities)
         {
-            Vector2 velocity = new Vector2(e.velocity.x, e.velocity.y);
-            Vector2 distance = velocity * Time.deltaTime;
-            
-            Vector2 srcPosition = new Vector2(e.position.x, e.position.y);
-            Vector2 destPosition = srcPosition + distance;
-            
-            e.ReplacePosition(destPosition.x, destPosition.y);
+            if (e.state.state == CharacterState.Run)
+            {
+                Vector2 velocity = new Vector2(e.velocity.x, e.velocity.y);
+                Vector2 distance = velocity * Time.deltaTime;
+
+                Vector2 srcPosition = new Vector2(e.position.x, e.position.y);
+                Vector2 destPosition = srcPosition + distance;
+
+                e.ReplacePosition(destPosition.x, destPosition.y);
+            }
+            else
+            {
+                // nothing
+            }
         }
     }
 }

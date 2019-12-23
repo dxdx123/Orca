@@ -28,7 +28,7 @@ namespace HutongGames.PlayMaker.Actions
 
 			if (state == CharacterState.Idle)
 			{
-				// nothing
+				throw new Exception("Can't Play Idle State Animation Here");
 			}
 			else if (state == CharacterState.Run)
 			{
@@ -42,7 +42,6 @@ namespace HutongGames.PlayMaker.Actions
 						Finish();
 
 						entity.ReplaceState(CharacterState.Idle);
-						animator.Play(CharacterState.Idle.GetCacheString());
 					})
 					.Catch(ex => Debug.LogException(ex));
 			}
