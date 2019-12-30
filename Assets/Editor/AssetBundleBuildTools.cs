@@ -194,7 +194,7 @@ public class AssetBundleBuildTools
 
     internal class AssetBundleNormalBuild
     {
-        public const string SEARCH_CONFIG_DIRECTORY = "Assets/JSON/Editor-AssetBundle_Config.json";
+        public const string SEARCH_CONFIG_DIRECTORY = "Assets/JSONS/Editor-AssetBundle_Config.json";
 
         public void Build(BuildAssetBundleOptions buildOptions, BuildTarget buildTarget)
         {
@@ -572,48 +572,7 @@ public class AssetBundleBuildTools
                 }
             }
 
-            var validDepList = new List<AssetBundleFile>(filesList.Count);
-
-            // 遍历确定 preserve 确定 dep
-            foreach(var item in preserveDict)
-            {
-                string path = item.Key;
-
-                string[] deps = AssetDatabase.GetDependencies(new string[] { path });
-
-                List<AssetBundleFile> depFileList = new List<AssetBundleFile>();
-                bool contains = IsDepsValid(deps, dependencyDict, depFileList);
-
-                if(contains)
-                {
-                    foreach (var depFile in depFileList)
-                    {
-                        if (!validDepList.Contains(depFile))
-                        {
-                            validDepList.Add(depFile);
-                        }
-                        else
-                        {
-                            // already in, skip
-                        }
-                    }
-                }
-            }
-
-            // 删除 valid 的，剩下的打印出来
-            for (int i=0, length=validDepList.Count; i<length; ++i)
-            {
-                string path = validDepList[i].source;
-
-                dependencyDict.Remove(path);
-            }
-
-            // 打印出来
-            //int index = 0;
-            //foreach(var item in dependencyDict)
-            //{
-            //    Debug.LogFormat("Remove <color=red>{0}/{1}</color> UnRef Asset: <color=red>{2}</color>", ++index, dependencyDict.Count, item.Key);
-            //}
+            var validDepList = GetValidDepList(preserveDict, dependencyDict);
 
             // 统一返回
             foreach (var item in preserveDict)
@@ -624,20 +583,36 @@ public class AssetBundleBuildTools
             return validDepList;
         }
 
-        private bool IsDepsValid(string[] deps, Dictionary<string, AssetBundleFile> dependencyDict, List<AssetBundleFile> depFileList)
+        private List<AssetBundleFile> GetValidDepList(Dictionary<string, AssetBundleFile> preserveDict, Dictionary<string, AssetBundleFile> dependencyDict)
         {
-            for(int i = 0, length = deps.Length; i<length; ++i)
-            {
-                string path = deps[i];
+            var list = new List<AssetBundleFile>();
+            
+            HashSet<string> allDepSet = new HashSet<string>();
 
-                AssetBundleFile depFile;
-                if (dependencyDict.TryGetValue(path, out depFile))
+            foreach (var item in preserveDict)
+            {
+                string path = item.Key;
+
+                string[] deps = AssetDatabase.GetDependencies(path);
+
+                foreach (var dep in deps)
                 {
-                    depFileList.Add(depFile);
+                    if (!allDepSet.Contains(dep))
+                    {
+                        allDepSet.Add(dep);
+                    }
                 }
             }
 
-            return depFileList.Count > 0;
+            foreach (var candidatePath in allDepSet)
+            {
+                if (dependencyDict.ContainsKey(candidatePath))
+                {
+                    list.Add(dependencyDict[candidatePath]);
+                }
+            }
+
+            return list;
         }
 
         private bool CheckDuplication(List<AssetBundleFile> fileList)
