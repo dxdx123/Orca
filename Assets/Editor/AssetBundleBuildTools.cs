@@ -377,7 +377,7 @@ public class AssetBundleBuildTools
 
             string newDest = Path.Combine(prefix, $"scene_dep_{fileName}");
             
-            string[] deps = AssetDatabase.GetDependencies(new string[] {path});
+            string[] deps = GetBuildDependencies(path);
 
             foreach (var dep in deps)
             {
@@ -444,7 +444,7 @@ public class AssetBundleBuildTools
 
                 if (abFile.buildType == FileBuildType.Preserve)
                 {
-                    var deps = AssetDatabase.GetDependencies(new string[] { abFile.source });
+                    var deps = GetBuildDependencies(abFile.source);
 
                     foreach (var dep in deps)
                     {
@@ -593,7 +593,7 @@ public class AssetBundleBuildTools
             {
                 string path = item.Key;
 
-                string[] deps = AssetDatabase.GetDependencies(path);
+                string[] deps = GetBuildDependencies(path);
 
                 foreach (var dep in deps)
                 {
@@ -745,6 +745,34 @@ public class AssetBundleBuildTools
             {
                 return Regex.Replace(path, variantSourcePattern, variantDestPattern);
             }
+        }
+
+        // refs: https://gist.github.com/QXSoftware/35a07738f481245d08b948ead3743a4b
+        private string[] GetBuildDependencies(string path)
+        {
+            Object asset = AssetDatabase.LoadAssetAtPath<Object>(path);
+
+            Object[] depObjs = EditorUtility.CollectDependencies(new[] {asset});
+
+            int length = depObjs.Length;
+
+            HashSet<string> sets = new HashSet<string>();
+            
+            for (int i = 0; i < length; ++i)
+            {
+                string depPath = AssetDatabase.GetAssetPath(depObjs[i]);
+
+                if (depPath.StartsWith("Assets/") && IsSupportSerializableType(depPath) && !sets.Contains(depPath))
+                {
+                    sets.Add(depPath);
+                }
+                else
+                {
+                    // nothing
+                }
+            }
+
+            return sets.ToArray();
         }
     }
 }
