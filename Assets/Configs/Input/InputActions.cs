@@ -189,7 +189,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""737e804e-8fcd-428c-b886-134decaab3f4"",
-                    ""path"": ""<Keyboard>/p"",
+                    ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",

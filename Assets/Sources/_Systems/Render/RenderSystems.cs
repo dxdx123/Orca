@@ -8,5 +8,6 @@ public class RenderSystems : Feature
         : base("Render Systems")
     {
         Add(new CharacterViewSystem(contexts));
+        Add(new DirectionSystem(contexts));
     }
 }

@@ -27,7 +27,7 @@ namespace HutongGames.PlayMaker.Actions
 			
 			UnityEngine.Assertions.Assert.IsNotNull(entity);
 
-			if (entity.isMoving)
+			if (entity.isAttempMove)
 			{
 				var newState = entity.state.state;
 				if (newState != CharacterState.Run)

@@ -36,6 +36,7 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         e.AddCharacter(Character.Priest);
         e.AddPosition(0.0f, 0.0f);
         e.AddState(CharacterState.Idle);
+        e.AddDirection(CharacterDirection.Right);
     }
 
 }

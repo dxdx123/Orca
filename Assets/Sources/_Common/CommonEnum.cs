@@ -29,3 +29,9 @@ public enum CharacterState
     LevelUp, 
     Die, 
 }
+
+public enum CharacterDirection
+{
+    Left,
+    Right,
+}

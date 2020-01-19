@@ -13,7 +13,7 @@ public class MovingStateSystem : ReactiveSystem<GameEntity>
     
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
     {
-        return context.CreateCollector(GameMatcher.Moving.AddedOrRemoved());
+        return context.CreateCollector(GameMatcher.AttempMove.AddedOrRemoved());
     }
 
     protected override bool Filter(GameEntity entity)
@@ -31,7 +31,7 @@ public class MovingStateSystem : ReactiveSystem<GameEntity>
 
             if (state == CharacterState.Run)
             {
-                if (e.isMoving)
+                if (e.isAttempMove)
                 {
                     // nothing
                 }
@@ -42,7 +42,7 @@ public class MovingStateSystem : ReactiveSystem<GameEntity>
             }
             else if (state == CharacterState.Idle)
             {
-                if (e.isMoving)
+                if (e.isAttempMove)
                 {
                     e.ReplaceState(CharacterState.Run);
                 }

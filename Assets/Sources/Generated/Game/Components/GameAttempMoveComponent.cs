@@ -8,18 +8,18 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    static readonly MovingComponent movingComponent = new MovingComponent();
+    static readonly AttempMoveComponent attempMoveComponent = new AttempMoveComponent();
 
-    public bool isMoving {
-        get { return HasComponent(GameComponentsLookup.Moving); }
+    public bool isAttempMove {
+        get { return HasComponent(GameComponentsLookup.AttempMove); }
         set {
-            if (value != isMoving) {
-                var index = GameComponentsLookup.Moving;
+            if (value != isAttempMove) {
+                var index = GameComponentsLookup.AttempMove;
                 if (value) {
                     var componentPool = GetComponentPool(index);
                     var component = componentPool.Count > 0
                             ? componentPool.Pop()
-                            : movingComponent;
+                            : attempMoveComponent;
 
                     AddComponent(index, component);
                 } else {
@@ -40,17 +40,17 @@ public partial class GameEntity {
 //------------------------------------------------------------------------------
 public sealed partial class GameMatcher {
 
-    static Entitas.IMatcher<GameEntity> _matcherMoving;
+    static Entitas.IMatcher<GameEntity> _matcherAttempMove;
 
-    public static Entitas.IMatcher<GameEntity> Moving {
+    public static Entitas.IMatcher<GameEntity> AttempMove {
         get {
-            if (_matcherMoving == null) {
-                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.Moving);
+            if (_matcherAttempMove == null) {
+                var matcher = (Entitas.Matcher<GameEntity>)Entitas.Matcher<GameEntity>.AllOf(GameComponentsLookup.AttempMove);
                 matcher.componentNames = GameComponentsLookup.componentNames;
-                _matcherMoving = matcher;
+                _matcherAttempMove = matcher;
             }
 
-            return _matcherMoving;
+            return _matcherAttempMove;
         }
     }
 }

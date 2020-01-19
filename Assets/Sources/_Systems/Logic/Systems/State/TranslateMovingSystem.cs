@@ -42,7 +42,7 @@ public class TranslateMovingSystem : IExecuteSystem
         {
             var e = buffer[i];
 
-            if (e.isMoving && e.state.state == CharacterState.Idle)
+            if (e.isAttempMove && e.state.state == CharacterState.Idle)
             {
                 e.ReplaceState(CharacterState.Run);
             }
@@ -58,7 +58,7 @@ public class TranslateMovingSystem : IExecuteSystem
         {
             var e = buffer[i];
 
-            e.isMoving = moving;
+            e.isAttempMove = moving;
         }
     }
 }

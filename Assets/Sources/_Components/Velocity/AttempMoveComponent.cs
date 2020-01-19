@@ -4,7 +4,7 @@ using Entitas;
 using UnityEngine;
 
 [Game]
-public class MovingComponent : IComponent
+public class AttempMoveComponent : IComponent
 {
     
 }

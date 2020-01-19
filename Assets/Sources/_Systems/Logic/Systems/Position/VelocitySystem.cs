@@ -28,17 +28,37 @@ public class VelocitySystem : ReactiveSystem<GameEntity>
             if (e.state.state == CharacterState.Run)
             {
                 Vector2 velocity = new Vector2(e.velocity.x, e.velocity.y);
-                Vector2 distance = velocity * Time.deltaTime;
-
-                Vector2 srcPosition = new Vector2(e.position.x, e.position.y);
-                Vector2 destPosition = srcPosition + distance;
-
-                e.ReplacePosition(destPosition.x, destPosition.y);
+                
+                ChangePosition(e, velocity);
+                ChangeDirection(e, velocity);
             }
             else
             {
                 // nothing
             }
         }
+    }
+
+    private static void ChangeDirection(GameEntity e, Vector2 velocity)
+    {
+        if (Mathf.Approximately(velocity.x, 0.0f))
+        {
+            // nothing
+        }
+        else
+        {
+            var direction = velocity.x >= 0 ? CharacterDirection.Right : CharacterDirection.Left;
+            e.ReplaceDirection(direction);
+        }
+    }
+
+    private static void ChangePosition(GameEntity e, Vector2 velocity)
+    {
+        Vector2 distance = velocity * Time.deltaTime;
+
+        Vector2 srcPosition = new Vector2(e.position.x, e.position.y);
+        Vector2 destPosition = srcPosition + distance;
+
+        e.ReplacePosition(destPosition.x, destPosition.y);
     }
 }
