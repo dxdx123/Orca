@@ -13,7 +13,8 @@ public class LogicSystems : Feature
         Add(new VelocitySystem(contexts));
         Add(new PositionSystem(contexts));
 
-        Add(new MovingStateSystem(contexts));
+        Add(new MovingAttempSystem(contexts));
+        Add(new MoveStateSystem(contexts));
         Add(new TranslateMovingSystem(contexts));
     }
 }

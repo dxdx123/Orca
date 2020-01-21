@@ -13,7 +13,7 @@ public class PositionSystem : ReactiveSystem<GameEntity>
 
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
     {
-        return context.CreateCollector(GameMatcher.AllOf(GameMatcher.Transform, GameMatcher.Position));
+        return context.CreateCollector(GameMatcher.AnyOf(GameMatcher.Transform, GameMatcher.Position));
     }
 
     protected override bool Filter(GameEntity entity)

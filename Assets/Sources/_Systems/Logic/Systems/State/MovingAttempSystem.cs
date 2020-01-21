@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public class MovingStateSystem : ReactiveSystem<GameEntity>
+public class MovingAttempSystem : ReactiveSystem<GameEntity>
 {
-    public MovingStateSystem(Contexts contexts)
+    public MovingAttempSystem(Contexts contexts)
         : base(contexts.game)
     {
         
