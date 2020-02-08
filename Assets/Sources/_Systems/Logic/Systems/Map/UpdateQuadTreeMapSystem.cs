@@ -8,19 +8,19 @@ public class UpdateQuadTreeMapSystem : IExecuteSystem
 {
     private GameContext _gameContext;
     
-    private IGroup<GameEntity> _underControlGroup;
+    private IGroup<GameEntity> _cameraTargetGroup;
     private readonly List<GameEntity> _cleanBuffer = new List<GameEntity>();
     
     public UpdateQuadTreeMapSystem(Contexts contexts)
     {
         _gameContext = contexts.game;
 
-        _underControlGroup = _gameContext.GetGroup(GameMatcher.UnderControl);
+        _cameraTargetGroup = _gameContext.GetGroup(GameMatcher.AllOf(GameMatcher.CameraTarget, GameMatcher.Position));
     }
     
     public void Execute()
     {
-        List<GameEntity> entities = _underControlGroup.GetEntities(_cleanBuffer);
+        List<GameEntity> entities = _cameraTargetGroup.GetEntities(_cleanBuffer);
         if (entities.Count == 0)
             return;
 

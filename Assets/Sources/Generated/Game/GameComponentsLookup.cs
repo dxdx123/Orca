@@ -9,24 +9,26 @@
 public static class GameComponentsLookup {
 
     public const int AttempMove = 0;
-    public const int Character = 1;
-    public const int Config = 2;
-    public const int Destroy = 3;
-    public const int Direction = 4;
-    public const int FSM = 5;
-    public const int Map = 6;
-    public const int Moving = 7;
-    public const int Position = 8;
-    public const int State = 9;
-    public const int Transform = 10;
-    public const int UnderControl = 11;
-    public const int Velocity = 12;
-    public const int View = 13;
+    public const int CameraTarget = 1;
+    public const int Character = 2;
+    public const int Config = 3;
+    public const int Destroy = 4;
+    public const int Direction = 5;
+    public const int FSM = 6;
+    public const int Map = 7;
+    public const int Moving = 8;
+    public const int Position = 9;
+    public const int State = 10;
+    public const int Transform = 11;
+    public const int UnderControl = 12;
+    public const int Velocity = 13;
+    public const int View = 14;
 
-    public const int TotalComponents = 14;
+    public const int TotalComponents = 15;
 
     public static readonly string[] componentNames = {
         "AttempMove",
+        "CameraTarget",
         "Character",
         "Config",
         "Destroy",
@@ -44,6 +46,7 @@ public static class GameComponentsLookup {
 
     public static readonly System.Type[] componentTypes = {
         typeof(AttempMoveComponent),
+        typeof(CameraTargetComponent),
         typeof(CharacterComponent),
         typeof(ConfigComponent),
         typeof(DestroyComponent),

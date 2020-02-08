@@ -59,8 +59,8 @@ public class QuadTreeMapManager
         var config = new UQtConfig()
         {
             CellSizeThreshold = 5.12f,
-            CellSwapInDist = 5.12f * 1.5f,
-            CellSwapOutDist = 5.12f * 2.0f,
+            CellSwapInDist = 5.12f * 2,
+            CellSwapOutDist = 5.12f * 3,
             Axis = QuadTreeAxis.XY,
         };
         

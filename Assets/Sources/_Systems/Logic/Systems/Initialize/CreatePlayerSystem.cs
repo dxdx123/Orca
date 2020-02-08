@@ -35,6 +35,7 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         e.isUnderControl = true;
         e.AddCharacter(Character.Priest);
         e.AddPosition(0.0f, 0.0f);
+        e.isCameraTarget = true;
         e.AddState(CharacterState.Idle);
         e.AddDirection(CharacterDirection.Right);
     }

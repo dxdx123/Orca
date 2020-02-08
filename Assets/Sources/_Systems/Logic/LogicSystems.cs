@@ -22,5 +22,7 @@ public class LogicSystems : Feature
         Add(new MovingAttempSystem(contexts));
         Add(new MoveStateSystem(contexts));
         Add(new TranslateMovingSystem(contexts));
+
+        Add(new CameraFollowSystem(contexts));
     }
 }
