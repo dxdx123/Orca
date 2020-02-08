@@ -6,8 +6,12 @@ using UnityEngine;
 public class InitializeSystem : IInitializeSystem
 {
     private const string PATH_SPRITE_CONFIG = "Assets/Res/Config/SpriteConfig.asset";
+    private const string PATH_MAP_CONFIG = "Assets/Res/Config/MapConfig.asset";
     
     private GameContext _gameContext;
+
+    private SpriteConfigData _spriteConfig;
+    private MapConfigData _mapConfig;
     
     public InitializeSystem(Contexts contexts)
     {
@@ -25,8 +29,17 @@ public class InitializeSystem : IInitializeSystem
         ResourceManager.Instance.GetAsset<SpriteConfigData>(PATH_SPRITE_CONFIG, this)
             .Then(configData =>
             {
-                configData.Initialize();
-                _gameContext.SetConfig(configData);
+                _spriteConfig = configData;
+                _spriteConfig.Initialize();
+
+                return ResourceManager.Instance.GetAsset<MapConfigData>(PATH_MAP_CONFIG, this);
+            })
+            .Then(configData =>
+            {
+                _mapConfig = configData;
+                _mapConfig.Initialize();
+                
+                _gameContext.SetConfig(_spriteConfig, _mapConfig);
             })
             .Catch(ex => Debug.LogException(ex));
     }

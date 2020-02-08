@@ -34,8 +34,7 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
 
    private void CreateCharacter(GameEntity e, Character character)
    {
-      GameObject template = Resources.Load<GameObject>("Character_Template");
-      GameObject gameObject = Object.Instantiate(template);
+      GameObject gameObject = AssetPoolManager.Instance.SpawnCharacter();
       tk2dSprite sprite = gameObject.GetComponent<tk2dSprite>();
       tk2dSpriteAnimator tk2dAnimator = gameObject.GetComponent<tk2dSpriteAnimator>();
       
@@ -58,11 +57,11 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
             // Add Components
             e.AddTransform(gameObject.transform);
 
-            ViewController viewController = gameObject.GetComponent<ViewController>();
-            viewController.Initialize(e);
+            CharacterViewController characterViewController = gameObject.GetComponent<CharacterViewController>();
+            characterViewController.Initialize(e);
 
-            e.AddView(viewController);
-            e.AddFSM(viewController);
+            e.AddView(characterViewController);
+            e.AddFSM(characterViewController);
          })
          .Catch(ex => Debug.LogException(ex))
          ;

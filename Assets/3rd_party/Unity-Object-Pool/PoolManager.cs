@@ -54,7 +54,7 @@ public class PoolManager : Singleton<PoolManager>
 	{
         var gameObject = SpawnObject(prefab, Vector3.zero, Quaternion.identity);
 	    gameObject.transform.parent = null;
-        // gameObject.SetActive(true);
+        gameObject.SetActive(true);
 	    return gameObject;
 	}
 
@@ -70,7 +70,7 @@ public class PoolManager : Singleton<PoolManager>
 		var clone = pool.GetItem();
 		clone.transform.position = position;
 		clone.transform.rotation = rotation;
-		// clone.SetActive(true);
+		clone.SetActive(true);
 
 		instanceLookup.Add(clone, pool);
 		dirty = true;

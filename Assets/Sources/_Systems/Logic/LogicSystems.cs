@@ -8,6 +8,12 @@ public class LogicSystems : Feature
         : base("Initialize Systems")
     {
         Add(new InitializeSystem(contexts));
+        Add(new PoolSystem(contexts));
+        
+        Add(new CreateMapSystem(contexts));
+        Add(new CreateQuadTreeMapSystem(contexts));
+        Add(new UpdateQuadTreeMapSystem(contexts));
+        
         Add(new CreatePlayerSystem(contexts));
 
         Add(new VelocitySystem(contexts));

@@ -14,15 +14,16 @@ public static class GameComponentsLookup {
     public const int Destroy = 3;
     public const int Direction = 4;
     public const int FSM = 5;
-    public const int Moving = 6;
-    public const int Position = 7;
-    public const int State = 8;
-    public const int Transform = 9;
-    public const int UnderControl = 10;
-    public const int Velocity = 11;
-    public const int View = 12;
+    public const int Map = 6;
+    public const int Moving = 7;
+    public const int Position = 8;
+    public const int State = 9;
+    public const int Transform = 10;
+    public const int UnderControl = 11;
+    public const int Velocity = 12;
+    public const int View = 13;
 
-    public const int TotalComponents = 13;
+    public const int TotalComponents = 14;
 
     public static readonly string[] componentNames = {
         "AttempMove",
@@ -31,6 +32,7 @@ public static class GameComponentsLookup {
         "Destroy",
         "Direction",
         "FSM",
+        "Map",
         "Moving",
         "Position",
         "State",
@@ -47,6 +49,7 @@ public static class GameComponentsLookup {
         typeof(DestroyComponent),
         typeof(DirectionComponent),
         typeof(FSMComponent),
+        typeof(MapComponent),
         typeof(MovingComponent),
         typeof(PositionComponent),
         typeof(StateComponent),

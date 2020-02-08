@@ -48,7 +48,7 @@ namespace tk2dEditor.SpriteCollectionEditor
 	}
 }
 
-public class tk2dSpriteCollectionEditorPopup : EditorWindow, IEditorHost
+public partial class tk2dSpriteCollectionEditorPopup : EditorWindow, IEditorHost
 {
     tk2dSpriteCollection __spriteCollection;
     [SerializeField] string __spriteCollectionPath = "";

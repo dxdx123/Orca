@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public delegate UQtNode UQtCreateNode(Rect bnd);
+
 public delegate void UQtForeachLeaf(UQtLeaf leaf);
 
 public class UCore
@@ -14,18 +15,26 @@ public class UCore
 
     public static void DrawRectXZ(Rect r, float y, Color c, float padding = 0.0f)
     {
-        Debug.DrawLine(new Vector3(r.xMin + padding, y, r.yMin + padding), new Vector3(r.xMin + padding, y, r.yMax - padding), c);
-        Debug.DrawLine(new Vector3(r.xMin + padding, y, r.yMin + padding), new Vector3(r.xMax - padding, y, r.yMin + padding), c);
-        Debug.DrawLine(new Vector3(r.xMax - padding, y, r.yMax - padding), new Vector3(r.xMin + padding, y, r.yMax - padding), c);
-        Debug.DrawLine(new Vector3(r.xMax - padding, y, r.yMax - padding), new Vector3(r.xMax - padding, y, r.yMin + padding), c);
+        Debug.DrawLine(new Vector3(r.xMin + padding, y, r.yMin + padding),
+            new Vector3(r.xMin + padding, y, r.yMax - padding), c);
+        Debug.DrawLine(new Vector3(r.xMin + padding, y, r.yMin + padding),
+            new Vector3(r.xMax - padding, y, r.yMin + padding), c);
+        Debug.DrawLine(new Vector3(r.xMax - padding, y, r.yMax - padding),
+            new Vector3(r.xMin + padding, y, r.yMax - padding), c);
+        Debug.DrawLine(new Vector3(r.xMax - padding, y, r.yMax - padding),
+            new Vector3(r.xMax - padding, y, r.yMin + padding), c);
     }
-    
+
     public static void DrawRectXY(Rect r, float z, Color c, float padding = 0.0f)
     {
-        Debug.DrawLine(new Vector3(r.xMin + padding, r.yMin + padding, z), new Vector3(r.xMin + padding, r.yMax - padding, z), c);
-        Debug.DrawLine(new Vector3(r.xMin + padding, r.yMin + padding, z), new Vector3(r.xMax - padding, r.yMin + padding, z), c);
-        Debug.DrawLine(new Vector3(r.xMax - padding, r.yMax - padding, z), new Vector3(r.xMin + padding, r.yMax - padding, z), c);
-        Debug.DrawLine(new Vector3(r.xMax - padding, r.yMax - padding, z), new Vector3(r.xMax - padding, r.yMin + padding, z), c);
+        Debug.DrawLine(new Vector3(r.xMin + padding, r.yMin + padding, z),
+            new Vector3(r.xMin + padding, r.yMax - padding, z), c);
+        Debug.DrawLine(new Vector3(r.xMin + padding, r.yMin + padding, z),
+            new Vector3(r.xMax - padding, r.yMin + padding, z), c);
+        Debug.DrawLine(new Vector3(r.xMax - padding, r.yMax - padding, z),
+            new Vector3(r.xMin + padding, r.yMax - padding, z), c);
+        Debug.DrawLine(new Vector3(r.xMax - padding, r.yMax - padding, z),
+            new Vector3(r.xMax - padding, r.yMin + padding, z), c);
     }
 }
 
@@ -43,8 +52,10 @@ public static class UQtAlgo
 
     public static bool Intersects(Rect nodeBound, Vector2 targetCenter, float targetRadius)
     {
-        bool xOutside = targetCenter.x + targetRadius < nodeBound.xMin || targetCenter.x - targetRadius > nodeBound.xMax;
-        bool yOutside = targetCenter.y + targetRadius < nodeBound.yMin || targetCenter.y - targetRadius > nodeBound.yMax;
+        bool xOutside = targetCenter.x + targetRadius < nodeBound.xMin ||
+                        targetCenter.x - targetRadius > nodeBound.xMax;
+        bool yOutside = targetCenter.y + targetRadius < nodeBound.yMin ||
+                        targetCenter.y - targetRadius > nodeBound.yMax;
         bool outside = xOutside || yOutside;
         return !outside;
     }
@@ -60,11 +71,12 @@ public static class UQtAlgo
         UQtCreateNode _nodeCreator = (bnd) => { return new UQtNode(bnd); };
         UQtCreateNode _leafCreator = (bnd) => { return new UQtLeaf(bnd); };
         UQtCreateNode creator = isPartible ? _nodeCreator : _leafCreator;
-        node.SetSubNodes(new UQtNode[UQtNode.SubCount] {
-            creator(new Rect(node.Bound.xMin,             node.Bound.yMin,                subWidth, subHeight)),
-            creator(new Rect(node.Bound.xMin + subWidth,  node.Bound.yMin,                subWidth, subHeight)),
-            creator(new Rect(node.Bound.xMin,             node.Bound.yMin + subHeight,    subWidth, subHeight)),
-            creator(new Rect(node.Bound.xMin + subWidth,  node.Bound.yMin + subHeight,    subWidth, subHeight)),
+        node.SetSubNodes(new UQtNode[UQtNode.SubCount]
+        {
+            creator(new Rect(node.Bound.xMin, node.Bound.yMin, subWidth, subHeight)),
+            creator(new Rect(node.Bound.xMin + subWidth, node.Bound.yMin, subWidth, subHeight)),
+            creator(new Rect(node.Bound.xMin, node.Bound.yMin + subHeight, subWidth, subHeight)),
+            creator(new Rect(node.Bound.xMin + subWidth, node.Bound.yMin + subHeight, subWidth, subHeight)),
         });
 
         // do it recursively
@@ -101,11 +113,12 @@ public static class UQtAlgo
                 return leaf;
         }
 
-        UCore.Assert(false);  // should never reaches here 
+        UCore.Assert(false); // should never reaches here 
         return null;
     }
 
-    public static void GenerateSwappingLeaves(UQtNode node, UQtLeaf active, List<UQtLeaf> holdingLeaves, out List<UQtLeaf> inLeaves, out List<UQtLeaf> outLeaves, UQtConfig config)
+    public static void GenerateSwappingLeaves(UQtNode node, UQtLeaf active, List<UQtLeaf> holdingLeaves,
+        out List<UQtLeaf> inLeaves, out List<UQtLeaf> outLeaves, UQtConfig config)
     {
         List<UQtLeaf> inList = new List<UQtLeaf>();
         GenerateLeavesByDist(node, active, config.CellSwapInDist, ref inList);
@@ -122,6 +135,7 @@ public static class UQtAlgo
                 outFilteredList.Add(leaf);
             }
         }
+
         outLeaves = outFilteredList;
     }
 

@@ -118,8 +118,8 @@ public class UQtLeaf : UQtNode
         foreach (var obj in _ownedObjects)
             obj.SwapIn();
         
-        // foreach (var obj in _affectedObjects)
-        //     obj.SwapIn();
+        foreach (var obj in _affectedObjects)
+            obj.SwapIn();
     }
 
     public void SwapOut()
@@ -253,7 +253,7 @@ public class UQuadtree
             FocusCellChanged(_focusLeaf, newLeaf);
 
         _focusLeaf = newLeaf;
-        return true;
+        return _focusLeaf != null;
     }
 
     private void PerformSwapInOut(UQtLeaf activeLeaf)
@@ -289,12 +289,12 @@ public class UQuadtree
             leaf.SwapOut();
             _holdingLeaves.Remove(leaf);
 
-            // var affected = leaf.AffectedObjects;
-            // foreach (var item in affected)
-            // {
-            //     if (!IsHoldingUserData(item))
-            //         item.SwapOut();
-            // }
+            var affected = leaf.AffectedObjects;
+            foreach (var item in affected)
+            {
+                if (!IsHoldingUserData(item))
+                    item.SwapOut();
+            }
 
             _swapOutQueue.Add(leaf);
             if (CellSwapOut != null)

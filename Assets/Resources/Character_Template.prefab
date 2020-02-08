@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1141183414319087175}
   - component: {fileID: 2499794384206817622}
   - component: {fileID: 4023942057746041124}
-  - component: {fileID: 1632589943164005593}
+  - component: {fileID: -1671807579563937929}
   m_Layer: 0
   m_Name: Character_Template
   m_TagString: Untagged
@@ -847,7 +847,7 @@ MonoBehaviour:
     handleAnimatorIK: 0
   fsmTemplate: {fileID: 0}
   eventHandlerComponentsAdded: 1
---- !u!114 &1632589943164005593
+--- !u!114 &-1671807579563937929
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -856,6 +856,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8465990903326039109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff7e334655e1b456ea3bdfdbd0858545, type: 3}
+  m_Script: {fileID: 11500000, guid: 05210bfa0bfc64fdab153a8952146f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

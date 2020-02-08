@@ -3,45 +3,32 @@ using System.Collections.Generic;
 using Entitas.Unity;
 using UnityEngine;
 
-public class ViewController : MonoBehaviour, IViewController, IFSM
+public class ViewController : MonoBehaviour, IViewController
 {
     private Transform _transform;
-    private PlayMakerFSM _fsm;
     
     public tk2dSprite displaySprite { get; private set; }
     public tk2dSpriteAnimator displaySpriteAnimator { get; private set; }
     
-    public PlayMakerFSM fsm
-    {
-        get { return _fsm; }
-    }
-
-    void Awake()
+    protected virtual void Awake()
     {
         _transform = GetComponent<Transform>();
-        _fsm = GetComponent<PlayMakerFSM>();
         
         displaySprite = GetComponent<tk2dSprite>();
         displaySpriteAnimator = GetComponent<tk2dSpriteAnimator>();
     }
 
-    public void Initialize(GameEntity entity)
+    public virtual void Initialize(GameEntity entity)
     {
         gameObject.Link(entity);
-
-        var containerGo = _fsm.FsmVariables.GetFsmGameObject("containerGo");
-        containerGo.Value = gameObject;
-
-        _fsm.enabled = true;
     }
 
-    public void Destroy()
+    public virtual void Destroy()
     {
-        _fsm.enabled = false;
-        
         EntityLink link = gameObject.GetEntityLink();
         link.Unlink();
 
         PoolManager.Instance.ReleaseObject(gameObject);
-    }
+    } 
 }
+

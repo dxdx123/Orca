@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
+
+using Object = UnityEngine.Object;
 
 public static class EditorUtils
 {
@@ -57,6 +61,47 @@ public static class EditorUtils
         catch (Exception e)
         {
             Debug.LogError(e.Message);
+        }
+    }
+    
+    public static T[] GetAtPath<T>(string path) where T : Object
+    {
+        path = path.Replace("\\", "/");
+        int index = path.IndexOf("Assets/", StringComparison.Ordinal);
+        if (index == -1)
+            throw new Exception(string.Format("path: {0} not contains Assets/", path));
+
+        path = path.Substring(index);
+        Assert.IsTrue(path.StartsWith("Assets/"));
+
+        ArrayList al = new ArrayList();
+        string[] fileEntries = Directory.GetFiles(path);
+        foreach (string fileName in fileEntries)
+        {
+            T t = AssetDatabase.LoadAssetAtPath<T>(fileName);
+
+            if (t != null)
+                al.Add(t);
+        }
+        T[] result = new T[al.Count];
+        for (int i = 0; i < al.Count; i++)
+            result[i] = (T)al[i];
+
+        return result;
+    }
+    
+    public static void ChangeShader(string path, string shaderName)
+    {
+        Material obj = AssetDatabase.LoadAssetAtPath(path, typeof(Material)) as Material;
+        Shader shader = Shader.Find(shaderName);
+
+        if (obj != null && shader != null)
+        {
+            obj.shader = shader;
+        }
+        else
+        {
+            Debug.LogErrorFormat("!!! ChangeShader Error, path = {0}, shaderName = {1}", path, shaderName);
         }
     }
 }

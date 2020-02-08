@@ -5,4 +5,5 @@ using Entitas.CodeGeneration.Attributes;
 public class ConfigComponent : IComponent
 {
     public SpriteConfigData spriteConfig;
+    public MapConfigData mapConfig;
 }
