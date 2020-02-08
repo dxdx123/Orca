@@ -65,7 +65,7 @@ public class QuadTreeMapManager
         };
         
         _quadtree = new UQuadtree(MapBound, config);
-        _quadtree.EnableDebugLines = true;
+        // _quadtree.EnableDebugLines = true;
 
         InitializeMapBlock();
     }
@@ -78,8 +78,6 @@ public class QuadTreeMapManager
         int mapWidth = Mathf.CeilToInt(mapWidthUnit / MAP_WIDTH);
         int mapHeight = Mathf.CeilToInt(mapHeightUnit / MAP_HEIGHT);
         
-        Debug.Log($"!!! {mapWidth}x{mapHeight}");
-
         for (int i = 0; i < mapWidth; ++i)
         {
             for (int j = 0; j < mapHeight; ++j)
@@ -95,7 +93,7 @@ public class QuadTreeMapManager
     {
         if (_quadtree != null)
         {
-            UCore.DrawRectXY(MapBound, 0.1f, Color.yellow);
+            // UCore.DrawRectXY(MapBound, 0.1f, Color.yellow);
 
             _quadtree.Update(position);
         }
