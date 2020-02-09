@@ -34,5 +34,22 @@ public class CreateQuadTreeMapSystem : ReactiveSystem<GameEntity>
         float pixelHeight = map.height;
         
         QuadTreeMapManager.Instance.Initialize(_gameContext, mapName, pixelWidth, pixelHeight);
+        
+        // Update QuadTree After Initialize
+        var position = GetUnderControllerCharacterPosition();
+        entity.ReplaceUpdateQuadTree(position.x, position.y);
+    }
+
+    private Vector2 GetUnderControllerCharacterPosition()
+    {
+        List<GameEntity> cleanCache = new List<GameEntity>(1);
+
+        IGroup<GameEntity> mapGroup = _gameContext.GetGroup(
+            GameMatcher.AllOf(GameMatcher.UnderControl, GameMatcher.Position));
+        List<GameEntity> entities = mapGroup.GetEntities(cleanCache);
+
+        GameEntity entity = entities.SingleEntity();
+        
+        return new Vector2(entity.position.x, entity.position.y);
     }
 }

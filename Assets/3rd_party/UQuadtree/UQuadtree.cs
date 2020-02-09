@@ -338,7 +338,7 @@ public class UQuadtree
     private List<UQtLeaf> _swapInQueue = new List<UQtLeaf>();
     private List<UQtLeaf> _swapOutQueue = new List<UQtLeaf>();
 
-    private float _lastSwapTriggeredTime = 0.0f;
-    private float _lastSwapProcessedTime = 0.0f;
+    private float _lastSwapTriggeredTime = float.MinValue;
+    private float _lastSwapProcessedTime = float.MinValue;
 
 }

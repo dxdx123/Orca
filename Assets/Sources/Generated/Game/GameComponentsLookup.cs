@@ -21,10 +21,11 @@ public static class GameComponentsLookup {
     public const int State = 10;
     public const int Transform = 11;
     public const int UnderControl = 12;
-    public const int Velocity = 13;
-    public const int View = 14;
+    public const int UpdateQuadTree = 13;
+    public const int Velocity = 14;
+    public const int View = 15;
 
-    public const int TotalComponents = 15;
+    public const int TotalComponents = 16;
 
     public static readonly string[] componentNames = {
         "AttempMove",
@@ -40,6 +41,7 @@ public static class GameComponentsLookup {
         "State",
         "Transform",
         "UnderControl",
+        "UpdateQuadTree",
         "Velocity",
         "View"
     };
@@ -58,6 +60,7 @@ public static class GameComponentsLookup {
         typeof(StateComponent),
         typeof(TransformComponent),
         typeof(UnderControlComponent),
+        typeof(UpdateQuadTreeComponent),
         typeof(VelocityComponent),
         typeof(ViewComponent)
     };

@@ -29,6 +29,9 @@ public class PositionSystem : ReactiveSystem<GameEntity>
             float y = e.position.y;
             
             e.transform.transform.position = new Vector3(x, y, 0);
+            
+            // Update QuadTree
+            e.ReplaceUpdateQuadTree(x, y);
         }
     }
 }

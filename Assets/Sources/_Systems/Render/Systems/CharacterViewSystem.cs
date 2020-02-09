@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class CharacterViewSystem : ReactiveSystem<GameEntity>
 {
@@ -20,7 +21,7 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
 
    protected override bool Filter(GameEntity entity)
    {
-      return true;
+      return entity.hasCharacter && entity.hasPosition;
    }
 
    protected override void Execute(List<GameEntity> entities)
@@ -28,13 +29,17 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
       foreach (var e in entities)
       {
          var character = e.character.character;
-         CreateCharacter(e, character);
+         var position = e.position;
+         
+         CreateCharacter(e, character, position.x, position.y);
       }
    }
 
-   private void CreateCharacter(GameEntity e, Character character)
+   private void CreateCharacter(GameEntity e, Character character, float x, float y)
    {
       GameObject gameObject = AssetPoolManager.Instance.SpawnCharacter();
+      gameObject.transform.position = new Vector3(x, y, 0);
+      
       tk2dSprite sprite = gameObject.GetComponent<tk2dSprite>();
       tk2dSpriteAnimator tk2dAnimator = gameObject.GetComponent<tk2dSpriteAnimator>();
       

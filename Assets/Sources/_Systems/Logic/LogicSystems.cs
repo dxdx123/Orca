@@ -10,11 +10,11 @@ public class LogicSystems : Feature
         Add(new InitializeSystem(contexts));
         Add(new PoolSystem(contexts));
         
+        Add(new CreatePlayerSystem(contexts));
+        
         Add(new CreateMapSystem(contexts));
         Add(new CreateQuadTreeMapSystem(contexts));
         Add(new UpdateQuadTreeMapSystem(contexts));
-        
-        Add(new CreatePlayerSystem(contexts));
 
         Add(new VelocitySystem(contexts));
         Add(new PositionSystem(contexts));

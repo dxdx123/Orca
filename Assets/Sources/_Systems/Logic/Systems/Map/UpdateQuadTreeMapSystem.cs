@@ -4,32 +4,30 @@ using Entitas;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class UpdateQuadTreeMapSystem : IExecuteSystem
+public class UpdateQuadTreeMapSystem : ReactiveSystem<GameEntity>
 {
     private GameContext _gameContext;
     
-    private IGroup<GameEntity> _cameraTargetGroup;
-    private readonly List<GameEntity> _cleanBuffer = new List<GameEntity>();
-    
     public UpdateQuadTreeMapSystem(Contexts contexts)
+        : base(contexts.game)
     {
         _gameContext = contexts.game;
-
-        _cameraTargetGroup = _gameContext.GetGroup(GameMatcher.AllOf(GameMatcher.CameraTarget, GameMatcher.Position));
     }
-    
-    public void Execute()
+    protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
     {
-        List<GameEntity> entities = _cameraTargetGroup.GetEntities(_cleanBuffer);
-        if (entities.Count == 0)
-            return;
+        return context.CreateCollector(GameMatcher.UpdateQuadTree);
+    }
 
-        GameEntity entity = entities.SingleEntity();
+    protected override bool Filter(GameEntity entity)
+    {
+        return entity.hasUpdateQuadTree;
+    }
 
-        var positionComp = entity.position;
-        
-        Vector2 position = new Vector2(positionComp.x, positionComp.y);
-        
+    protected override void Execute(List<GameEntity> entities)
+    {
+        var entity = entities.SingleEntity();
+
+        Vector2 position = new Vector2(entity.updateQuadTree.x, entity.updateQuadTree.y);
         QuadTreeMapManager.Instance.Update(position);
     }
 }
