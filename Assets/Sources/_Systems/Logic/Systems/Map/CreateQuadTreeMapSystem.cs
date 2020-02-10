@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public class CreateQuadTreeMapSystem : ReactiveSystem<GameEntity>
+public class CreateQuadTreeMapSystem : ReactiveSystem<GameEntity>, ICleanupSystem
 {
     private GameContext _gameContext;
+
+    private IGroup<GameEntity> _updateQuadTreeGroup;
+    private List<GameEntity> _cleanCache = new List<GameEntity>();
     
     public CreateQuadTreeMapSystem(Contexts contexts)
         : base(contexts.game)
     {
         _gameContext = contexts.game;
+
+        _updateQuadTreeGroup = _gameContext.GetGroup(GameMatcher.UpdateQuadTree);
     }
     
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
@@ -37,7 +42,7 @@ public class CreateQuadTreeMapSystem : ReactiveSystem<GameEntity>
         
         // Update QuadTree After Initialize
         var position = GetUnderControllerCharacterPosition();
-        entity.ReplaceUpdateQuadTree(position.x, position.y);
+        entity.AddUpdateQuadTree(position.x, position.y);
     }
 
     private Vector2 GetUnderControllerCharacterPosition()
@@ -51,5 +56,15 @@ public class CreateQuadTreeMapSystem : ReactiveSystem<GameEntity>
         GameEntity entity = entities.SingleEntity();
         
         return new Vector2(entity.position.x, entity.position.y);
+    }
+
+    public void Cleanup()
+    {
+        var list = _updateQuadTreeGroup.GetEntities(_cleanCache);
+
+        foreach (var e in list)
+        {
+            e.RemoveUpdateQuadTree();
+        }
     }
 }
