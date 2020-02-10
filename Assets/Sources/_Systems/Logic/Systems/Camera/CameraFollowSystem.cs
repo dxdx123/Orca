@@ -43,7 +43,6 @@ public class CameraFollowSystem : IExecuteSystem
 
         Rect boundary = GetCameraBoundary();
         Vector3 newCameraPos = GetNewCameraPosition(boundary, position);
-        // Vector3 newCameraPos = new Vector3(position.x, position.y, -10);
 
         if (Mathf.Approximately(oldCameraPos.x, newCameraPos.x) && 
             Mathf.Approximately(oldCameraPos.y, newCameraPos.y))
@@ -64,7 +63,7 @@ public class CameraFollowSystem : IExecuteSystem
         float newX = Mathf.Clamp(x, boundary.xMin, boundary.xMax);
         float newY = Mathf.Clamp(y, boundary.yMin, boundary.yMax);
         Vector3 newCameraPos = new Vector3(newX, newY, -10);
-
+        
         return newCameraPos;
     }
 

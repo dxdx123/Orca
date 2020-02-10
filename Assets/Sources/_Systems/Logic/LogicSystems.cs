@@ -14,7 +14,6 @@ public class LogicSystems : Feature
         
         Add(new CreateMapSystem(contexts));
         Add(new CreateQuadTreeMapSystem(contexts));
-        Add(new UpdateQuadTreeMapSystem(contexts));
 
         Add(new VelocitySystem(contexts));
         Add(new PositionSystem(contexts));
@@ -23,6 +22,7 @@ public class LogicSystems : Feature
         Add(new MoveStateSystem(contexts));
         Add(new TranslateMovingSystem(contexts));
 
+        Add(new UpdateQuadTreeMapSystem(contexts));
         Add(new CameraFollowSystem(contexts));
     }
 }
