@@ -3,7 +3,7 @@
 	Properties
 	{
 		_MainTex("Texture", 2D) = "white" {}
-		_AlphaMulti("Alpha Multi", Range(0,1)) = 0.5
+		// _AlphaMulti("Alpha Multi", Range(0,1)) = 0.5
 	}
 
 	SubShader
@@ -62,6 +62,8 @@
 
 			#include "UnityCG.cginc"
 
+			static const fixed _AlphaMulti = 0.5;
+			
 			struct appdata
 			{
 				float4 vertex : POSITION;
@@ -83,7 +85,6 @@
 			}
 
 			sampler2D _MainTex;
-			fixed _AlphaMulti;
 
 			float4 frag(v2f i) : SV_Target
 			{
