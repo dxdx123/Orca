@@ -1,0 +1,14 @@
+{
+  "1": {
+    "id": "1",
+    "directory": "Assets/_Experiment",
+    "pattern": "*.prefab",
+    "searchOption": "AllDirectories",
+    "filePattern": "\\.prefab",
+    "fileBuildType": "Preserve",
+    "sourcePattern": "(.+)",
+    "destPattern": "$1.assetbundle",
+    "variantSourcePattern": null,
+    "variantDestPattern": null
+  }
+}
