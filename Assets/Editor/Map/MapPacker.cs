@@ -224,8 +224,11 @@ public class TexturePackerSprite
             this.w = Convert.ToInt32(element.Attribute("w").Value);
             this.h = Convert.ToInt32(element.Attribute("h").Value);
 
-            this.pX = Convert.ToSingle(element.Attribute("pX").Value);
-            this.pY = Convert.ToSingle(element.Attribute("pY").Value);
+            var pXElement = element.Attribute("pX");
+            this.pX = pXElement != null ? Convert.ToSingle(pXElement.Value) : 0.0f;
+            
+            var pYElement = element.Attribute("pY");
+            this.pY = pYElement != null ? Convert.ToSingle(pYElement.Value) : 0.0f;
 
             var oXElement = element.Attribute("oX");
             this.oX = oXElement != null ? Convert.ToInt32(oXElement.Value) : 0;

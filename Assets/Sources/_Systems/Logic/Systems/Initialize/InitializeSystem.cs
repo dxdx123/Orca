@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Entitas;
+using RSG;
 using UnityEngine;
 
 public class InitializeSystem : IInitializeSystem
@@ -20,12 +21,27 @@ public class InitializeSystem : IInitializeSystem
     
     public void Initialize()
     {
-        InitializeResourceManager();
-        InitializeConfig();
+        InitializeResourceManager()
+            .Then(() =>
+            {
+                return InitializePool(); 
+            })
+            .Then(() =>
+            {
+                return InitializeConfig();
+            })
+            .Catch(ex => Debug.LogException(ex));
     }
 
-    private void InitializeConfig()
+    private IPromise InitializePool()
     {
+        return PoolCacheManager.Instance.WarmPathfinding(32);
+    }
+
+    private IPromise InitializeConfig()
+    {
+        var promise = new Promise();
+        
         ResourceManager.Instance.GetAsset<SpriteConfigData>(PATH_SPRITE_CONFIG, this)
             .Then(configData =>
             {
@@ -40,11 +56,20 @@ public class InitializeSystem : IInitializeSystem
                 _mapConfig.Initialize();
                 
                 _gameContext.SetConfig(_spriteConfig, _mapConfig);
+
+                promise.Resolve();
             })
-            .Catch(ex => Debug.LogException(ex));
+            .Catch(ex =>
+            {
+                Debug.LogException(ex);
+                promise.Reject(ex);
+            });
+
+        return promise;
     }
 
-    private void InitializeResourceManager()
+    private IPromise InitializeResourceManager()
     {
+        return Promise.Resolved();
     }
 }

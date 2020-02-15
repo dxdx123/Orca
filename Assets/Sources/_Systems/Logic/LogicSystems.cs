@@ -17,6 +17,7 @@ public class LogicSystems : Feature
 
         Add(new VelocitySystem(contexts));
         Add(new PositionSystem(contexts));
+        Add(new PathfindingPositionSystem(contexts));
 
         Add(new MovingAttempSystem(contexts));
         Add(new MoveStateSystem(contexts));
@@ -24,5 +25,9 @@ public class LogicSystems : Feature
 
         Add(new UpdateQuadTreeMapSystem(contexts));
         Add(new CameraFollowSystem(contexts));
+        
+        // Pathfinding
+        Add(new DummyTestMoveSystem(contexts));
+        Add(new FindPathSystem(contexts));
     }
 }

@@ -14,18 +14,21 @@ public static class GameComponentsLookup {
     public const int Config = 3;
     public const int Destroy = 4;
     public const int Direction = 5;
-    public const int FSM = 6;
-    public const int Map = 7;
-    public const int Moving = 8;
-    public const int Position = 9;
-    public const int State = 10;
-    public const int Transform = 11;
-    public const int UnderControl = 12;
-    public const int UpdateQuadTree = 13;
-    public const int Velocity = 14;
-    public const int View = 15;
+    public const int FindPath = 6;
+    public const int FSM = 7;
+    public const int Map = 8;
+    public const int Moving = 9;
+    public const int Pathfinding = 10;
+    public const int PathfindingMove = 11;
+    public const int Position = 12;
+    public const int State = 13;
+    public const int Transform = 14;
+    public const int UnderControl = 15;
+    public const int UpdateQuadTree = 16;
+    public const int Velocity = 17;
+    public const int View = 18;
 
-    public const int TotalComponents = 16;
+    public const int TotalComponents = 19;
 
     public static readonly string[] componentNames = {
         "AttempMove",
@@ -34,9 +37,12 @@ public static class GameComponentsLookup {
         "Config",
         "Destroy",
         "Direction",
+        "FindPath",
         "FSM",
         "Map",
         "Moving",
+        "Pathfinding",
+        "PathfindingMove",
         "Position",
         "State",
         "Transform",
@@ -53,9 +59,12 @@ public static class GameComponentsLookup {
         typeof(ConfigComponent),
         typeof(DestroyComponent),
         typeof(DirectionComponent),
+        typeof(FindPathComponent),
         typeof(FSMComponent),
         typeof(MapComponent),
         typeof(MovingComponent),
+        typeof(PathfindingComponent),
+        typeof(PathfindingMoveComponent),
         typeof(PositionComponent),
         typeof(StateComponent),
         typeof(TransformComponent),

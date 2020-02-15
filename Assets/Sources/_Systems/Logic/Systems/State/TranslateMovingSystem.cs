@@ -50,7 +50,7 @@ public class TranslateMovingSystem : IExecuteSystem
 
     }
 
-    private void SetControlGroupMoving(bool moving)
+    private void SetControlGroupMoving(bool hasInputMove)
     {
         var buffer = _underControlGroup.GetEntities(_cleanGameBuffer);
 
@@ -58,6 +58,7 @@ public class TranslateMovingSystem : IExecuteSystem
         {
             var e = buffer[i];
 
+            bool moving = hasInputMove || e.hasPathfindingMove;
             e.isAttempMove = moving;
         }
     }
