@@ -31,11 +31,14 @@ public class EntityPathfinding : AIPath
         ReturnToPool();
     }
 
-    public void GotoDestination(GameEntity entity, Vector3 oldPosition, Vector3 newPosition)
+    public void GotoDestination(GameEntity entity, Vector3 oldPosition, Vector3 newPosition, bool exactDest)
     {
         Assert.IsNotNull(entity);
         
         _entity = entity;
+
+        this.whenCloseToDestination =
+            exactDest ? CloseToDestinationMode.ContinueToExactDestination : CloseToDestinationMode.Stop;
         
         if (IsPathfinding())
         {

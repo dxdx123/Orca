@@ -30,12 +30,12 @@ public class FindPathSystem : ReactiveSystem<GameEntity>
 
             if (e.hasPathfinding)
             {
-                e.pathfinding.pathfinding.GotoDestination(e, oldPos, newPos);
+                e.pathfinding.pathfinding.GotoDestination(e, oldPos, newPos, true);
             }
             else
             {
                 EntityPathfinding pathfinding = PoolCacheManager.Instance.SpawnEntityPathfinding();
-                pathfinding.GotoDestination(e, oldPos, newPos);
+                pathfinding.GotoDestination(e, oldPos, newPos, true);
                 
                 e.AddPathfinding(pathfinding);
             }
