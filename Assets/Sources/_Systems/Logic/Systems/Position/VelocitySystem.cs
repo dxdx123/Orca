@@ -59,6 +59,7 @@ public class VelocitySystem : ReactiveSystem<GameEntity>
         Vector2 srcPosition = new Vector2(e.position.x, e.position.y);
         Vector2 destPosition = srcPosition + distance;
 
-        e.ReplacePosition(destPosition.x, destPosition.y);
+        var info = AstarPath.active.GetNearest(new Vector3(destPosition.x, destPosition.y, 0.0f));
+        e.ReplacePosition(info.position.x, info.position.y);
     }
 }
