@@ -26,7 +26,7 @@ namespace BehaviorDesigner.Runtime.Tasks
                 GameEntity targetEntity = target.Value.gameObject.GetEntityLink().entity as GameEntity;
                 Assert.IsNotNull(targetEntity);
 
-                if (targetEntity.isAttempMove)
+                if (targetEntity.state.state == CharacterState.Run)
                 {
                     entity.ReplaceFindPath(destPos.x, destPos.y, false);
                     return TaskStatus.Running;
