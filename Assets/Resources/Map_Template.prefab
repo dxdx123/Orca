@@ -104,6 +104,7 @@ MonoBehaviour:
   meshCollider: {fileID: 0}
   meshColliderPositions: []
   meshColliderMesh: {fileID: 0}
+  sortingLayerName: Background
   renderLayer: 0
 --- !u!114 &2499867450824857278
 MonoBehaviour:

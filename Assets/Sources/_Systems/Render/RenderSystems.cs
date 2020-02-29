@@ -9,5 +9,6 @@ public class RenderSystems : Feature
     {
         Add(new CharacterViewSystem(contexts));
         Add(new DirectionSystem(contexts));
+        Add(new SortViewSystem(contexts));
     }
 }

@@ -6,6 +6,8 @@ using UnityEngine;
 public enum Character
 {
     Priest,
+    Archer,
+    ArcherWildcat,
 }
 
 public enum CharacterAction

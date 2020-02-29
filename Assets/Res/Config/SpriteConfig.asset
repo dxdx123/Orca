@@ -16,3 +16,6 @@ MonoBehaviour:
   - character: 0
     spritePath: Assets/SpriteCollection/heroes_priest Data/heroes_priest.prefab
     animationPath: Assets/SpriteAnimation/heroes_priest.prefab
+  - character: 2
+    spritePath: Assets/SpriteCollection/heroes_archer Data/heroes_archer.prefab
+    animationPath: Assets/SpriteAnimation/heroes_archer_wildcat.prefab

@@ -154,6 +154,29 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 			return _cachedRenderer;
 		}
 	}
+	
+	[SerializeField] protected string sortingLayerName = "Default";
+	
+	public string SortingLayerName
+	{
+		get
+		{ 
+			return CachedRenderer.sortingLayerName;
+		}
+		
+		set
+		{ 
+			if (CachedRenderer.sortingLayerName != value)
+			{
+				sortingLayerName = value; // for awake
+				CachedRenderer.sortingLayerName = value;
+				
+#if UNITY_EDITOR
+				tk2dUtil.SetDirty(CachedRenderer);
+#endif
+			}
+		}
+	}
 
 	[SerializeField] protected int renderLayer = 0;
 	/// <summary>
@@ -946,6 +969,7 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 
 #if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
 		CachedRenderer.sortingOrder = renderLayer;
+		CachedRenderer.sortingLayerName = sortingLayerName;
 #endif		
 	}
 

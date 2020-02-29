@@ -4,5 +4,11 @@
     "Character": "Priest",
     "Sprite": "Assets/SpriteCollection/heroes_priest Data/heroes_priest.prefab",
     "Animation": "Assets/SpriteAnimation/heroes_priest.prefab"
+  },
+  "2": {
+    "id": "2",
+    "Character": "ArcherWildcat",
+    "Sprite": "Assets/SpriteCollection/heroes_archer Data/heroes_archer.prefab",
+    "Animation": "Assets/SpriteAnimation/heroes_archer_wildcat.prefab"
   }
 }
