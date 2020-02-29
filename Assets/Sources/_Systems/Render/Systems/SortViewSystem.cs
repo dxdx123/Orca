@@ -15,7 +15,7 @@ public class SortViewSystem : IExecuteSystem
 
     public void Execute()
     {
-        // SortCharacterSortingOrder();
+        SortCharacterSortingOrder();
     }
 
     // maybe we can Reduce DrawCall by topological sorting, just like uGUI
