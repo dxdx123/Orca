@@ -74,8 +74,11 @@ public class EntityPathfinding : AIPath
 
     public void Cleanup()
     {
-        _entity.RemovePathfinding();
-        _entity.RemovePathfindingMove();
+        if(_entity.hasPathfinding)
+            _entity.RemovePathfinding();
+        
+        if(_entity.hasPathfindingMove)
+            _entity.RemovePathfindingMove();
         
         _entity = null;
         

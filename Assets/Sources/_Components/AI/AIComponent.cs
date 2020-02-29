@@ -4,8 +4,7 @@ using Entitas;
 using UnityEngine;
 
 [Game]
-public class CharacterComponent : IComponent
+public class AIComponent : IComponent
 {
-    public Character character;
-    public bool ai;
+    
 }

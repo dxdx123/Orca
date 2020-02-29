@@ -8,4 +8,6 @@ public class FindPathComponent : IComponent
 {
     public float x;
     public float y;
+
+    public bool exactDest;
 }

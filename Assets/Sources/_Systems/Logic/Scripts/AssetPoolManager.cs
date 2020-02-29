@@ -21,17 +21,19 @@ public class AssetPoolManager
     }
 
     private GameObject _characterAsset;
+    private GameObject _puppyAsset;
     private GameObject _mapAsset;
     
     public AssetPoolManager()
     {
     }
 
-    public IPromise Initialize(int characterSize, int mapSize)
+    public IPromise Initialize(int characterSize, int puppySize, int mapSize)
     {
         var promise = new Promise();
 
         InitializeCharacter(characterSize);
+        InitializePuppy(puppySize);
         InitializeMap(mapSize);
         
         promise.Resolve();
@@ -51,6 +53,13 @@ public class AssetPoolManager
          _characterAsset = Resources.Load<GameObject>("Character_Template");
         
         PoolManager.Instance.WarmPool(_characterAsset, characterSize);
+    }
+    
+    private void InitializePuppy(int puppySize)
+    {
+         _puppyAsset = Resources.Load<GameObject>("Puppy_Template");
+        
+        PoolManager.Instance.WarmPool(_puppyAsset, puppySize);
     }
 
     public GameObject SpawnCharacter(Vector3 position, Quaternion rotation)
@@ -81,5 +90,20 @@ public class AssetPoolManager
     public void DestroyMap(GameObject map)
     {
         PoolManager.Instance.ReleaseObject(map);
+    }
+
+    public GameObject SpawnPuppy(Vector3 position, Quaternion rotation)
+    {
+        return PoolManager.Instance.SpawnObject(_puppyAsset, position, rotation);
+    }
+    
+    public GameObject SpawnPuppy()
+    {
+        return PoolManager.Instance.SpawnObject(_puppyAsset);
+    }
+
+    public void DestroyPuppy(GameObject puppy)
+    {
+        PoolManager.Instance.ReleaseObject(puppy);
     }
 }

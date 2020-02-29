@@ -28,14 +28,16 @@ public class FindPathSystem : ReactiveSystem<GameEntity>
             Vector3 oldPos = new Vector3(e.position.x, e.position.y, 0.0f);
             Vector3 newPos = new Vector3(e.findPath.x, e.findPath.y, 0.0f);
 
+            bool exactDest = e.findPath.exactDest;
+            
             if (e.hasPathfinding)
             {
-                e.pathfinding.pathfinding.GotoDestination(e, oldPos, newPos, true);
+                e.pathfinding.pathfinding.GotoDestination(e, oldPos, newPos, exactDest);
             }
             else
             {
                 EntityPathfinding pathfinding = PoolCacheManager.Instance.SpawnEntityPathfinding();
-                pathfinding.GotoDestination(e, oldPos, newPos, true);
+                pathfinding.GotoDestination(e, oldPos, newPos, exactDest);
                 
                 e.AddPathfinding(pathfinding);
             }

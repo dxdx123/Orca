@@ -34,7 +34,14 @@ public class PositionSystem : ReactiveSystem<GameEntity>, ICleanupSystem
             e.transform.transform.position = new Vector3(x, y, 0);
             
             // Update QuadTree
-            e.AddUpdateQuadTree(x, y);
+            if (e.isUnderControl)
+            {
+                e.AddUpdateQuadTree(x, y);
+            }
+            else
+            {
+                // nothing
+            }
         }
     }
     

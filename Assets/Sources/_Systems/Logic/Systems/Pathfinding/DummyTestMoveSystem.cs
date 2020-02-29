@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public class DummyTestMoveSystem : IExecuteSystem, ICleanupSystem
+public class DummyTestMoveSystem : IExecuteSystem
 {
     private IGroup<GameEntity> _underControlGroup;
     private readonly List<GameEntity> _cleanBuffer = new List<GameEntity>();
@@ -30,7 +30,7 @@ public class DummyTestMoveSystem : IExecuteSystem, ICleanupSystem
             float newX = e.position.x;
             float newY = e.position.y + 2;
             
-            e.ReplaceFindPath(newX, newY);
+            e.ReplaceFindPath(newX, newY, true);
             _hasFindPath = true;
         }
     }

@@ -11,19 +11,21 @@ public partial class GameEntity {
     public FindPathComponent findPath { get { return (FindPathComponent)GetComponent(GameComponentsLookup.FindPath); } }
     public bool hasFindPath { get { return HasComponent(GameComponentsLookup.FindPath); } }
 
-    public void AddFindPath(float newX, float newY) {
+    public void AddFindPath(float newX, float newY, bool newExactDest) {
         var index = GameComponentsLookup.FindPath;
         var component = (FindPathComponent)CreateComponent(index, typeof(FindPathComponent));
         component.x = newX;
         component.y = newY;
+        component.exactDest = newExactDest;
         AddComponent(index, component);
     }
 
-    public void ReplaceFindPath(float newX, float newY) {
+    public void ReplaceFindPath(float newX, float newY, bool newExactDest) {
         var index = GameComponentsLookup.FindPath;
         var component = (FindPathComponent)CreateComponent(index, typeof(FindPathComponent));
         component.x = newX;
         component.y = newY;
+        component.exactDest = newExactDest;
         ReplaceComponent(index, component);
     }
 

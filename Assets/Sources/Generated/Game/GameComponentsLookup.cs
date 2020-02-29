@@ -8,30 +8,34 @@
 //------------------------------------------------------------------------------
 public static class GameComponentsLookup {
 
-    public const int AttempMove = 0;
-    public const int CameraTarget = 1;
-    public const int Character = 2;
-    public const int Config = 3;
-    public const int Destroy = 4;
-    public const int Direction = 5;
-    public const int FindPath = 6;
-    public const int FSM = 7;
-    public const int Map = 8;
-    public const int Moving = 9;
-    public const int Pathfinding = 10;
-    public const int PathfindingMove = 11;
-    public const int Position = 12;
-    public const int State = 13;
-    public const int Transform = 14;
-    public const int UnderControl = 15;
-    public const int UpdateQuadTree = 16;
-    public const int Velocity = 17;
-    public const int View = 18;
+    public const int AI = 0;
+    public const int AttempMove = 1;
+    public const int BehaviorTree = 2;
+    public const int CameraTarget = 3;
+    public const int Character = 4;
+    public const int Config = 5;
+    public const int Destroy = 6;
+    public const int Direction = 7;
+    public const int FindPath = 8;
+    public const int FSM = 9;
+    public const int Map = 10;
+    public const int Moving = 11;
+    public const int Pathfinding = 12;
+    public const int PathfindingMove = 13;
+    public const int Position = 14;
+    public const int State = 15;
+    public const int Transform = 16;
+    public const int UnderControl = 17;
+    public const int UpdateQuadTree = 18;
+    public const int Velocity = 19;
+    public const int View = 20;
 
-    public const int TotalComponents = 19;
+    public const int TotalComponents = 21;
 
     public static readonly string[] componentNames = {
+        "AI",
         "AttempMove",
+        "BehaviorTree",
         "CameraTarget",
         "Character",
         "Config",
@@ -53,7 +57,9 @@ public static class GameComponentsLookup {
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(AIComponent),
         typeof(AttempMoveComponent),
+        typeof(BehaviorTreeComponent),
         typeof(CameraTargetComponent),
         typeof(CharacterComponent),
         typeof(ConfigComponent),

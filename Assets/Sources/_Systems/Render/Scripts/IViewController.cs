@@ -7,6 +7,8 @@ public interface IViewController
     tk2dSprite displaySprite { get; }
     tk2dSpriteAnimator displaySpriteAnimator { get; }
 
+    GameObject gameObject { get; }
+
     void Initialize(GameEntity entity);
     void Destroy();
 }

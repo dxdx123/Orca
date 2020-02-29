@@ -34,7 +34,7 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         GameEntity e = _gameContext.CreateEntity();
 
         e.isUnderControl = true;
-        e.AddCharacter(Character.Priest);
+        e.AddCharacter(Character.Priest, false);
         e.AddPosition(24.0f, 31.5f);
         e.isCameraTarget = true;
         e.AddState(CharacterState.Idle);
@@ -45,7 +45,8 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
     {
         GameEntity e = _gameContext.CreateEntity();
 
-        e.AddCharacter(Character.ArcherWildcat);
+        e.isAI = true;
+        e.AddCharacter(Character.ArcherWildcat, true);
         e.AddPosition(23.0f, 31.5f);
         e.AddState(CharacterState.Idle);
         e.AddDirection(CharacterDirection.Right);

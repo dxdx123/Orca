@@ -29,5 +29,7 @@ public class LogicSystems : Feature
         // Pathfinding
         Add(new DummyTestMoveSystem(contexts));
         Add(new FindPathSystem(contexts));
+
+        Add(new PuppySystem(contexts));
     }
 }

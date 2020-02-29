@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BehaviorDesigner.Runtime;
 using Entitas;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -29,15 +30,17 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
       foreach (var e in entities)
       {
          var character = e.character.character;
+         bool isAI = e.character.ai;
          var position = e.position;
          
-         CreateCharacter(e, character, position.x, position.y);
+         CreateCharacter(e, character, isAI, position.x, position.y);
       }
    }
 
-   private void CreateCharacter(GameEntity e, Character character, float x, float y)
+   private void CreateCharacter(GameEntity e, Character character, bool isAI, float x, float y)
    {
-      GameObject gameObject = AssetPoolManager.Instance.SpawnCharacter();
+      GameObject gameObject = 
+         isAI ? AssetPoolManager.Instance.SpawnPuppy() : AssetPoolManager.Instance.SpawnCharacter();
       gameObject.transform.position = new Vector3(x, y, 0);
       
       tk2dSprite sprite = gameObject.GetComponent<tk2dSprite>();
@@ -67,6 +70,16 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
 
             e.AddView(characterViewController);
             e.AddFSM(characterViewController);
+
+            if (isAI)
+            {
+               BehaviorTree behaviorTree = gameObject.GetComponent<BehaviorTree>();
+               e.AddBehaviorTree(behaviorTree);
+            }
+            else
+            {
+               // nothing
+            }
          })
          .Catch(ex => Debug.LogException(ex))
          ;
