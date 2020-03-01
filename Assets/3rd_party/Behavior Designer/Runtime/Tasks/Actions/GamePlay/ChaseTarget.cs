@@ -11,6 +11,8 @@ namespace BehaviorDesigner.Runtime.Tasks
         public SharedGameObject target;
 
         private bool _chasing;
+
+        private Vector3 _lastDestPosition;
         
         public override TaskStatus OnUpdate()
         {
@@ -21,10 +23,12 @@ namespace BehaviorDesigner.Runtime.Tasks
             Assert.IsNotNull(targetEntity);
 
             var destPos = target.Value.transform.position;
+            bool isTargetNotMove = (destPos == _lastDestPosition); // approximate
+            _lastDestPosition = destPos;
             
             if (_chasing)
             {
-                if (targetEntity.state.state == CharacterState.Run)
+                if (targetEntity.state.state == CharacterState.Run && !isTargetNotMove)
                 {
                     srcEntity.ReplaceFindPath(destPos.x, destPos.y, false);
                     return TaskStatus.Running;
@@ -50,9 +54,10 @@ namespace BehaviorDesigner.Runtime.Tasks
             }
         }
 
-        public override void OnBehaviorComplete()
+        public override void OnReset()
         {
             _chasing = false;
+            _lastDestPosition = target.Value.transform.position;
         }
     }
 }
