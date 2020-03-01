@@ -41,6 +41,8 @@ public class FindPathSystem : ReactiveSystem<GameEntity>
                 
                 e.AddPathfinding(pathfinding);
             }
+                
+            e.RemoveFindPath();
         }
     }
 }
