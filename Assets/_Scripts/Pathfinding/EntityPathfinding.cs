@@ -39,6 +39,8 @@ public class EntityPathfinding : AIPath
 
         this.whenCloseToDestination =
             exactDest ? CloseToDestinationMode.ContinueToExactDestination : CloseToDestinationMode.Stop;
+
+        this.endReachedDistance = exactDest ? 0.0f : 0.75f;
         
         if (IsPathfinding())
         {

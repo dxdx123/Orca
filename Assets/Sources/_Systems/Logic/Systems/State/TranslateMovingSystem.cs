@@ -72,7 +72,7 @@ public class TranslateMovingSystem : IExecuteSystem
         {
             var e = underControlList[i];
 
-            bool moving = hasInputMove || e.hasPathfindingMove;
+            bool moving = hasInputMove || (e.hasPathfindingMove || e.hasFindPath);
             e.isAttempMove = moving;
         }
         
@@ -82,7 +82,7 @@ public class TranslateMovingSystem : IExecuteSystem
         {
             var e = aiList[i];
 
-            bool moving = e.hasPathfindingMove;
+            bool moving = (e.hasPathfindingMove || e.hasFindPath);
             e.isAttempMove = moving;
         }
     }
