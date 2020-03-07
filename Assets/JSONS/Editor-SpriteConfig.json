@@ -10,5 +10,11 @@
     "Character": "ArcherWildcat",
     "Sprite": "Assets/SpriteCollection/heroes_archer Data/heroes_archer.prefab",
     "Animation": "Assets/SpriteAnimation/heroes_archer_wildcat.prefab"
+  },
+  "3": {
+    "id": "3",
+    "Character": "Ettin",
+    "Sprite": "Assets/SpriteCollection/elves_woods_enemies Data/elves_woods_enemies.prefab",
+    "Animation": "Assets/SpriteAnimation/enemy_ettin.prefab"
   }
 }

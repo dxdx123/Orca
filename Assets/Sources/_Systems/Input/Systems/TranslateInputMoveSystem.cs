@@ -53,7 +53,8 @@ public class TranslateInputMoveSystem : ReactiveSystem<InputEntity>, ICleanupSys
         {
             foreach (var e in _underControlGroup.GetEntities(_cleanBuffer))
             {
-                e.RemoveVelocity();
+                if(e.hasVelocity)
+                    e.RemoveVelocity();
             }
             
             _dirty = false;

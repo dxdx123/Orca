@@ -7,11 +7,15 @@ using UnityEngine;
 public class InitializeSystem : IInitializeSystem
 {
     private const string PATH_SPRITE_CONFIG = "Assets/Res/Config/SpriteConfig.asset";
+    private const string PATH_ANIMATOR_RUN_CONFIG = "Assets/Res/Config/AnimatorRunConfig.asset";
+    
     private const string PATH_MAP_CONFIG = "Assets/Res/Config/MapConfig.asset";
     
     private GameContext _gameContext;
 
     private SpriteConfigData _spriteConfig;
+    private AnimatorRunConfigData _animatorRunConfig;
+    
     private MapConfigData _mapConfig;
     
     public InitializeSystem(Contexts contexts)
@@ -48,6 +52,13 @@ public class InitializeSystem : IInitializeSystem
                 _spriteConfig = configData;
                 _spriteConfig.Initialize();
 
+                return ResourceManager.Instance.GetAsset<AnimatorRunConfigData>(PATH_ANIMATOR_RUN_CONFIG, this);
+            })
+            .Then(configData =>
+            {
+                _animatorRunConfig = configData;
+                _animatorRunConfig.Initialize();
+                
                 return ResourceManager.Instance.GetAsset<MapConfigData>(PATH_MAP_CONFIG, this);
             })
             .Then(configData =>
@@ -55,7 +66,7 @@ public class InitializeSystem : IInitializeSystem
                 _mapConfig = configData;
                 _mapConfig.Initialize();
                 
-                _gameContext.SetConfig(_spriteConfig, _mapConfig);
+                _gameContext.SetConfig(_spriteConfig, _animatorRunConfig, _mapConfig);
 
                 promise.Resolve();
             })

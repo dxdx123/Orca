@@ -198,7 +198,7 @@ MonoBehaviour:
       eventFloat: 0
     fps: 12
     loopStart: 0
-    wrapMode: 0
+    wrapMode: 2
   - name: Appear
     frames:
     - spriteCollection: {fileID: 7441057504798280818, guid: 6ca95676599ce471a8ba3388cc6d16e3,
@@ -329,7 +329,7 @@ MonoBehaviour:
       eventFloat: 0
     fps: 12
     loopStart: 0
-    wrapMode: 0
+    wrapMode: 2
   - name: Disappear
     frames:
     - spriteCollection: {fileID: 7441057504798280818, guid: 6ca95676599ce471a8ba3388cc6d16e3,
@@ -397,4 +397,4 @@ MonoBehaviour:
       eventFloat: 0
     fps: 12
     loopStart: 0
-    wrapMode: 0
+    wrapMode: 2

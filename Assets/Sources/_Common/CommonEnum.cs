@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +8,7 @@ public enum Character
     Priest,
     Archer,
     ArcherWildcat,
+    Ettin,
 }
 
 public enum CharacterAction
@@ -34,6 +35,8 @@ public enum CharacterState
 
 public enum CharacterDirection
 {
-    Left,
+    Up,
     Right,
+    Down,
+    Left,
 }

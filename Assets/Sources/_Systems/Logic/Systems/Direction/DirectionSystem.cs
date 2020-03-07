@@ -40,15 +40,43 @@ public class DirectionSystem : ReactiveSystem<GameEntity>
         }
         else
         {
-            if (Mathf.Approximately(srcPosition.x, destPosition.x))
+            Vector2 diff = destPosition - srcPosition;
+            
+            if (Mathf.Abs(diff.y) > Mathf.Abs(diff.x))
             {
-                // nothing
+                // move y
+                if (diff.y > 0)
+                {
+                    entity.ReplaceDirection(CharacterDirection.Up);
+                }
+                else if (diff.y < 0)
+                {
+                    entity.ReplaceDirection(CharacterDirection.Down);
+                }
+                else
+                {
+                    // nothing
+                }
+            }
+            else if(Mathf.Abs(diff.y) < Mathf.Abs(diff.x))
+            {
+                // move x
+                if (diff.x > 0)
+                {
+                    entity.ReplaceDirection(CharacterDirection.Right);
+                }
+                else if (diff.x < 0)
+                {
+                    entity.ReplaceDirection(CharacterDirection.Left);
+                }
+                else
+                {
+                    // nothing
+                }
             }
             else
             {
-                var direction = destPosition.x > srcPosition.x ? CharacterDirection.Right : CharacterDirection.Left;
-                
-                entity.ReplaceDirection(direction);
+                // nothing
             }
         }
     }

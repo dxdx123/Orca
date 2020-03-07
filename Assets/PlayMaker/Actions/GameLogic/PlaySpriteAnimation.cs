@@ -32,7 +32,8 @@ namespace HutongGames.PlayMaker.Actions
 			}
 			else if (state == CharacterState.Run)
 			{
-				entity.ReplaceAnimatorState(state);
+				// entity.ReplaceAnimatorState(state);
+				MainThreadDispatcher.StartUpdateMicroCoroutine(WaitAndPlayRun(entity));
 			}
 			else
 			{
@@ -45,6 +46,12 @@ namespace HutongGames.PlayMaker.Actions
 					})
 					.Catch(ex => Debug.LogException(ex));
 			}
+		}
+
+		private IEnumerator WaitAndPlayRun(GameEntity entity)
+		{
+			yield return null;
+			entity.ReplaceAnimatorState(CharacterState.Run);
 		}
 
 		private IPromise PlaySprite(GameEntity entity, tk2dSpriteAnimator animator, CharacterState state)
