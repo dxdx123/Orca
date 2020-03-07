@@ -30,7 +30,6 @@ public class VelocitySystem : ReactiveSystem<GameEntity>
                 Vector2 velocity = new Vector2(e.velocity.x, e.velocity.y);
                 
                 ChangePosition(e, velocity);
-                ChangeDirection(e, velocity);
             }
             else
             {
@@ -39,20 +38,7 @@ public class VelocitySystem : ReactiveSystem<GameEntity>
         }
     }
 
-    private static void ChangeDirection(GameEntity e, Vector2 velocity)
-    {
-        if (Mathf.Approximately(velocity.x, 0.0f))
-        {
-            // nothing
-        }
-        else
-        {
-            var direction = velocity.x >= 0 ? CharacterDirection.Right : CharacterDirection.Left;
-            e.ReplaceDirection(direction);
-        }
-    }
-
-    private static void ChangePosition(GameEntity e, Vector2 velocity)
+    private void ChangePosition(GameEntity e, Vector2 velocity)
     {
         Vector2 distance = velocity * Time.deltaTime;
 
@@ -61,5 +47,8 @@ public class VelocitySystem : ReactiveSystem<GameEntity>
 
         var info = AstarPath.active.GetNearest(new Vector3(destPosition.x, destPosition.y, 0.0f));
         e.ReplacePosition(info.position.x, info.position.y);
+        
+        // change direction
+        e.ReplaceAttempDirection(srcPosition, destPosition);
     }
 }

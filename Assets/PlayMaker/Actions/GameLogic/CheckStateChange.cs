@@ -23,7 +23,7 @@ namespace HutongGames.PlayMaker.Actions
 
 			_fsm = entity.fSM.fsm.fsm;
 			
-			entity.view.viewController.displaySpriteAnimator.Play(CharacterState.Idle.GetCacheString());
+			entity.ReplaceAnimatorState(CharacterState.Idle);
 		}
 
 		public override void OnUpdate()

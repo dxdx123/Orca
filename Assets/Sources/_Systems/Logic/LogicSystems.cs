@@ -19,6 +19,8 @@ public class LogicSystems : Feature
         Add(new PositionSystem(contexts));
         Add(new PathfindingPositionSystem(contexts));
 
+        Add(new DirectionSystem(contexts));
+
         Add(new MovingAttempSystem(contexts));
         Add(new MoveStateSystem(contexts));
         Add(new TranslateMovingSystem(contexts));

@@ -36,18 +36,6 @@ public class PathfindingPositionSystem : ReactiveSystem<GameEntity>
 
     private void ChangeDirection(GameEntity e, Vector3 oldPos, Vector3 newPos)
     {
-        float oldX = oldPos.x;
-        float newX = newPos.x;
-
-        if (Mathf.Approximately(oldX, newX))
-        {
-            // nothing
-        }
-        else
-        {
-            var direction = newX > oldX ? CharacterDirection.Right : CharacterDirection.Left;
-            
-            e.ReplaceDirection(direction);
-        }
+        e.ReplaceAttempDirection(oldPos, newPos);
     }
 }

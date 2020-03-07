@@ -7,8 +7,9 @@ public class RenderSystems : Feature
     public RenderSystems(Contexts contexts)
         : base("Render Systems")
     {
+        Add(new AnimateViewSystem(contexts));
         Add(new CharacterViewSystem(contexts));
-        Add(new DirectionSystem(contexts));
+        Add(new DirectionViewSystem(contexts));
         Add(new SortViewSystem(contexts));
     }
 }

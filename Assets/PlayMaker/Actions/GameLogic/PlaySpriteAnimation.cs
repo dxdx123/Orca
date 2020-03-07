@@ -32,11 +32,11 @@ namespace HutongGames.PlayMaker.Actions
 			}
 			else if (state == CharacterState.Run)
 			{
-				animator.Play(state.GetCacheString());
+				entity.ReplaceAnimatorState(state);
 			}
 			else
 			{
-				PlaySprite(animator, state)
+				PlaySprite(entity, animator, state)
 					.Then(() =>
 					{
 						Finish();
@@ -47,7 +47,7 @@ namespace HutongGames.PlayMaker.Actions
 			}
 		}
 
-		private IPromise PlaySprite(tk2dSpriteAnimator animator, CharacterState state)
+		private IPromise PlaySprite(GameEntity entity, tk2dSpriteAnimator animator, CharacterState state)
 		{
 			string stateName = state.GetCacheString();
 			var clip = animator.GetClipByName(stateName);
@@ -56,13 +56,13 @@ namespace HutongGames.PlayMaker.Actions
 			
 			return new Promise((resolve, reject) =>
 			{
-				 MainThreadDispatcher.StartUpdateMicroCoroutine(PlaySpriteInternal(resolve, reject, animator, state, duration));
+				 MainThreadDispatcher.StartUpdateMicroCoroutine(PlaySpriteInternal(entity, resolve, reject, animator, state, duration));
 			});
 		}
 
-		private IEnumerator PlaySpriteInternal(Action resolve, Action<Exception> reject, tk2dSpriteAnimator animator, CharacterState state, float duration)
+		private IEnumerator PlaySpriteInternal(GameEntity entity, Action resolve, Action<Exception> reject, tk2dSpriteAnimator animator, CharacterState state, float duration)
 		{
-			animator.Play(state.GetCacheString());
+			entity.ReplaceAnimatorState(state);
 			
 			float time = 0.0f;
 

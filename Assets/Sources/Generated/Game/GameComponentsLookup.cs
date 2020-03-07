@@ -9,31 +9,35 @@
 public static class GameComponentsLookup {
 
     public const int AI = 0;
-    public const int AttempMove = 1;
-    public const int BehaviorTree = 2;
-    public const int CameraTarget = 3;
-    public const int Character = 4;
-    public const int Config = 5;
-    public const int Destroy = 6;
-    public const int Direction = 7;
-    public const int FindPath = 8;
-    public const int FSM = 9;
-    public const int Map = 10;
-    public const int Moving = 11;
-    public const int Pathfinding = 12;
-    public const int PathfindingMove = 13;
-    public const int Position = 14;
-    public const int State = 15;
-    public const int Transform = 16;
-    public const int UnderControl = 17;
-    public const int UpdateQuadTree = 18;
-    public const int Velocity = 19;
-    public const int View = 20;
+    public const int AnimatorState = 1;
+    public const int AttempDirection = 2;
+    public const int AttempMove = 3;
+    public const int BehaviorTree = 4;
+    public const int CameraTarget = 5;
+    public const int Character = 6;
+    public const int Config = 7;
+    public const int Destroy = 8;
+    public const int Direction = 9;
+    public const int FindPath = 10;
+    public const int FSM = 11;
+    public const int Map = 12;
+    public const int Moving = 13;
+    public const int Pathfinding = 14;
+    public const int PathfindingMove = 15;
+    public const int Position = 16;
+    public const int State = 17;
+    public const int Transform = 18;
+    public const int UnderControl = 19;
+    public const int UpdateQuadTree = 20;
+    public const int Velocity = 21;
+    public const int View = 22;
 
-    public const int TotalComponents = 21;
+    public const int TotalComponents = 23;
 
     public static readonly string[] componentNames = {
         "AI",
+        "AnimatorState",
+        "AttempDirection",
         "AttempMove",
         "BehaviorTree",
         "CameraTarget",
@@ -58,6 +62,8 @@ public static class GameComponentsLookup {
 
     public static readonly System.Type[] componentTypes = {
         typeof(AIComponent),
+        typeof(AnimatorStateComponent),
+        typeof(AttempDirectionComponent),
         typeof(AttempMoveComponent),
         typeof(BehaviorTreeComponent),
         typeof(CameraTargetComponent),

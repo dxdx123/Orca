@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public class DirectionSystem : ReactiveSystem<GameEntity>
+public class DirectionViewSystem : ReactiveSystem<GameEntity>
 {
-    public DirectionSystem(Contexts contexts)
+    public DirectionViewSystem(Contexts contexts)
         : base(contexts.game)
     {
         
