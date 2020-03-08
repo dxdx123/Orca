@@ -69,7 +69,18 @@ namespace BehaviorDesigner.Runtime.Tasks
                 var rightInfo = AstarPath.active.GetNearest(new Vector3(rightX, destY, 0.0f));
                 Vector2 rightPosition = rightInfo.position;
 
-                return rightPosition;
+                if (Mathf.Approximately(rightPosition.x, rightX))
+                {
+                    return rightPosition;
+                }
+                else
+                {
+                    float leftX = destX - DISTANCE_NEARBY;
+                    var leftInfo = AstarPath.active.GetNearest(new Vector3(leftX, destY, 0.0f));
+                    Vector2 leftPosition = leftInfo.position;
+
+                    return leftPosition; 
+                }
             }
             else if (srcX < destX)
             {
@@ -77,7 +88,18 @@ namespace BehaviorDesigner.Runtime.Tasks
                 var leftInfo = AstarPath.active.GetNearest(new Vector3(leftX, destY, 0.0f));
                 Vector2 leftPosition = leftInfo.position;
 
-                return leftPosition;
+                if (Mathf.Approximately(leftPosition.x, leftX))
+                {
+                    return leftPosition;
+                }
+                else
+                {
+                    float rightX = destX + DISTANCE_NEARBY;
+                    var rightInfo = AstarPath.active.GetNearest(new Vector3(rightX, destY, 0.0f));
+                    Vector2 rightPosition = rightInfo.position;
+
+                    return rightPosition;
+                }
             }
             else
             {
