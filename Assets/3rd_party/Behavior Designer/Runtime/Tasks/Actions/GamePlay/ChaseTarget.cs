@@ -8,6 +8,8 @@ namespace BehaviorDesigner.Runtime.Tasks
 {
     public class ChaseTarget : Action
     {
+        public const float DISTANCE_NEARBY = 1f;
+        
         public SharedGameObject target;
 
         private bool _chasing;
@@ -22,6 +24,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             GameEntity targetEntity = target.Value.gameObject.GetEntityLink().entity as GameEntity;
             Assert.IsNotNull(targetEntity);
 
+            var srcPos = new Vector3(srcEntity.position.x, srcEntity.position.y, 0.0f);
             var destPos = target.Value.transform.position;
             bool isTargetNotMove = (destPos == _lastDestPosition); // approximate
             _lastDestPosition = destPos;
@@ -30,7 +33,9 @@ namespace BehaviorDesigner.Runtime.Tasks
             {
                 if (targetEntity.state.state == CharacterState.Run && !isTargetNotMove)
                 {
-                    srcEntity.ReplaceFindPath(destPos.x, destPos.y, false);
+                    var bestPos = FindBestPosition(srcPos.x, srcPos.y, destPos.x, destPos.y);
+                    
+                    srcEntity.ReplaceFindPath(bestPos.x, bestPos.y, true);
                     return TaskStatus.Running;
                 }
                 else
@@ -47,10 +52,47 @@ namespace BehaviorDesigner.Runtime.Tasks
             }
             else
             {
-                srcEntity.AddFindPath(destPos.x, destPos.y, false);
+                var bestPos = FindBestPosition(srcPos.x, srcPos.y, destPos.x, destPos.y);
+                
+                srcEntity.AddFindPath(bestPos.x, bestPos.y, true);
                 _chasing = true;
                 
                 return TaskStatus.Running;
+            }
+        }
+
+        private Vector2 FindBestPosition(float srcX, float srcY, float destX, float destY)
+        {
+            if (srcX > destX)
+            {
+                float rightX = destX + DISTANCE_NEARBY;
+                var rightInfo = AstarPath.active.GetNearest(new Vector3(rightX, destY, 0.0f));
+                Vector2 rightPosition = rightInfo.position;
+
+                return rightPosition;
+            }
+            else if (srcX < destX)
+            {
+                float leftX = destX - DISTANCE_NEARBY;
+                var leftInfo = AstarPath.active.GetNearest(new Vector3(leftX, destY, 0.0f));
+                Vector2 leftPosition = leftInfo.position;
+
+                return leftPosition;
+            }
+            else
+            {
+                float leftX = destX - DISTANCE_NEARBY;
+                var leftInfo = AstarPath.active.GetNearest(new Vector3(leftX, destY, 0.0f));
+                Vector2 leftPosition = leftInfo.position;
+                
+                float rightX = destX + DISTANCE_NEARBY;
+                var rightInfo = AstarPath.active.GetNearest(new Vector3(rightX, destY, 0.0f));
+                Vector2 rightPosition = rightInfo.position;
+
+                return 
+                    rightPosition.x > leftPosition.x
+                    ? rightPosition
+                    : leftPosition;
             }
         }
 
