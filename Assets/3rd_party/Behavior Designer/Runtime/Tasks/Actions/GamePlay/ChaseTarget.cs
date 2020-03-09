@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Entitas.Unity;
 using UnityEngine;
@@ -63,59 +64,38 @@ namespace BehaviorDesigner.Runtime.Tasks
 
         private Vector2 FindBestPosition(float srcX, float srcY, float destX, float destY)
         {
-            if (srcX > destX)
+            float rightX = destX + DISTANCE_NEARBY;
+            float leftX = destX - DISTANCE_NEARBY;
+
+            float choice1, choice2;
+            if (srcX >= destX)
             {
-                float rightX = destX + DISTANCE_NEARBY;
-                var rightInfo = AstarPath.active.GetNearest(new Vector3(rightX, destY, 0.0f));
-                Vector2 rightPosition = rightInfo.position;
-
-                if (Mathf.Approximately(rightPosition.x, rightX))
-                {
-                    return rightPosition;
-                }
-                else
-                {
-                    float leftX = destX - DISTANCE_NEARBY;
-                    var leftInfo = AstarPath.active.GetNearest(new Vector3(leftX, destY, 0.0f));
-                    Vector2 leftPosition = leftInfo.position;
-
-                    return leftPosition; 
-                }
-            }
-            else if (srcX < destX)
-            {
-                float leftX = destX - DISTANCE_NEARBY;
-                var leftInfo = AstarPath.active.GetNearest(new Vector3(leftX, destY, 0.0f));
-                Vector2 leftPosition = leftInfo.position;
-
-                if (Mathf.Approximately(leftPosition.x, leftX))
-                {
-                    return leftPosition;
-                }
-                else
-                {
-                    float rightX = destX + DISTANCE_NEARBY;
-                    var rightInfo = AstarPath.active.GetNearest(new Vector3(rightX, destY, 0.0f));
-                    Vector2 rightPosition = rightInfo.position;
-
-                    return rightPosition;
-                }
+                choice1 = rightX;
+                choice2 = leftX;
             }
             else
             {
-                float leftX = destX - DISTANCE_NEARBY;
-                var leftInfo = AstarPath.active.GetNearest(new Vector3(leftX, destY, 0.0f));
-                Vector2 leftPosition = leftInfo.position;
-                
-                float rightX = destX + DISTANCE_NEARBY;
-                var rightInfo = AstarPath.active.GetNearest(new Vector3(rightX, destY, 0.0f));
-                Vector2 rightPosition = rightInfo.position;
-
-                return 
-                    rightPosition.x > leftPosition.x
-                    ? rightPosition
-                    : leftPosition;
+                choice1 = leftX;
+                choice2 = rightX;
             }
+            
+            // choice1
+            var info1 = AstarPath.active.GetNearest(new Vector3(choice1, destY, 0.0f));
+            var position1 = info1.position;
+            if (Mathf.Approximately(position1.x, choice1))
+            {
+                return position1;
+            }
+            
+            // choice2
+            var info2 = AstarPath.active.GetNearest(new Vector3(choice2, destY, 0.0f));
+            var position2 = info2.position;
+            if (Mathf.Approximately(position2.x, choice2))
+            {
+                return position2;
+            }
+            
+            throw new Exception("!!! Not found best choice");
         }
 
         public override void OnReset()
