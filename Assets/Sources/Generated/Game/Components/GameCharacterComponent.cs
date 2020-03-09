@@ -11,19 +11,17 @@ public partial class GameEntity {
     public CharacterComponent character { get { return (CharacterComponent)GetComponent(GameComponentsLookup.Character); } }
     public bool hasCharacter { get { return HasComponent(GameComponentsLookup.Character); } }
 
-    public void AddCharacter(Character newCharacter, bool newAi) {
+    public void AddCharacter(Character newCharacter) {
         var index = GameComponentsLookup.Character;
         var component = (CharacterComponent)CreateComponent(index, typeof(CharacterComponent));
         component.character = newCharacter;
-        component.ai = newAi;
         AddComponent(index, component);
     }
 
-    public void ReplaceCharacter(Character newCharacter, bool newAi) {
+    public void ReplaceCharacter(Character newCharacter) {
         var index = GameComponentsLookup.Character;
         var component = (CharacterComponent)CreateComponent(index, typeof(CharacterComponent));
         component.character = newCharacter;
-        component.ai = newAi;
         ReplaceComponent(index, component);
     }
 

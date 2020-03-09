@@ -30,17 +30,17 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
       foreach (var e in entities)
       {
          var character = e.character.character;
-         bool isAI = e.character.ai;
+         bool ai = e.isAI;
          var position = e.position;
          
-         CreateCharacter(e, character, isAI, position.x, position.y);
+         CreateCharacter(e, character, ai, position.x, position.y);
       }
    }
 
-   private void CreateCharacter(GameEntity e, Character character, bool isAI, float x, float y)
+   private void CreateCharacter(GameEntity e, Character character, bool ai, float x, float y)
    {
       GameObject gameObject = 
-         isAI ? AssetPoolManager.Instance.SpawnPuppy() : AssetPoolManager.Instance.SpawnCharacter();
+         ai ? AssetPoolManager.Instance.SpawnPuppy() : AssetPoolManager.Instance.SpawnCharacter();
       gameObject.transform.position = new Vector3(x, y, 0);
       
       tk2dSprite sprite = gameObject.GetComponent<tk2dSprite>();
@@ -71,7 +71,7 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
             e.AddView(characterViewController);
             e.AddFSM(characterViewController);
 
-            if (isAI)
+            if (ai)
             {
                BehaviorTree behaviorTree = gameObject.GetComponent<BehaviorTree>();
                e.AddBehaviorTree(behaviorTree);

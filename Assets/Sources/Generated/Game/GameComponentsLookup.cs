@@ -26,13 +26,14 @@ public static class GameComponentsLookup {
     public const int PathfindingMove = 15;
     public const int Position = 16;
     public const int State = 17;
-    public const int Transform = 18;
-    public const int UnderControl = 19;
-    public const int UpdateQuadTree = 20;
-    public const int Velocity = 21;
-    public const int View = 22;
+    public const int Target = 18;
+    public const int Transform = 19;
+    public const int UnderControl = 20;
+    public const int UpdateQuadTree = 21;
+    public const int Velocity = 22;
+    public const int View = 23;
 
-    public const int TotalComponents = 23;
+    public const int TotalComponents = 24;
 
     public static readonly string[] componentNames = {
         "AI",
@@ -53,6 +54,7 @@ public static class GameComponentsLookup {
         "PathfindingMove",
         "Position",
         "State",
+        "Target",
         "Transform",
         "UnderControl",
         "UpdateQuadTree",
@@ -79,6 +81,7 @@ public static class GameComponentsLookup {
         typeof(PathfindingMoveComponent),
         typeof(PositionComponent),
         typeof(StateComponent),
+        typeof(TargetComponent),
         typeof(TransformComponent),
         typeof(UnderControlComponent),
         typeof(UpdateQuadTreeComponent),

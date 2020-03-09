@@ -4,7 +4,7 @@ using Entitas;
 using UnityEngine;
 
 [Game]
-public class CharacterComponent : IComponent
+public class TargetComponent : IComponent
 {
-    public Character character;
+   public GameEntity target;
 }

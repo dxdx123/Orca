@@ -25,28 +25,32 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
 
     protected override void Execute(List<GameEntity> entities)
     {
-        CreatePlayer();
-        CreatePuppy();
+        var entity = CreatePlayer();
+        
+        CreatePuppy(entity);
     }
 
-    private void CreatePlayer()
+    private GameEntity CreatePlayer()
     {
         GameEntity e = _gameContext.CreateEntity();
 
         e.isUnderControl = true;
-        e.AddCharacter(Character.Priest, false);
+        e.AddCharacter(Character.Priest);
         e.AddPosition(10.0f, 22.0f);
         e.isCameraTarget = true;
         e.AddState(CharacterState.Idle);
         e.AddDirection(CharacterDirection.Right);
+
+        return e;
     }
     
-    private void CreatePuppy()
+    private void CreatePuppy(GameEntity entity)
     {
         GameEntity e = _gameContext.CreateEntity();
 
         e.isAI = true;
-        e.AddCharacter(Character.ArcherWildcat, true);
+        e.AddTarget(entity);
+        e.AddCharacter(Character.ArcherWildcat);
         e.AddPosition(12.0f, 21.5f);
         e.AddState(CharacterState.Idle);
         e.AddDirection(CharacterDirection.Right);

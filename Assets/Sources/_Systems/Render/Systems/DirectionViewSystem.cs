@@ -52,9 +52,9 @@ public class DirectionViewSystem : ReactiveSystem<GameEntity>
         
         if (direction == CharacterDirection.Up || direction == CharacterDirection.Down)
         {
-            if (config.singleRun)
+            if (e.isAI && config.singleRun)
             {
-                var master = FindUnderControlMaster();
+                var master = e.target.target;
 
                 float srcX = e.position.x;
                 float destX = master.position.x;
@@ -93,13 +93,6 @@ public class DirectionViewSystem : ReactiveSystem<GameEntity>
                 displaySprite.scale = scale;
             }
         }
-    }
-
-    private GameEntity FindUnderControlMaster()
-    {
-        var list = _underControlGroup.GetEntities(_cleanBuffer);
-
-        return list.SingleEntity();
     }
 
     private Vector3 GetAnimatorScale(AnimatorRunConfig config, CharacterDirection direction)
