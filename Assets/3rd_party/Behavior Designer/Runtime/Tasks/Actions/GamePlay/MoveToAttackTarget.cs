@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 
 namespace BehaviorDesigner.Runtime.Tasks
 {
-    public class ChaseTarget : Action
+    public class MoveToAttackTarget : Action
     {
         public const float DISTANCE_NEARBY = 1f;
         
@@ -98,7 +98,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             throw new Exception("!!! Not found best choice");
         }
 
-        public override void OnReset()
+        public override void OnEnd()
         {
             _chasing = false;
             _lastDestPosition = target.Value.transform.position;

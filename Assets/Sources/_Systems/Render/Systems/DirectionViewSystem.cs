@@ -8,10 +8,15 @@ public class DirectionViewSystem : ReactiveSystem<GameEntity>
 {
     private GameContext _gameContext;
     
+    private IGroup<GameEntity> _underControlGroup;
+    private readonly List<GameEntity> _cleanBuffer = new List<GameEntity>();
+    
     public DirectionViewSystem(Contexts contexts)
         : base(contexts.game)
     {
         _gameContext = contexts.game;
+        
+        _underControlGroup = _gameContext.GetGroup(GameMatcher.UnderControl);
     }
     
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
@@ -47,7 +52,30 @@ public class DirectionViewSystem : ReactiveSystem<GameEntity>
         
         if (direction == CharacterDirection.Up || direction == CharacterDirection.Down)
         {
-            // nothing
+            if (config.singleRun)
+            {
+                var master = FindUnderControlMaster();
+
+                float srcX = e.position.x;
+                float destX = master.position.x;
+
+                if (destX > srcX)
+                {
+                    displaySprite.scale = new Vector3(1, 1, 1);
+                }
+                else if(destX < srcX)
+                {
+                    displaySprite.scale = new Vector3(-1, 1, 1);
+                }
+                else
+                {
+                    // nothing
+                }
+            }
+            else
+            {
+                // nothing
+            }
         }
         else
         {
@@ -65,6 +93,13 @@ public class DirectionViewSystem : ReactiveSystem<GameEntity>
                 displaySprite.scale = scale;
             }
         }
+    }
+
+    private GameEntity FindUnderControlMaster()
+    {
+        var list = _underControlGroup.GetEntities(_cleanBuffer);
+
+        return list.SingleEntity();
     }
 
     private Vector3 GetAnimatorScale(AnimatorRunConfig config, CharacterDirection direction)
