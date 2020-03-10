@@ -8,25 +8,25 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    static readonly AIComponent aIComponent = new AIComponent();
+    public AIComponent aI { get { return (AIComponent)GetComponent(GameComponentsLookup.AI); } }
+    public bool hasAI { get { return HasComponent(GameComponentsLookup.AI); } }
 
-    public bool isAI {
-        get { return HasComponent(GameComponentsLookup.AI); }
-        set {
-            if (value != isAI) {
-                var index = GameComponentsLookup.AI;
-                if (value) {
-                    var componentPool = GetComponentPool(index);
-                    var component = componentPool.Count > 0
-                            ? componentPool.Pop()
-                            : aIComponent;
+    public void AddAI(AIType newType) {
+        var index = GameComponentsLookup.AI;
+        var component = (AIComponent)CreateComponent(index, typeof(AIComponent));
+        component.type = newType;
+        AddComponent(index, component);
+    }
 
-                    AddComponent(index, component);
-                } else {
-                    RemoveComponent(index);
-                }
-            }
-        }
+    public void ReplaceAI(AIType newType) {
+        var index = GameComponentsLookup.AI;
+        var component = (AIComponent)CreateComponent(index, typeof(AIComponent));
+        component.type = newType;
+        ReplaceComponent(index, component);
+    }
+
+    public void RemoveAI() {
+        RemoveComponent(GameComponentsLookup.AI);
     }
 }
 

@@ -28,6 +28,7 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         var entity = CreatePlayer();
         
         CreatePuppy(entity);
+        CreateEnemy(entity);
     }
 
     private GameEntity CreatePlayer()
@@ -48,7 +49,7 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
     {
         GameEntity e = _gameContext.CreateEntity();
 
-        e.isAI = true;
+        e.AddAI(AIType.Puppy);
         e.AddTarget(entity);
         e.AddCharacter(Character.ArcherWildcat);
         e.AddPosition(12.0f, 21.5f);
@@ -56,4 +57,15 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         e.AddDirection(CharacterDirection.Right);
     }
 
+    private void CreateEnemy(GameEntity entity)
+    {
+        GameEntity e = _gameContext.CreateEntity();
+
+        e.AddAI(AIType.Enemy);
+        e.AddTarget(entity);
+        e.AddCharacter(Character.Ettin);
+        e.AddPosition(14.0f, 21.5f);
+        e.AddState(CharacterState.Idle);
+        e.AddDirection(CharacterDirection.Right);
+    }
 }

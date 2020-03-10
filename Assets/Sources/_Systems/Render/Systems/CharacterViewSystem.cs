@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using BehaviorDesigner.Runtime;
 using Entitas;
@@ -30,17 +31,15 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
       foreach (var e in entities)
       {
          var character = e.character.character;
-         bool ai = e.isAI;
          var position = e.position;
          
-         CreateCharacter(e, character, ai, position.x, position.y);
+         CreateCharacter(e, character, position.x, position.y);
       }
    }
 
-   private void CreateCharacter(GameEntity e, Character character, bool ai, float x, float y)
+   private void CreateCharacter(GameEntity e, Character character, float x, float y)
    {
-      GameObject gameObject = 
-         ai ? AssetPoolManager.Instance.SpawnPuppy() : AssetPoolManager.Instance.SpawnCharacter();
+      GameObject gameObject = SpawnGameObject(e);
       gameObject.transform.position = new Vector3(x, y, 0);
       
       tk2dSprite sprite = gameObject.GetComponent<tk2dSprite>();
@@ -71,7 +70,7 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
             e.AddView(characterViewController);
             e.AddFSM(characterViewController);
 
-            if (ai)
+            if (e.hasAI)
             {
                BehaviorTree behaviorTree = gameObject.GetComponent<BehaviorTree>();
                e.AddBehaviorTree(behaviorTree);
@@ -85,5 +84,28 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
          ;
 
    }
-   
+
+   private GameObject SpawnGameObject(GameEntity e)
+   {
+      bool ai = e.hasAI;
+
+      if (ai)
+      {
+         switch (e.aI.type)
+         {
+            case AIType.Enemy:
+               return AssetPoolManager.Instance.SpawnEnemy();
+            
+            case AIType.Puppy:
+               return AssetPoolManager.Instance.SpawnPuppy();
+               
+            default:
+               throw new Exception("Unknown type: " + e.aI.type);
+         }
+      }
+      else
+      {
+         return AssetPoolManager.Instance.SpawnCharacter();
+      }
+   }
 }

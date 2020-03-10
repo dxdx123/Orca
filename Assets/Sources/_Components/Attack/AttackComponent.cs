@@ -4,7 +4,7 @@ using Entitas;
 using UnityEngine;
 
 [Game]
-public class AIComponent : IComponent
+public class AttackComponent : IComponent
 {
-    public AIType type;
+    
 }

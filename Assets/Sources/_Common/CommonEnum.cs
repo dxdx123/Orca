@@ -40,3 +40,9 @@ public enum CharacterDirection
     Down,
     Left,
 }
+
+public enum AIType
+{
+    Puppy,
+    Enemy,
+}

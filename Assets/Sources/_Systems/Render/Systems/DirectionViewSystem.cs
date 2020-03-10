@@ -52,7 +52,7 @@ public class DirectionViewSystem : ReactiveSystem<GameEntity>
         
         if (direction == CharacterDirection.Up || direction == CharacterDirection.Down)
         {
-            if (e.isAI && config.singleRun)
+            if (e.hasAI && config.singleRun)
             {
                 var master = e.target.target;
 

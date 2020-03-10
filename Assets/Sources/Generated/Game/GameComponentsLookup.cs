@@ -10,34 +10,36 @@ public static class GameComponentsLookup {
 
     public const int AI = 0;
     public const int AnimatorState = 1;
-    public const int AttempDirection = 2;
-    public const int AttempMove = 3;
-    public const int BehaviorTree = 4;
-    public const int CameraTarget = 5;
-    public const int Character = 6;
-    public const int Config = 7;
-    public const int Destroy = 8;
-    public const int Direction = 9;
-    public const int FindPath = 10;
-    public const int FSM = 11;
-    public const int Map = 12;
-    public const int Moving = 13;
-    public const int Pathfinding = 14;
-    public const int PathfindingMove = 15;
-    public const int Position = 16;
-    public const int State = 17;
-    public const int Target = 18;
-    public const int Transform = 19;
-    public const int UnderControl = 20;
-    public const int UpdateQuadTree = 21;
-    public const int Velocity = 22;
-    public const int View = 23;
+    public const int Attack = 2;
+    public const int AttempDirection = 3;
+    public const int AttempMove = 4;
+    public const int BehaviorTree = 5;
+    public const int CameraTarget = 6;
+    public const int Character = 7;
+    public const int Config = 8;
+    public const int Destroy = 9;
+    public const int Direction = 10;
+    public const int FindPath = 11;
+    public const int FSM = 12;
+    public const int Map = 13;
+    public const int Moving = 14;
+    public const int Pathfinding = 15;
+    public const int PathfindingMove = 16;
+    public const int Position = 17;
+    public const int State = 18;
+    public const int Target = 19;
+    public const int Transform = 20;
+    public const int UnderControl = 21;
+    public const int UpdateQuadTree = 22;
+    public const int Velocity = 23;
+    public const int View = 24;
 
-    public const int TotalComponents = 24;
+    public const int TotalComponents = 25;
 
     public static readonly string[] componentNames = {
         "AI",
         "AnimatorState",
+        "Attack",
         "AttempDirection",
         "AttempMove",
         "BehaviorTree",
@@ -65,6 +67,7 @@ public static class GameComponentsLookup {
     public static readonly System.Type[] componentTypes = {
         typeof(AIComponent),
         typeof(AnimatorStateComponent),
+        typeof(AttackComponent),
         typeof(AttempDirectionComponent),
         typeof(AttempMoveComponent),
         typeof(BehaviorTreeComponent),

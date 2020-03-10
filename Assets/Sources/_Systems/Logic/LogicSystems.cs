@@ -33,5 +33,7 @@ public class LogicSystems : Feature
         Add(new FindPathSystem(contexts));
 
         Add(new PuppySystem(contexts));
+
+        Add(new AttackSystem(contexts));
     }
 }
