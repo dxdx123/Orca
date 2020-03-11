@@ -48,7 +48,7 @@ public class ResourceManagerAssetBundle
 
         private List<RefData> _referenceList = new List<RefData>(DefaultListSize);
         
-        public Dictionary<string, Object> assetDict = new Dictionary<string, Object>();
+        public Dictionary<string, WeakReference<Object>> assetDict = new Dictionary<string, WeakReference<Object>>();
 
         public void AddReference(object owner, int id)
         {
@@ -322,19 +322,28 @@ public class ResourceManagerAssetBundle
 
     private IPromise<T> LoaAssetAsync<T>(string assetName, AssetBundle assetBundle, AssetBundleWrapper wrapper) where T : Object
     {
-        Object assetObj;
-        if (wrapper.assetDict.TryGetValue(assetName, out assetObj))
+        WeakReference<Object> assetRef;
+        if (wrapper.assetDict.TryGetValue(assetName, out assetRef))
         {
-            T asset = assetObj as T;
-
-            if (asset)
+            Object assetObj;
+            if (assetRef.TryGetTarget(out assetObj))
             {
-                return Promise<T>.Resolved(asset);
+                T asset = assetObj as T;
+
+                if (asset)
+                {
+                    return Promise<T>.Resolved(asset);
+                }
+                else
+                {
+                    return Promise<T>.Rejected(
+                        new Exception($"LoadAssetSync can't cast assetObj {assetObj.GetType()} to {typeof(T)}"));
+                }
             }
             else
             {
-                return Promise<T>.Rejected(
-                    new Exception($"LoadAssetSync can't cast assetObj {assetObj.GetType()} to {typeof(T)}"));
+                Debug.LogError($"Asset NOT release, Please check: {assetName}");
+                wrapper.assetDict.Remove(assetName);
             }
         }
         
@@ -360,7 +369,7 @@ public class ResourceManagerAssetBundle
         if(asset)
         {
             // may be load twice
-            wrapper.assetDict[assetName] = asset;
+            wrapper.assetDict[assetName] = new WeakReference<Object>(asset);
             
             promise.Resolve(asset);
         }
