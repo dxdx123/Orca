@@ -10,6 +10,8 @@ namespace BehaviorDesigner.Runtime.Tasks
     public class MoveToAttackTarget : Action
     {
         public const float DISTANCE_NEARBY = 1f;
+
+        public const float EPSILON = 1.19e-05f;
         
         public SharedGameObject target;
 
@@ -80,7 +82,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             }
             
             // choice1
-            var info1 = AstarPath.active.GetNearest(new Vector3(choice1, destY, 0.0f));
+            var info1 = AstarPath.active.GetNearest(new Vector3(choice1, destY - EPSILON, 0.0f));
             var position1 = info1.position;
             if (Mathf.Approximately(position1.x, choice1))
             {
@@ -88,7 +90,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             }
             
             // choice2
-            var info2 = AstarPath.active.GetNearest(new Vector3(choice2, destY, 0.0f));
+            var info2 = AstarPath.active.GetNearest(new Vector3(choice2, destY - EPSILON, 0.0f));
             var position2 = info2.position;
             if (Mathf.Approximately(position2.x, choice2))
             {
