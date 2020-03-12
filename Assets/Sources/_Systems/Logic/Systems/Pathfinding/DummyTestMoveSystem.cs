@@ -37,7 +37,8 @@ public class DummyTestMoveSystem : IExecuteSystem
         var e = _gameContext.CreateEntity();
         
         e.AddPosition(x, y);
-        e.AddEffect("hero_priest_shieldFx");
+        e.AddEffect("hero_priest_swordsFx");
+        e.AddTarget(underControlEntity);
         
     }
 

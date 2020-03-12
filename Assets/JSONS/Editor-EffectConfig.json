@@ -1,7 +1,37 @@
 {
   "1": {
     "id": "1",
+    "EffectName": "hero_barracks_buff",
+    "Animation": "Assets/SpriteAnimation/heroes_priest_effect.prefab"
+  },
+  "2": {
+    "id": "2",
+    "EffectName": "hero_priest_bolt_destroy",
+    "Animation": "Assets/SpriteAnimation/heroes_priest_effect.prefab"
+  },
+  "3": {
+    "id": "3",
+    "EffectName": "hero_priest_bolt_fly",
+    "Animation": "Assets/SpriteAnimation/heroes_priest_effect.prefab"
+  },
+  "4": {
+    "id": "4",
+    "EffectName": "hero_priest_healFx",
+    "Animation": "Assets/SpriteAnimation/heroes_priest_effect.prefab"
+  },
+  "5": {
+    "id": "5",
+    "EffectName": "hero_priest_revive",
+    "Animation": "Assets/SpriteAnimation/heroes_priest_effect.prefab"
+  },
+  "6": {
+    "id": "6",
     "EffectName": "hero_priest_shieldFx",
+    "Animation": "Assets/SpriteAnimation/heroes_priest_effect.prefab"
+  },
+  "7": {
+    "id": "7",
+    "EffectName": "hero_priest_swordsFx",
     "Animation": "Assets/SpriteAnimation/heroes_priest_effect.prefab"
   }
 }

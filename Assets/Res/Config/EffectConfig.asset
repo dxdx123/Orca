@@ -13,5 +13,17 @@ MonoBehaviour:
   m_Name: EffectConfig
   m_EditorClassIdentifier: 
   list:
+  - effectName: hero_barracks_buff
+    animationPath: Assets/SpriteAnimation/heroes_priest_effect.prefab
+  - effectName: hero_priest_bolt_destroy
+    animationPath: Assets/SpriteAnimation/heroes_priest_effect.prefab
+  - effectName: hero_priest_bolt_fly
+    animationPath: Assets/SpriteAnimation/heroes_priest_effect.prefab
+  - effectName: hero_priest_healFx
+    animationPath: Assets/SpriteAnimation/heroes_priest_effect.prefab
+  - effectName: hero_priest_revive
+    animationPath: Assets/SpriteAnimation/heroes_priest_effect.prefab
   - effectName: hero_priest_shieldFx
+    animationPath: Assets/SpriteAnimation/heroes_priest_effect.prefab
+  - effectName: hero_priest_swordsFx
     animationPath: Assets/SpriteAnimation/heroes_priest_effect.prefab

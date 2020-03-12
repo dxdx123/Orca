@@ -50,6 +50,8 @@ public class EffectViewSystem : ReactiveSystem<GameEntity>
                 tk2dAnimator.Library = spriteAnimation;
                 
                 // Add Components
+                e.AddTransform(gameObject.transform);
+                
                 var viewController = gameObject.GetComponent<ViewController>();
                 viewController.Initialize(e);
                 e.AddView(viewController);
