@@ -11,5 +11,7 @@ public class RenderSystems : Feature
         Add(new CharacterViewSystem(contexts));
         Add(new DirectionViewSystem(contexts));
         Add(new SortViewSystem(contexts));
+
+        Add(new EffectViewSystem(contexts));
     }
 }

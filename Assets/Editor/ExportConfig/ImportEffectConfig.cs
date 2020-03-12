@@ -5,13 +5,13 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class ImportSpriteConfig
+public class ImportEffectConfig
 {
-    public const string CONFIG_PATH = "Assets/JSONS/Editor-SpriteConfig.json";
-    public const string SAVE_PATH = "Assets/Res/Config/SpriteConfig.asset";
+    public const string CONFIG_PATH = "Assets/JSONS/Editor-EffectConfig.json";
+    public const string SAVE_PATH = "Assets/Res/Config/EffectConfig.asset";
     
-    [MenuItem("Import/SpriteConfig")]
-    public static void MenuItem_ImportSpriteConfig()
+    [MenuItem("Import/EffectConfig")]
+    public static void MenuItem_ImportEffectConfig()
     {
         Import();
     }
@@ -24,23 +24,23 @@ public class ImportSpriteConfig
 
         int length = jsonArray.Count;
         
-        List<SpriteConfig> list = new List<SpriteConfig>(length);
+        List<EffectConfig> list = new List<EffectConfig>(length);
         
         for (int i = 0; i < length; ++i)
         {
             var json = jsonArray[i];
 
-            Character character = EditorUtils.ParseEnum<Character>((string) json["Character"]);
+            string effectName = (string) json["EffectName"];
             string animationPath = (string) json["Animation"];
             
-            list.Add(new SpriteConfig()
+            list.Add(new EffectConfig()
             {
-                character = character,
+                effectName = effectName,
                 animationPath = animationPath,
             });
         }
 
-        var configData = ScriptableObject.CreateInstance<SpriteConfigData>();
+        var configData = ScriptableObject.CreateInstance<EffectConfigData>();
         configData.list = list;
 
         AssetDatabase.CreateAsset(configData, SAVE_PATH);

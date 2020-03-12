@@ -8,6 +8,7 @@ public class InitializeSystem : IInitializeSystem
 {
     private const string PATH_SPRITE_CONFIG = "Assets/Res/Config/SpriteConfig.asset";
     private const string PATH_ANIMATOR_RUN_CONFIG = "Assets/Res/Config/AnimatorRunConfig.asset";
+    private const string PATH_EFFECT_CONFIG = "Assets/Res/Config/EffectConfig.asset";
     
     private const string PATH_MAP_CONFIG = "Assets/Res/Config/MapConfig.asset";
     
@@ -15,6 +16,7 @@ public class InitializeSystem : IInitializeSystem
 
     private SpriteConfigData _spriteConfig;
     private AnimatorRunConfigData _animatorRunConfig;
+    private EffectConfigData _effectConfig;
     
     private MapConfigData _mapConfig;
     
@@ -59,6 +61,13 @@ public class InitializeSystem : IInitializeSystem
                 _animatorRunConfig = configData;
                 _animatorRunConfig.Initialize();
                 
+                return ResourceManager.Instance.GetAsset<EffectConfigData>(PATH_EFFECT_CONFIG, this);
+            })
+            .Then(configData =>
+            {
+                _effectConfig = configData;
+                _effectConfig.Initialize();
+                
                 return ResourceManager.Instance.GetAsset<MapConfigData>(PATH_MAP_CONFIG, this);
             })
             .Then(configData =>
@@ -66,7 +75,7 @@ public class InitializeSystem : IInitializeSystem
                 _mapConfig = configData;
                 _mapConfig.Initialize();
                 
-                _gameContext.SetConfig(_spriteConfig, _animatorRunConfig, _mapConfig);
+                _gameContext.SetConfig(_spriteConfig, _animatorRunConfig, _effectConfig, _mapConfig);
 
                 promise.Resolve();
             })

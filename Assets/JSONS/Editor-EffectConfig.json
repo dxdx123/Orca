@@ -1,0 +1,7 @@
+{
+  "1": {
+    "id": "1",
+    "EffectName": "hero_priest_shieldFx",
+    "Animation": "Assets/SpriteAnimation/heroes_priest_effect.prefab"
+  }
+}

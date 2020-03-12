@@ -23,6 +23,7 @@ public class AssetPoolManager
     private GameObject _characterAsset;
     private GameObject _puppyAsset;
     private GameObject _enemyAsset;
+    private GameObject _effectAsset;
     
     private GameObject _mapAsset;
     
@@ -30,13 +31,14 @@ public class AssetPoolManager
     {
     }
 
-    public IPromise Initialize(int characterSize, int puppySize, int enemySize, int mapSize)
+    public IPromise Initialize(int characterSize, int puppySize, int enemySize, int effectSize, int mapSize)
     {
         var promise = new Promise();
 
         InitializeCharacter(characterSize);
         InitializePuppy(puppySize);
         InitializeEnemy(enemySize);
+        InitializeEffect(effectSize);
         InitializeMap(mapSize);
         
         promise.Resolve();
@@ -53,23 +55,30 @@ public class AssetPoolManager
 
     private void InitializeCharacter(int characterSize)
     {
-         _characterAsset = Resources.Load<GameObject>("Character_Template");
+        _characterAsset = Resources.Load<GameObject>("Character_Template");
         
         PoolManager.Instance.WarmPool(_characterAsset, characterSize);
     }
     
     private void InitializePuppy(int puppySize)
     {
-         _puppyAsset = Resources.Load<GameObject>("Puppy_Template");
+        _puppyAsset = Resources.Load<GameObject>("Puppy_Template");
         
         PoolManager.Instance.WarmPool(_puppyAsset, puppySize);
     }
 
     private void InitializeEnemy(int enemySize)
     {
-         _enemyAsset = Resources.Load<GameObject>("Enemy_Template");
+        _enemyAsset = Resources.Load<GameObject>("Enemy_Template");
         
         PoolManager.Instance.WarmPool(_enemyAsset, enemySize);
+    }
+
+    private void InitializeEffect(int effectSize)
+    {
+        _effectAsset = Resources.Load<GameObject>("Effect_Template");
+        
+        PoolManager.Instance.WarmPool(_effectAsset, effectSize);
     }
 
     public GameObject SpawnCharacter()
@@ -87,13 +96,18 @@ public class AssetPoolManager
         return PoolManager.Instance.SpawnObject(_enemyAsset);
     }
 
+    public GameObject SpawnEffect()
+    {
+        return PoolManager.Instance.SpawnObject(_effectAsset);
+    }
+
     public GameObject SpawnMap(Vector3 position, Quaternion rotation)
     {
         return PoolManager.Instance.SpawnObject(_mapAsset, position, rotation);
     }
     
-    public void DestroyInstance(GameObject puppy)
+    public void DestroyInstance(GameObject instance)
     {
-        PoolManager.Instance.ReleaseObject(puppy);
+        PoolManager.Instance.ReleaseObject(instance);
     }
 }

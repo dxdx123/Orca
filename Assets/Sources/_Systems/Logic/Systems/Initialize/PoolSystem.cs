@@ -12,7 +12,7 @@ public class PoolSystem : IInitializeSystem
     
     public void Initialize()
     {
-        AssetPoolManager.Instance.Initialize(10, 10, 10, 100)
+        AssetPoolManager.Instance.Initialize(10, 10, 10, 64, 100)
             .Then(() =>
             {
                 Debug.Log("!!! initialize done");

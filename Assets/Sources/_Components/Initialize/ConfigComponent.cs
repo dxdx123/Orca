@@ -6,6 +6,7 @@ public class ConfigComponent : IComponent
 {
     public SpriteConfigData spriteConfig;
     public AnimatorRunConfigData animatorRunConfig;
+    public EffectConfigData effectConfig;
     
     public MapConfigData mapConfig;
 }

@@ -12,22 +12,22 @@ public partial class GameContext {
     public ConfigComponent config { get { return configEntity.config; } }
     public bool hasConfig { get { return configEntity != null; } }
 
-    public GameEntity SetConfig(SpriteConfigData newSpriteConfig, AnimatorRunConfigData newAnimatorRunConfig, MapConfigData newMapConfig) {
+    public GameEntity SetConfig(SpriteConfigData newSpriteConfig, AnimatorRunConfigData newAnimatorRunConfig, EffectConfigData newEffectConfig, MapConfigData newMapConfig) {
         if (hasConfig) {
             throw new Entitas.EntitasException("Could not set Config!\n" + this + " already has an entity with ConfigComponent!",
                 "You should check if the context already has a configEntity before setting it or use context.ReplaceConfig().");
         }
         var entity = CreateEntity();
-        entity.AddConfig(newSpriteConfig, newAnimatorRunConfig, newMapConfig);
+        entity.AddConfig(newSpriteConfig, newAnimatorRunConfig, newEffectConfig, newMapConfig);
         return entity;
     }
 
-    public void ReplaceConfig(SpriteConfigData newSpriteConfig, AnimatorRunConfigData newAnimatorRunConfig, MapConfigData newMapConfig) {
+    public void ReplaceConfig(SpriteConfigData newSpriteConfig, AnimatorRunConfigData newAnimatorRunConfig, EffectConfigData newEffectConfig, MapConfigData newMapConfig) {
         var entity = configEntity;
         if (entity == null) {
-            entity = SetConfig(newSpriteConfig, newAnimatorRunConfig, newMapConfig);
+            entity = SetConfig(newSpriteConfig, newAnimatorRunConfig, newEffectConfig, newMapConfig);
         } else {
-            entity.ReplaceConfig(newSpriteConfig, newAnimatorRunConfig, newMapConfig);
+            entity.ReplaceConfig(newSpriteConfig, newAnimatorRunConfig, newEffectConfig, newMapConfig);
         }
     }
 
@@ -49,20 +49,22 @@ public partial class GameEntity {
     public ConfigComponent config { get { return (ConfigComponent)GetComponent(GameComponentsLookup.Config); } }
     public bool hasConfig { get { return HasComponent(GameComponentsLookup.Config); } }
 
-    public void AddConfig(SpriteConfigData newSpriteConfig, AnimatorRunConfigData newAnimatorRunConfig, MapConfigData newMapConfig) {
+    public void AddConfig(SpriteConfigData newSpriteConfig, AnimatorRunConfigData newAnimatorRunConfig, EffectConfigData newEffectConfig, MapConfigData newMapConfig) {
         var index = GameComponentsLookup.Config;
         var component = (ConfigComponent)CreateComponent(index, typeof(ConfigComponent));
         component.spriteConfig = newSpriteConfig;
         component.animatorRunConfig = newAnimatorRunConfig;
+        component.effectConfig = newEffectConfig;
         component.mapConfig = newMapConfig;
         AddComponent(index, component);
     }
 
-    public void ReplaceConfig(SpriteConfigData newSpriteConfig, AnimatorRunConfigData newAnimatorRunConfig, MapConfigData newMapConfig) {
+    public void ReplaceConfig(SpriteConfigData newSpriteConfig, AnimatorRunConfigData newAnimatorRunConfig, EffectConfigData newEffectConfig, MapConfigData newMapConfig) {
         var index = GameComponentsLookup.Config;
         var component = (ConfigComponent)CreateComponent(index, typeof(ConfigComponent));
         component.spriteConfig = newSpriteConfig;
         component.animatorRunConfig = newAnimatorRunConfig;
+        component.effectConfig = newEffectConfig;
         component.mapConfig = newMapConfig;
         ReplaceComponent(index, component);
     }

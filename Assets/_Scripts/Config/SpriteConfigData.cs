@@ -7,31 +7,30 @@ public class SpriteConfigData : ScriptableObject
 {
    public List<SpriteConfig> list;
    
-   private Dictionary<Character, Tuple<string, string>> _dict;
+   private Dictionary<Character, string> _dict;
 
    public void Initialize()
    {
       int length = list.Count;
-      _dict = new Dictionary<Character, Tuple<string, string>>(length);
+      _dict = new Dictionary<Character, string>(length);
 
       for (int i = 0; i < length; ++i)
       {
          SpriteConfig config = list[i];
 
          var character = config.character;
-         var tuple = Tuple.Create(config.spritePath, config.animationPath);
          
-         _dict.Add(character, tuple);
+         _dict.Add(character, config.animationPath);
       }
    }
    
-   public Tuple<string, string> GetSpriteConfig(Character character)
+   public string GetSpriteConfig(Character character)
    {
-      Tuple<string, string> tuple;
+      string animationPath;
 
-      if (_dict.TryGetValue(character, out tuple))
+      if (_dict.TryGetValue(character, out animationPath))
       {
-         return tuple;
+         return animationPath;
       }
       else
       {
@@ -45,6 +44,5 @@ public class SpriteConfigData : ScriptableObject
 public class SpriteConfig
 {
    public Character character;
-   public string spritePath;
    public string animationPath;
 }

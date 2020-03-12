@@ -27,8 +27,8 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
     {
         var entity = CreatePlayer();
         
-        CreatePuppy(entity);
-        CreateEnemy(entity);
+        // CreatePuppy(entity);
+        // CreateEnemy(entity);
     }
 
     private GameEntity CreatePlayer()

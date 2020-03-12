@@ -42,22 +42,12 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
       GameObject gameObject = SpawnGameObject(e);
       gameObject.transform.position = new Vector3(x, y, 0);
       
-      tk2dSprite sprite = gameObject.GetComponent<tk2dSprite>();
-      tk2dSpriteAnimator tk2dAnimator = gameObject.GetComponent<tk2dSpriteAnimator>();
-      
-      var spriteTuple = _gameContext.config.spriteConfig.GetSpriteConfig(character);
-      string collectionDataPath = spriteTuple.Item1;
-      ResourceManager.Instance.GetAsset<GameObject>(collectionDataPath, this)
-         .Then(spriteCollectionGo =>
-         {
-            var collectionData = spriteCollectionGo.GetComponent<tk2dSpriteCollectionData>();
-            sprite.Collection = collectionData;
-
-            string animPath = spriteTuple.Item2;
-            return ResourceManager.Instance.GetAsset<GameObject>(animPath, this);
-         })
+      var animPath = _gameContext.config.spriteConfig.GetSpriteConfig(character);
+      ResourceManager.Instance.GetAsset<GameObject>(animPath, this)
          .Then(spriteAnimationGo =>
          {
+            tk2dSpriteAnimator tk2dAnimator = gameObject.GetComponent<tk2dSpriteAnimator>();
+      
             tk2dSpriteAnimation spriteAnimation = spriteAnimationGo.GetComponent<tk2dSpriteAnimation>();
             tk2dAnimator.Library = spriteAnimation;
 
@@ -80,9 +70,7 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
                // nothing
             }
          })
-         .Catch(ex => Debug.LogException(ex))
-         ;
-
+         .Catch(ex => Debug.LogException(ex));
    }
 
    private GameObject SpawnGameObject(GameEntity e)
