@@ -41,6 +41,7 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
    {
       GameObject gameObject = SpawnGameObject(e);
       gameObject.transform.position = new Vector3(x, y, 0);
+      e.isPoolAsset = true;
       
       var animPath = _gameContext.config.spriteConfig.GetSpriteConfig(character);
       ResourceManager.Instance.GetAsset<GameObject>(animPath, this)
@@ -56,8 +57,12 @@ public class CharacterViewSystem : ReactiveSystem<GameEntity>
 
             CharacterViewController characterViewController = gameObject.GetComponent<CharacterViewController>();
             characterViewController.Initialize(e);
-
+            
             e.AddView(characterViewController);
+
+            CleanAssetManager.Instance.RegisterCleanAssetActions(e,
+               () => { ResourceManager.Instance.DestroyAsset(animPath, this); });
+            
             e.AddFSM(characterViewController);
 
             if (e.hasAI)

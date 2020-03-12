@@ -35,5 +35,7 @@ public class LogicSystems : Feature
         Add(new PuppySystem(contexts));
 
         Add(new AttackSystem(contexts));
+
+        Add(new DestroySystem(contexts));
     }
 }

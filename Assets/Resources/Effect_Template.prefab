@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7923573135227729828}
   - component: {fileID: 1141183414319087175}
   - component: {fileID: 2499794384206817622}
+  - component: {fileID: 6508072409300156081}
   m_Layer: 0
   m_Name: Effect_Template
   m_TagString: Untagged
@@ -69,8 +70,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2146804461
-  m_SortingLayer: 1
+  m_SortingLayerID: -1411833765
+  m_SortingLayer: 2
   m_SortingOrder: 0
 --- !u!33 &7923573135227729828
 MeshFilter:
@@ -120,3 +121,15 @@ MonoBehaviour:
   library: {fileID: 7277105589986621151, guid: 3e6d8af97cc41419499ae30fe6c1542c, type: 3}
   defaultClipId: 0
   playAutomatically: 0
+--- !u!114 &6508072409300156081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8465990903326039109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff7e334655e1b456ea3bdfdbd0858545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

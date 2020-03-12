@@ -38,6 +38,7 @@ public class EffectViewSystem : ReactiveSystem<GameEntity>
     {
         GameObject gameObject = AssetPoolManager.Instance.SpawnEffect();
         gameObject.transform.position = new Vector3(x, y, 0);
+        e.isPoolAsset = true;
 
         var animPath = _gameContext.config.effectConfig.GetEffectConfig(effectName);
         ResourceManager.Instance.GetAsset<GameObject>(animPath, this)
@@ -47,11 +48,16 @@ public class EffectViewSystem : ReactiveSystem<GameEntity>
 
                 tk2dSpriteAnimation spriteAnimation = spriteAnimationGo.GetComponent<tk2dSpriteAnimation>();
                 tk2dAnimator.Library = spriteAnimation;
+                
+                // Add Components
+                var viewController = gameObject.GetComponent<ViewController>();
+                viewController.Initialize(e);
+                e.AddView(viewController);
 
-                tk2dAnimator.AnimationCompleted = (animator, clip) =>
-                {
-                    Debug.Log("!!! Destroy");
-                };
+                CleanAssetManager.Instance.RegisterCleanAssetActions(e,
+                    () => { ResourceManager.Instance.DestroyAsset(animPath, this); });
+
+                tk2dAnimator.AnimationCompleted = (animator, clip) => { e.isDestroy = true; };
                 
                 tk2dAnimator.Play(effectName);
             })

@@ -27,8 +27,6 @@ public class ViewController : MonoBehaviour, IViewController
     {
         EntityLink link = gameObject.GetEntityLink();
         link.Unlink();
-
-        PoolManager.Instance.ReleaseObject(gameObject);
     } 
 }
 
