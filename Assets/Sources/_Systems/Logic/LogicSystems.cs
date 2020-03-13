@@ -15,9 +15,11 @@ public class LogicSystems : Feature
         Add(new CreateMapSystem(contexts));
         Add(new CreateQuadTreeMapSystem(contexts));
 
-        Add(new EffectFollowSystem(contexts));
+        // Update
+        Add(new EffectVelocitySystem(contexts));
+        Add(new EffectDestroySystem(contexts));
 
-        Add(new VelocitySystem(contexts));
+        Add(new CharacterVelocitySystem(contexts));
         Add(new PositionSystem(contexts));
         Add(new PathfindingPositionSystem(contexts));
 

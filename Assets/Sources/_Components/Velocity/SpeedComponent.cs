@@ -4,10 +4,7 @@ using Entitas;
 using UnityEngine;
 
 [Game]
-public class VelocityComponent : IComponent
+public class SpeedComponent : IComponent
 {
-   public float x;
-   public float y;
-
-   public bool flying;
+    public float speed;
 }

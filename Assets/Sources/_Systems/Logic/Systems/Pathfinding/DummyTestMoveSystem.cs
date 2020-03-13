@@ -37,9 +37,10 @@ public class DummyTestMoveSystem : IExecuteSystem
         var e = _gameContext.CreateEntity();
         
         e.AddPosition(x, y);
-        e.AddEffect("hero_priest_swordsFx");
-        e.AddTarget(underControlEntity);
-        
+        e.AddSpeed(5.0f);
+        e.AddEffect("hero_priest_bolt_fly");
+        e.AddAfterEffect("hero_priest_bolt_destroy");
+        e.AddTarget(underControlEntity.target.target);
     }
 
     private void TestMoveCharacter()

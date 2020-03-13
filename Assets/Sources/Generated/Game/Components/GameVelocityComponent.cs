@@ -11,19 +11,21 @@ public partial class GameEntity {
     public VelocityComponent velocity { get { return (VelocityComponent)GetComponent(GameComponentsLookup.Velocity); } }
     public bool hasVelocity { get { return HasComponent(GameComponentsLookup.Velocity); } }
 
-    public void AddVelocity(float newX, float newY) {
+    public void AddVelocity(float newX, float newY, bool newFlying) {
         var index = GameComponentsLookup.Velocity;
         var component = (VelocityComponent)CreateComponent(index, typeof(VelocityComponent));
         component.x = newX;
         component.y = newY;
+        component.flying = newFlying;
         AddComponent(index, component);
     }
 
-    public void ReplaceVelocity(float newX, float newY) {
+    public void ReplaceVelocity(float newX, float newY, bool newFlying) {
         var index = GameComponentsLookup.Velocity;
         var component = (VelocityComponent)CreateComponent(index, typeof(VelocityComponent));
         component.x = newX;
         component.y = newY;
+        component.flying = newFlying;
         ReplaceComponent(index, component);
     }
 

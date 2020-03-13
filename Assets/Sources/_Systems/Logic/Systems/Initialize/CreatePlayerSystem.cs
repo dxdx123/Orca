@@ -25,10 +25,12 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
 
     protected override void Execute(List<GameEntity> entities)
     {
-        var entity = CreatePlayer();
+        var playerEntity = CreatePlayer();
         
-        // CreatePuppy(entity);
-        // CreateEnemy(entity);
+        var puppyEntity = CreatePuppy(playerEntity);
+        var enemyEntity = CreateEnemy(playerEntity);
+        
+        playerEntity.AddTarget(enemyEntity);
     }
 
     private GameEntity CreatePlayer()
@@ -45,7 +47,7 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         return e;
     }
     
-    private void CreatePuppy(GameEntity entity)
+    private GameEntity CreatePuppy(GameEntity entity)
     {
         GameEntity e = _gameContext.CreateEntity();
 
@@ -55,9 +57,11 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         e.AddPosition(12.0f, 21.5f);
         e.AddState(CharacterState.Idle);
         e.AddDirection(CharacterDirection.Right);
+
+        return e;
     }
 
-    private void CreateEnemy(GameEntity entity)
+    private GameEntity CreateEnemy(GameEntity entity)
     {
         GameEntity e = _gameContext.CreateEntity();
 
@@ -67,5 +71,7 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         e.AddPosition(14.0f, 21.5f);
         e.AddState(CharacterState.Idle);
         e.AddDirection(CharacterDirection.Right);
+
+        return e;
     }
 }
