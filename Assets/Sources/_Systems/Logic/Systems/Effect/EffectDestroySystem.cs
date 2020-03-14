@@ -37,7 +37,7 @@ public class EffectDestroySystem : IExecuteSystem
 
                 if (entity.hasAfterEffect)
                 {
-                    SpawnAfterEffect(entity.afterEffect.effect, destPos);
+                    SpawnAfterEffect(entity.afterEffect.effect, destPos, entity.hasDirection ? entity.direction.direction : CharacterDirection.Left);
                 }
                 else
                 {
@@ -51,11 +51,12 @@ public class EffectDestroySystem : IExecuteSystem
         }
     }
 
-    private void SpawnAfterEffect(string effectName, Vector2 destPos)
+    private void SpawnAfterEffect(string effectName, Vector2 destPos, CharacterDirection direction)
     {
         var e = _gameContext.CreateEntity();
         
         e.AddPosition(destPos.x, destPos.y);
         e.AddEffect(effectName);
+        e.AddDirection(direction);
     }
 }

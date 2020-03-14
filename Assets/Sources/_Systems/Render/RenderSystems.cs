@@ -8,10 +8,13 @@ public class RenderSystems : Feature
         : base("Render Systems")
     {
         Add(new AnimateViewSystem(contexts));
+        
+        Add(new EffectViewSystem(contexts));
         Add(new CharacterViewSystem(contexts));
-        Add(new DirectionViewSystem(contexts));
+        
         Add(new SortViewSystem(contexts));
 
-        Add(new EffectViewSystem(contexts));
+        Add(new CharacterDirectionViewSystem(contexts));
+        Add(new EffectDirectionViewSystem(contexts));
     }
 }

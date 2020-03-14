@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public class DirectionViewSystem : ReactiveSystem<GameEntity>
+public class CharacterDirectionViewSystem : ReactiveSystem<GameEntity>
 {
     private GameContext _gameContext;
     
     private IGroup<GameEntity> _underControlGroup;
     private readonly List<GameEntity> _cleanBuffer = new List<GameEntity>();
     
-    public DirectionViewSystem(Contexts contexts)
+    public CharacterDirectionViewSystem(Contexts contexts)
         : base(contexts.game)
     {
         _gameContext = contexts.game;
