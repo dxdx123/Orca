@@ -77,6 +77,8 @@ public class InitializeSystem : IInitializeSystem
                 
                 _gameContext.SetConfig(_spriteConfig, _animatorRunConfig, _effectConfig, _mapConfig);
 
+                _gameContext.SetScene("DefaultScene");
+
                 promise.Resolve();
             })
             .Catch(ex =>

@@ -15,7 +15,7 @@ public class CreateMapSystem : ReactiveSystem<GameEntity>
     
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
     {
-        return context.CreateCollector(GameMatcher.Config.Added());
+        return context.CreateCollector(GameMatcher.CreateMap.Added());
     }
 
     protected override bool Filter(GameEntity entity)
@@ -38,7 +38,6 @@ public class CreateMapSystem : ReactiveSystem<GameEntity>
         float width = mapConfig.width;
         float height = mapConfig.height;
 
-        var mapEntity = _gameContext.CreateEntity();
-        mapEntity.AddMap(mapName, width, height);
+        _gameContext.SetMap(mapName, width, height);
     }
 }

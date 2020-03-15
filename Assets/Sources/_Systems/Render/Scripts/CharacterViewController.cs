@@ -30,6 +30,7 @@ public class CharacterViewController : ViewController, IFSM
 
     public override void Destroy()
     {
+        _fsm.Reset();
         _fsm.enabled = false;
 
         base.Destroy();

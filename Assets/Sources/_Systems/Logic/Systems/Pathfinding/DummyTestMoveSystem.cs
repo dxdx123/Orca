@@ -21,9 +21,28 @@ public class DummyTestMoveSystem : IExecuteSystem
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // TestMoveCharacter();
             TestCreateEffect();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            DestroyScene();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadScene();
+        }
+    }
+
+    private void LoadScene()
+    {
+        _gameContext.SetScene("DefaultScene");
+    }
+
+    private void DestroyScene()
+    {
+        _gameContext.RemoveScene();
     }
 
     private void TestCreateEffect()

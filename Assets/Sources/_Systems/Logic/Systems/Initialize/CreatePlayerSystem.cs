@@ -15,7 +15,7 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
     
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
     {
-        return context.CreateCollector(GameMatcher.Config.Added());
+        return context.CreateCollector(GameMatcher.CreatePlayer.Added());
     }
 
     protected override bool Filter(GameEntity entity)

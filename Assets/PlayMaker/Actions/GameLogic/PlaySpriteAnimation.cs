@@ -42,7 +42,14 @@ namespace HutongGames.PlayMaker.Actions
 					{
 						Finish();
 
-						entity.ReplaceState(CharacterState.Idle);
+						if (entity.isEnabled)
+						{
+							entity.ReplaceState(CharacterState.Idle);
+						}
+						else
+						{
+							// nothing
+						}
 					})
 					.Catch(ex => Debug.LogException(ex));
 			}

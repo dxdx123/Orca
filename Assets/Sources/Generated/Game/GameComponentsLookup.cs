@@ -18,27 +18,30 @@ public static class GameComponentsLookup {
     public const int CameraTarget = 7;
     public const int Character = 8;
     public const int Config = 9;
-    public const int Destroy = 10;
-    public const int Direction = 11;
-    public const int Effect = 12;
-    public const int FindPath = 13;
-    public const int FSM = 14;
-    public const int Map = 15;
-    public const int Moving = 16;
-    public const int Pathfinding = 17;
-    public const int PathfindingMove = 18;
-    public const int PoolAsset = 19;
-    public const int Position = 20;
-    public const int Speed = 21;
-    public const int State = 22;
-    public const int Target = 23;
-    public const int Transform = 24;
-    public const int UnderControl = 25;
-    public const int UpdateQuadTree = 26;
-    public const int Velocity = 27;
-    public const int View = 28;
+    public const int CreateMap = 10;
+    public const int CreatePlayer = 11;
+    public const int Destroy = 12;
+    public const int Direction = 13;
+    public const int Effect = 14;
+    public const int FindPath = 15;
+    public const int FSM = 16;
+    public const int Map = 17;
+    public const int Moving = 18;
+    public const int Pathfinding = 19;
+    public const int PathfindingMove = 20;
+    public const int PoolAsset = 21;
+    public const int Position = 22;
+    public const int Scene = 23;
+    public const int Speed = 24;
+    public const int State = 25;
+    public const int Target = 26;
+    public const int Transform = 27;
+    public const int UnderControl = 28;
+    public const int UpdateQuadTree = 29;
+    public const int Velocity = 30;
+    public const int View = 31;
 
-    public const int TotalComponents = 29;
+    public const int TotalComponents = 32;
 
     public static readonly string[] componentNames = {
         "AfterEffect",
@@ -51,6 +54,8 @@ public static class GameComponentsLookup {
         "CameraTarget",
         "Character",
         "Config",
+        "CreateMap",
+        "CreatePlayer",
         "Destroy",
         "Direction",
         "Effect",
@@ -62,6 +67,7 @@ public static class GameComponentsLookup {
         "PathfindingMove",
         "PoolAsset",
         "Position",
+        "Scene",
         "Speed",
         "State",
         "Target",
@@ -83,6 +89,8 @@ public static class GameComponentsLookup {
         typeof(CameraTargetComponent),
         typeof(CharacterComponent),
         typeof(ConfigComponent),
+        typeof(CreateMapComponent),
+        typeof(CreatePlayerComponent),
         typeof(DestroyComponent),
         typeof(DirectionComponent),
         typeof(EffectComponent),
@@ -94,6 +102,7 @@ public static class GameComponentsLookup {
         typeof(PathfindingMoveComponent),
         typeof(PoolAssetComponent),
         typeof(PositionComponent),
+        typeof(SceneComponent),
         typeof(SpeedComponent),
         typeof(StateComponent),
         typeof(TargetComponent),

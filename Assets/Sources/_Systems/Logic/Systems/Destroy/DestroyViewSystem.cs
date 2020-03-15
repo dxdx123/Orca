@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public class DestroySystem : ReactiveSystem<GameEntity>
+public class DestroyViewSystem : ReactiveSystem<GameEntity>
 {
-    public DestroySystem(Contexts contexts)
+    public DestroyViewSystem(Contexts contexts)
         : base(contexts.game)
     {
         

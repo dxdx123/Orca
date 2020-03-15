@@ -9,9 +9,13 @@ public class LogicSystems : Feature
     {
         Add(new InitializeSystem(contexts));
         Add(new PoolSystem(contexts));
+
+        Add(new LoadSceneSystem(contexts));
+        Add(new DestroySceneSystem(contexts));
         
         Add(new CreatePlayerSystem(contexts));
         
+        Add(new DestroyMapSystem(contexts));
         Add(new CreateMapSystem(contexts));
         Add(new CreateQuadTreeMapSystem(contexts));
 
@@ -40,6 +44,7 @@ public class LogicSystems : Feature
 
         Add(new AttackSystem(contexts));
 
-        Add(new DestroySystem(contexts));
+        Add(new DestroyPathfindingSystem(contexts));
+        Add(new DestroyViewSystem(contexts));
     }
 }

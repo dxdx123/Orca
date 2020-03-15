@@ -5,9 +5,7 @@ using Entitas.CodeGeneration.Attributes;
 using UnityEngine;
 
 [Game, Unique]
-public class MapComponent : IComponent
+public class SceneComponent : IComponent
 {
-    public string mapName;
-    public float width;
-    public float height;
+    public string sceneName;
 }

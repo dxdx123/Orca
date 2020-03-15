@@ -28,7 +28,6 @@ public class EntityPathfinding : AIPath
         
         // cleanup & return to pool
         Cleanup();
-        ReturnToPool();
     }
 
     public void GotoDestination(GameEntity entity, Vector3 oldPosition, Vector3 newPosition, bool exactDest)
@@ -86,11 +85,7 @@ public class EntityPathfinding : AIPath
         
         this.destination = Vector3.zero;
         transform.position = Vector3.zero;
-        DisablePathfinding();
-    }
-
-    private void ReturnToPool()
-    {
+        
         PoolCacheManager.Instance.ReturnEntityPathfinding(this);
     }
 }
