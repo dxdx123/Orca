@@ -269,16 +269,20 @@ public class AssetBundleBuildTools
 
         private string GetStrategyIdentifier(AssetBundleFile abFile)
         {
-            string destPath = abFile.destination.ToLower();
-            string variantName = abFile.variantName.ToLower();
-            string strategyName = abFile.variantStrategy.ToString().ToLower();
+            // TIPS:: Must be same Directory
+            // string destPath = abFile.destination.ToLower();
+            // string variantName = abFile.variantName.ToLower();
+            // string strategyName = abFile.variantStrategy.ToString().ToLower();
+            //
+            // string srcPatten = @"(.+)/" + variantName +"/(.+)";
+            // string destPatten = @"$1/" + strategyName + "/$2";
+            //
+            // string id = Regex.Replace(destPath, srcPatten, destPatten);
+            //
+            // return id;
             
-            string srcPatten = @"(.+)/" + variantName +"/(.+)";
-            string destPatten = @"$1/" + strategyName + "/$2";
-
-            string id = Regex.Replace(destPath, srcPatten, destPatten);
-
-            return id;
+            string destPath = abFile.destination.ToLower();
+            return destPath;
         }
 
         public List<Tuple<string, List <string>>> GetVariantList()
