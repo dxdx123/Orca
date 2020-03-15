@@ -24,7 +24,7 @@ public class AssetBundleBuildTools
         // 生成route、Variant信息
         GenerateRouteConfig();
         GenerateVariantConfig();
-        
+
         var buildOptions = BuildAssetBundleOptions.ChunkBasedCompression
                            | BuildAssetBundleOptions.DisableWriteTypeTree
                            | BuildAssetBundleOptions.StrictMode
@@ -39,33 +39,41 @@ public class AssetBundleBuildTools
 
     private static void GenerateVariantConfig()
     {
-        var list = GetVariantList();
-
-        var variantRefList = new List<AssetBundleVariantRef>();
+        Dictionary<string, AsestBundleVariantStategy> abPath2StrategyDict;
+        Dictionary<string, string> abPath2IdDict;
+        Dictionary<Tuple<string, string>, string> id2AbPathDict;
         
-        foreach (var tuple in list)
+        GetVariantList(out abPath2StrategyDict, out abPath2IdDict, out id2AbPathDict);
+        
+        var abPath2IdList = new List<AbPath2IdWrapper>();
+        foreach (var item in abPath2IdDict)
         {
-            string abPath = tuple.Item1.ToLower();
-            
-            int length = tuple.Item2.Count;
-            List<string> variantList = new List<string>(length);
-            
-            for(int i=0; i<length; ++i)
+            abPath2IdList.Add(new AbPath2IdWrapper()
             {
-                variantList.Add(tuple.Item2[i].ToLower());
-            }
+                abPath = item.Key,
+                id = item.Value,
+            });
+        }
+
+        var id2AbPathList = new List<Id2AbPathWrapper>();
+        foreach (var item in id2AbPathDict)
+        {
+            string abPath = item.Value;
             
-            AssetBundleVariantRef variantRef = new AssetBundleVariantRef()
+            id2AbPathList.Add(new Id2AbPathWrapper()
             {
-                abPath = abPath,
-                variants = variantList,
-            };
-            
-            variantRefList.Add(variantRef);
+                id = item.Key.Item1,
+                variantName = item.Key.Item2,
+                strategy = abPath2StrategyDict[abPath],
+                
+                abPath =  abPath,
+            });
         }
         
         var asset = ScriptableObject.CreateInstance<AssetBundleVariantData>();
-        asset.list = variantRefList;
+        asset.abPathIdList = abPath2IdList;
+        asset.idAbPathList = id2AbPathList;
+        
         AssetDatabase.CreateAsset(asset, VARIANT_DATA_PATH);
         
         AssetDatabase.Refresh(); 
@@ -113,9 +121,11 @@ public class AssetBundleBuildTools
         return new AssetBundleNormalBuild().GetAssetBundleDict();
     }
 
-    public static List<Tuple<string, List <string>>> GetVariantList()
+    public static void GetVariantList(out Dictionary<string, AsestBundleVariantStategy> abPath2StrategyDict, 
+        out Dictionary<string, string> abPath2IdDict, 
+        out Dictionary<Tuple<string, string>, string> id2ABPath)
     {
-        return new AssetBundleNormalBuild().GetVariantList();
+        new AssetBundleNormalBuild().GetVariantList(out abPath2StrategyDict, out abPath2IdDict, out id2ABPath);
     }
 
     enum FileBuildType
@@ -160,6 +170,8 @@ public class AssetBundleBuildTools
         // 用于确定Variant
         public string variantSourcePattern;
         public string variantDestPattern;
+
+        public AsestBundleVariantStategy variantStrategy;
     }
 
     // 文件去哪里
@@ -172,6 +184,8 @@ public class AssetBundleBuildTools
         public string destination;
 
         public string variantName;
+
+        public AsestBundleVariantStategy variantStrategy;
 
         public override string ToString()
         {
@@ -204,6 +218,67 @@ public class AssetBundleBuildTools
             BuildAssetBundles(newMergedDict, buildOptions, buildTarget);
 
             Debug.Log("<color=green>Build AssetBundle Finished</color>");
+        }
+
+        public void GetVariantList(out Dictionary<string, AsestBundleVariantStategy> abPath2StrategyDict, 
+            out Dictionary<string, string> abPath2IdDict,
+            out Dictionary<Tuple<string, string>, string> id2ABPath)
+        {
+            var allDict = GetAssetBundlePackageDict();
+            var variantDict = GetVariantDict(allDict);
+            
+            abPath2StrategyDict = new Dictionary<string, AsestBundleVariantStategy>();
+            abPath2IdDict = new Dictionary<string, string>();
+            id2ABPath = new Dictionary<Tuple<string, string>, string>();
+
+            foreach (var item in variantDict)
+            {
+                // string assetPath = item.Key;
+                AssetBundleFile abFile = item.Value;
+
+                string identifier = GetStrategyIdentifier(abFile);
+                
+                string variantKey = (abFile.destination + "." + abFile.variantName).ToLower();
+                abPath2IdDict.Add(variantKey, identifier);
+                
+                abPath2StrategyDict.Add(variantKey, abFile.variantStrategy);
+
+                var tuple = Tuple.Create(identifier, abFile.variantName);
+                id2ABPath.Add(tuple, variantKey);
+            }
+        }
+
+        private Dictionary<string, AssetBundleFile> GetVariantDict(Dictionary<string, AssetBundleFile> allDict)
+        {
+            var dict = new Dictionary<string, AssetBundleFile>();
+
+            foreach (var item in allDict)
+            {
+                if (item.Value.variantStrategy != AsestBundleVariantStategy.None)
+                {
+                    dict.Add(item.Key, item.Value);
+                }
+                else
+                {
+                    // nothing
+                }
+            }
+
+            return dict;
+        }
+
+        private string GetStrategyIdentifier(AssetBundleFile abFile)
+        {
+            string destPath = abFile.destination.ToLower();
+            string variantName = abFile.variantName.ToLower();
+            string strategyName = abFile.variantStrategy.ToString().ToLower();
+            
+            string srcPatten = @"(.+)/" + variantName +"/(.+)";
+            string destPatten = @"$1/" + strategyName + "/$2";
+
+            string id = Regex.Replace(destPath, srcPatten, destPatten);
+
+            return id;
         }
 
         public List<Tuple<string, List <string>>> GetVariantList()
@@ -351,54 +426,6 @@ public class AssetBundleBuildTools
             AssetDatabase.Refresh();
         }
 
-        private Dictionary<string, AssetBundleFile> MergeBuildAssetBundlesDict(Dictionary<string, AssetBundleFile> mergedDict, List<AssetBundleFile> sceneDepList)
-        {
-            var result = new Dictionary<string, AssetBundleFile>(mergedDict);
-
-            for (int i = 0, length = sceneDepList.Count; i < length; ++i)
-            {
-                var bundleFile = sceneDepList[i];
-                string path = bundleFile.source;
-                if (!result.ContainsKey(path))
-                {
-                    result.Add(path, bundleFile);
-                }
-            }
-            
-            return result;
-        }
-
-        private List<AssetBundleFile> GetAssetBundleFileScenePrefab(string path, HashSet<string> packSet)
-        {
-            var list = new List<AssetBundleFile>();
-
-            string prefix = Path.GetDirectoryName(path);
-            string fileName = Path.GetFileName(path);
-
-            string newDest = Path.Combine(prefix, $"scene_dep_{fileName}");
-            
-            string[] deps = GetBuildDependencies(path);
-
-            foreach (var dep in deps)
-            {
-                if (!packSet.Contains(dep) && dep.StartsWith("Assets/") && IsSupportSerializableType(dep))
-                {
-                    var bundleFile = new AssetBundleFile()
-                    {
-                        buildType = FileBuildType.Internal,
-                        source = dep,
-                        destination = newDest,
-                        
-                        variantName = null,
-                    };
-                    
-                    list.Add(bundleFile);
-                }
-            }
-
-            return list;
-        }
-
         private Dictionary<string, AssetBundleFile> MergeBuildAssetBundles(List<AssetBundleFile> abList, List<AssetBundleFile> internalList)
         {
             var dict = new Dictionary<string, AssetBundleFile>();
@@ -499,6 +526,9 @@ public class AssetBundleBuildTools
                         source = path,
                         buildType = FileBuildType.Internal,
                         destination = path + ".assetbundle",
+                        
+                        variantName = null,
+                        variantStrategy = AsestBundleVariantStategy.None,
                     };
 
                     result.Add(build);
@@ -663,7 +693,8 @@ public class AssetBundleBuildTools
 
                 string variantSourcePattern = json["variantSourcePattern"] != null ? (string)json["variantSourcePattern"] : "";
                 string variantDestPattern = json["variantDestPattern"] != null ? (string)json["variantDestPattern"] : "";
-
+                string variantStrategy = json["variantStrategy"] != null ? (string) json["variantStrategy"] : "None";
+                
                 var config = new AssetBundleDirectory()
                 {
                     directory = directory,
@@ -678,6 +709,7 @@ public class AssetBundleBuildTools
                     
                     variantSourcePattern = variantSourcePattern,
                     variantDestPattern = variantDestPattern,
+                    variantStrategy = EditorUtils.ParseEnum<AsestBundleVariantStategy>(variantStrategy),
                 };
 
                 List<AssetBundleFile> subList = TryCollectDirectoryFile(config);
@@ -722,6 +754,7 @@ public class AssetBundleBuildTools
                         destination = destPath,
                         
                         variantName = variantName,
+                        variantStrategy = config.variantStrategy,
                     };
 
                     list.Add(file);

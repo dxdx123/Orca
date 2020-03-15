@@ -3,108 +3,93 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class AssetBundleVariantRef
+public enum AsestBundleVariantStategy
 {
-    public string abPath;
-    public List<string> variants;
+    None,
+    
+    SimpleVariant,
 }
 
 public class AssetBundleVariantData : ScriptableObject
 {
-    public List<AssetBundleVariantRef> list;
+    public List<AbPath2IdWrapper> abPathIdList;
+    public List<Id2AbPathWrapper> idAbPathList;
 
-    private bool _initialize;
-    private Dictionary<string, Dictionary<string, string>> _dict;
-
-    public Dictionary<string, Dictionary<string, string>> GetDictionary()
+    private Dictionary<string, AsestBundleVariantStategy> _abPath2StrategyDict = null;
+    private Dictionary<string, string> _abPath2IdDict = null;
+    private Dictionary<Tuple<string, string>, string> _id2AbPathDict = null;
+    
+    public void Initialize()
     {
-        if (!_initialize)
+        _abPath2IdDict = new Dictionary<string, string>(abPathIdList.Count);
+        for (int i = 0, length = abPathIdList.Count; i < length; ++i)
         {
-            Initialize();
-            _initialize = true;
+            var wrapper = abPathIdList[i];
+            
+            _abPath2IdDict.Add(wrapper.abPath, wrapper.id);
         }
-
-        return _dict;
-    }
-
-    private void Initialize()
-    {
-        int length = list.Count;
         
-        Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>(length);
-
-        for (int i = 0; i < length; ++i)
+        _id2AbPathDict = new Dictionary<Tuple<string, string>, string>(idAbPathList.Count);
+        _abPath2StrategyDict = new Dictionary<string, AsestBundleVariantStategy>(idAbPathList.Count);
+        for (int i = 0, length = idAbPathList.Count; i < length; ++i)
         {
-            string abPath = list[i].abPath;
-            List<string> varList = list[i].variants;
-            
-            dict.Add(abPath, varList);
-        }
+            var wrapper = idAbPathList[i];
 
-        _dict = GenerateInternal(dict);
+            string abPath = wrapper.abPath;
+            
+            var tuple = Tuple.Create(wrapper.id, wrapper.variantName);
+            _id2AbPathDict.Add(tuple, abPath);
+            
+            _abPath2StrategyDict.Add(abPath, wrapper.strategy);
+        }
     }
-    
-    
-    private Dictionary<string, Dictionary<string, string>> GenerateInternal(Dictionary<string, List<string>> dict)
+
+    public string GetAssetBundleVariantPath(string assetName)
     {
-        Dictionary<string, Dictionary<string, string>> abPath2FullDict = new Dictionary<string, Dictionary<string, string>>();
-            
-        foreach (var item in dict)
+        string id;
+
+        if (_abPath2IdDict.TryGetValue(assetName, out id))
         {
-            string abPath = item.Key;
-            List<string> varList = item.Value;
-                
-            Dictionary<string, string> variantToFullPathDict = GenerateVariantToFullPathDict(abPath, varList);
+            string variantName = GetVariantName();
 
-            abPath2FullDict[abPath] = variantToFullPathDict;
-        }
-            
-        Dictionary<string, Dictionary<string, string>> result = new Dictionary<string, Dictionary<string, string>>();
+            var tuple = Tuple.Create(id, variantName);
 
-        foreach (var item in abPath2FullDict)
-        {
-            string abPath = item.Key;
-            var innerDict = item.Value;
-
-            Dictionary<string, Dictionary<string, string>> expandDict = ExpandVariantDict(abPath, innerDict);
-
-            foreach (var innerItem in expandDict)
+            string newAssetName;
+            if (_id2AbPathDict.TryGetValue(tuple, out newAssetName))
             {
-                result[innerItem.Key] = innerItem.Value;
+                return newAssetName;
+            }
+            else
+            {
+                throw new Exception($"!!! Not found {tuple}");
             }
         }
-
-        return result;
-    }
-
-    private Dictionary<string, Dictionary<string, string>> ExpandVariantDict(string abPath, Dictionary<string, string> innerDict)
-    {
-        Dictionary<string, Dictionary<string, string>> dict = new Dictionary<string, Dictionary<string, string>>();
-
-        foreach (var item in innerDict)
+        else
         {
-            string variantName = item.Key;
-
-            string key = abPath + "." + variantName;
-
-            dict[key] = innerDict;
+            return null;
         }
-            
-        return dict;
     }
-    
-    private Dictionary<string, string> GenerateVariantToFullPathDict(string abPath, List<string> varList)
+
+    private string GetVariantName()
     {
-        Dictionary<string, string> dict = new Dictionary<string, string>();
-            
-        foreach (var variantName in varList)
-        {
-            string fullPath = abPath + "." + variantName;
-            dict[variantName] = fullPath;
-        }
-
-        return dict;
+        // TODO:: implement all the variant logic
+        return "B";
     }
+}
 
+[System.Serializable]
+public class AbPath2IdWrapper
+{
+    public string abPath;
+    public string id;
+}
+
+[System.Serializable]
+public class Id2AbPathWrapper
+{
+    public string id;
+    public string variantName;
+    public AsestBundleVariantStategy strategy;
+
+    public string abPath;
 }

@@ -16,21 +16,14 @@ public class AssetBundleRoute : IAssetBundleRoute
     private readonly Dictionary<string, string> _pathDict = new Dictionary<string, string>(128);
     private readonly Dictionary<string, string> _assetBundleNameDict = new Dictionary<string, string>(128);
 
-    private readonly string _variantName;
-    private Dictionary<string, Dictionary<string, string>> _variantDict;
-    
-    public AssetBundleRoute(AssetBundleRouteData assetBundleRouteData, AssetBundleVariantData assetBundleVariantData, string variantName)
+    private AssetBundleVariantData _assetBundleVariantData;
+    public AssetBundleRoute(AssetBundleRouteData assetBundleRouteData, AssetBundleVariantData assetBundleVariantData)
     {
         InitializePath2AssetBundle(assetBundleRouteData.list);
-        InitializeVariants(assetBundleVariantData);
-        _variantName = variantName;
-    }
 
-    private void InitializeVariants(AssetBundleVariantData assetBundleVariantData)
-    {
-        _variantDict = assetBundleVariantData.GetDictionary();
+        _assetBundleVariantData = assetBundleVariantData;
+        assetBundleVariantData.Initialize();
     }
-
 
     private void InitializePath2AssetBundle(List<AssetBundleRef> list)
     {
@@ -64,20 +57,19 @@ public class AssetBundleRoute : IAssetBundleRoute
     {
         Assert.IsNotNull(assetBundleName);
 
-        Dictionary<string, string> dict;
-        if (_variantDict.TryGetValue(assetBundleName, out dict))
+        var variantAssetName = _assetBundleVariantData.GetAssetBundleVariantPath(assetBundleName);
+        
+        if (!string.IsNullOrEmpty(variantAssetName))
         {
-            string routeVariant = dict[_variantName];
-
-            return GetAssetBundleNormal(routeVariant);
+            return GetAssetBundlePath(variantAssetName);
         }
         else
         {
-            return GetAssetBundleNormal(assetBundleName);
+            return GetAssetBundlePath(assetBundleName);
         }
     }
 
-    private string GetAssetBundleNormal(string assetBundleName)
+    private string GetAssetBundlePath(string assetBundleName)
     {
         string fullPath;
         if (_pathDict.TryGetValue(assetBundleName, out fullPath))
