@@ -56,13 +56,13 @@ public class EffectViewSystem : ReactiveSystem<GameEntity>
                 viewController.Initialize(e);
                 e.AddView(viewController);
 
-                CleanAssetManager.Instance.RegisterCleanAssetActions(e,
-                    () => { ResourceManager.Instance.DestroyAsset(animPath, this); });
-
                 tk2dAnimator.AnimationCompleted = (animator, clip) => { e.isDestroy = true; };
                 
                 tk2dAnimator.Play(effectName);
             })
             .Catch(ex => Debug.LogException(ex));
+
+        CleanAssetManager.Instance.RegisterCleanAssetActions(e,
+            () => { ResourceManager.Instance.DestroyAsset(animPath, this); });
     }
 }

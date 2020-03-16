@@ -177,6 +177,9 @@ public class QuadTreeMapManager
                     sprite.SetSprite(collectionData, itemName);
                 })
                 .Catch(ex => { Debug.LogException(ex); });
+                    
+            CleanAssetManager.Instance.RegisterCleanAssetActions(_mapEntity, 
+                () => { ResourceManager.Instance.DestroyAsset(dataPath, this); });
         }
 
         public void SwapOut()
