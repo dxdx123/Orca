@@ -203,6 +203,7 @@ public class QuadTreeMapManager
             Assert.IsNotNull(viewController);
             
             viewController.Destroy();
+            AssetPoolManager.Instance.DestroyInstance(viewController.gameObject);
 
             // destroy asset
             string itemName = $"{_x.ToString()}_{_y.ToString()}";
