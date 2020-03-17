@@ -44,12 +44,17 @@ public class ResourceManagerAssetBundle
         public AssetBundle assetBundle;
 
         public Promise<AssetBundle> promise;
-        public bool loadingAsset;
+        public HashSet<string> loadingAssetSet;
 
         private List<RefData> _referenceList = new List<RefData>(DefaultListSize);
         
         public Dictionary<string, WeakReference<Object>> assetDict = new Dictionary<string, WeakReference<Object>>();
 
+        public bool IsLoadingAsset()
+        {
+            return loadingAssetSet.Count == 0;
+        }
+        
         public void AddReference(object owner, int id)
         {
             RefData refData = FindRefData(owner);
@@ -216,7 +221,7 @@ public class ResourceManagerAssetBundle
             wrapper = new AssetBundleWrapper()
             {
                 assetBundle = assetBundle,
-                loadingAsset = false,
+                loadingAssetSet = new HashSet<string>(),
                 path = assetBundleName,
                 promise = promise,
             };
@@ -347,7 +352,7 @@ public class ResourceManagerAssetBundle
             }
         }
         
-        wrapper.loadingAsset = true;
+        wrapper.loadingAssetSet.Add(assetName);
 
         Promise<T> loadPromise = new Promise<T>();
         MainThreadDispatcher.StartUpdateMicroCoroutine(LoadAssetBundleAsset(wrapper, loadPromise, assetBundle, assetName));
@@ -361,7 +366,7 @@ public class ResourceManagerAssetBundle
         while (!assetReq.isDone)
             yield return null;
 
-        wrapper.loadingAsset = false;
+        wrapper.loadingAssetSet.Remove(assetName);
 
         // maybe destroyed
         T asset = assetReq.asset as T;
@@ -574,7 +579,7 @@ public class ResourceManagerAssetBundle
             path = assetBundleName,
             assetBundle = null,
             promise = promise,
-            loadingAsset = false,
+            loadingAssetSet = new HashSet<string>(),
         };
         assetBundleWrapper.AddReference(owner, id);
         _assetBundleWrappers.Add(assetBundleName, assetBundleWrapper);
@@ -630,7 +635,7 @@ public class ResourceManagerAssetBundle
         {
             bool finish = (wrapper.promise.CurState == PromiseState.Rejected || wrapper.promise.CurState == PromiseState.Resolved);
 
-            if (finish && !wrapper.loadingAsset)
+            if (finish && !wrapper.IsLoadingAsset())
             {
                 wrapper.RemoveReference(owner);
 
