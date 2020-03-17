@@ -52,7 +52,7 @@ public class ResourceManagerAssetBundle
 
         public bool IsLoadingAsset()
         {
-            return loadingAssetSet.Count == 0;
+            return loadingAssetSet.Count > 0;
         }
         
         public void AddReference(object owner, int id)
