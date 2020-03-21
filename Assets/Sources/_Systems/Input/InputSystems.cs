@@ -8,6 +8,8 @@ public class InputSystems : Feature
         : base("Input Systems")
     {
         Add(new EmitInputSystem(contexts));
+        Add(new TouchScreenSystem(contexts));
+        
         Add(new TranslateInputMoveSystem(contexts));
         Add(new TranslateInputActionSystem(contexts));
     }
