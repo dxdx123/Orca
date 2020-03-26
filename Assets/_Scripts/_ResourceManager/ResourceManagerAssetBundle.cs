@@ -553,23 +553,17 @@ public class ResourceManagerAssetBundle
 
     private AssetBundle GetIndexAssetBundle(IEnumerable<AssetBundle> assetBundles, int index)
     {
-        AssetBundle assetBundle = null;
-
         int i = 0;
-        var enumerator = assetBundles.GetEnumerator();
-        while(enumerator.MoveNext())
+        foreach (var assetBundle in assetBundles)
         {
-            if(i == index)
+            if (i == index)
             {
-                assetBundle = enumerator.Current;
-                break;
+                return assetBundle;
             }
             ++i;
         }
-        enumerator.Dispose();
-
-        Assert.AreEqual(index, i);
-        return assetBundle;
+        
+        throw new Exception($"Unable to locate assetBundles {index}");
     }
 
     private void AddAssetBundleWrapper(string assetBundleName, object owner, int id, Promise<AssetBundle> promise)
