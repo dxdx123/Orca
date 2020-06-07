@@ -19,3 +19,5 @@ MonoBehaviour:
     animationPath: Assets/SpriteAnimation/heroes_archer_wildcat.prefab
   - character: 3
     animationPath: Assets/SpriteAnimation/enemy_ettin.prefab
+  - character: 4
+    animationPath: Assets/SpriteAnimation/enemies_sheeps.prefab

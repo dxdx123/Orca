@@ -34,6 +34,10 @@ MonoBehaviour:
     dataGUID: 
     managed: 0
     loadable: 0
+  - assetGUID: 213b5549cb2a34b8fb23912bb192c3b1
+    dataGUID: 
+    managed: 0
+    loadable: 0
   fontIndex: []
   spriteCollectionIndex:
   - name: heroes_priest
@@ -3374,6 +3378,193 @@ MonoBehaviour:
     - 1583569398
     - 1583569398
     - 1583569398
+    managedSpriteCollection: 0
+    loadable: 0
+    assetName: 
+    version: 3
+  - name: enemies_sheeps
+    spriteCollectionGUID: 23f3e64fade2048be8a9931d8e50f135
+    spriteCollectionDataGUID: 1d643a4d7bda14d95b67952ca53956e7
+    spriteNames:
+    - sheep_0001
+    - sheep_0003
+    - sheep_0005
+    - sheep_0007
+    - sheep_0009
+    - sheep_0011
+    - sheep_0013
+    - sheep_0015
+    - sheep_0017
+    - sheep_0019
+    - sheep_0021
+    - sheep_0023
+    - sheep_0025
+    - sheep_0026
+    - sheep_0027
+    - sheep_0028
+    - sheep_0030
+    - sheep_0032
+    - sheep_0033
+    - sheep_0034
+    - sheep_0035
+    - sheep_0036
+    - sheep_0041
+    - sheep_0045
+    - sheep_0047
+    - sheep_0048
+    - sheep_0049
+    - sheep_0050
+    - sheep_0052
+    - sheep_0054
+    - sheep_0056
+    - sheep_0058
+    - sheep_flying_0001
+    - sheep_flying_0002
+    - sheep_flying_0004
+    - sheep_flying_0006
+    - sheep_flying_0007
+    - sheep_flying_0009
+    - sheep_flying_0010
+    - sheep_flying_0012
+    - sheep_flying_0013
+    - sheep_flying_0015
+    - sheep_flying_0017
+    - sheep_flying_0018
+    - sheep_flying_0020
+    - sheep_flying_0021
+    - sheep_flying_0023
+    - sheep_flying_0024
+    - sheep_flying_0026
+    - sheep_flying_0028
+    - sheep_flying_0029
+    - sheep_flying_0031
+    - sheep_flying_0032
+    - sheep_flying_0034
+    - sheep_flying_0035
+    - sheep_flying_0037
+    - sheep_flying_0039
+    - sheep_flying_0041
+    - sheep_flying_0043
+    spriteTextureGUIDs:
+    - 93067222f44a04559b9beb68f854501a
+    - c635a7cf72c7340fc9f62651f5b51733
+    - 336ac9d8c97ac4a279e5af7047a706de
+    - bf9217928b3af4adb9a5bc6c8ebb46b6
+    - 1852fbdca6f994c9d903b3043edac5c1
+    - 3c717a85551284a7488081d4b3a0193d
+    - 4d2acb90836204616a1017cc10682d98
+    - 46d9b313a613b4e6e96e7664ef9ccdb7
+    - 2a60342aa10eb4991b420d2c3cd768c3
+    - d81ee5990745f41c9b1f700b66818212
+    - f1bacdb24f29345cc83298b189593e3c
+    - b5759b2acafe24f3b8f5d1f0eb0e49d0
+    - dbadc689f0efb4e9b833c031034f2a8c
+    - 923504832b28f4fd29496a5e17aad400
+    - 82285e1a404a64b44aa831f4f5e09f14
+    - 7fa48899e24914c7fbc7fde622c2fc78
+    - 6255f00d788024004aaae44385234535
+    - 855c161cf84134578913c5c418e02a5f
+    - 0c92ca1491dd24cfba4c459722ac429e
+    - 40bbcc87324564cda9a856b92e54223e
+    - 5d3fcc93b8b1247f79d39831d6eaaba4
+    - daca1eab9447842e680616c743be3ba3
+    - 9d5b27007f2a94090bf88f83cbcffc1c
+    - 643f75da32f3543e78ccc526f1afcb98
+    - 188ecadf52ebf46a2b9716c71df556b7
+    - cee621d32afe343c5812a1b83623a3e3
+    - 2a6070782bc8e4aa0b9155d1cbaaba25
+    - 0f727a7a0a28e4c3d8c16909060ffd0c
+    - 5ccca4d506a634f6783db06914dfdd96
+    - 0e2651636959044a68cb649c704d1297
+    - d6d536a662b3f4c2aa56c12cc62ec9a1
+    - e87dbf8731d584fefa4dc0c3d2a103de
+    - 3c4fa6a4904bf4e4b9198a37fb71408c
+    - 132991c7ea64a490c9c87e8142d3e7e2
+    - 09d8b0c68a72a4a49a21682b955a3397
+    - bfd05c6c70b2b44cdb7b4a2f29a874c3
+    - e6ff802e04b6d4fbd94364f94ba85575
+    - 06e6d5dfb50864f9fac7449c2eaf5dd8
+    - ef5c456d3ac634a86bfbf9d32f5f2450
+    - ba05e75c94cb34c2f99a22e7e67ade9e
+    - ff5622da0a0c0428db67a10d147d3bfe
+    - dd66a18cc2b1449f1a97caddcf034772
+    - 82ee8df0408074876b2c4ac1f72d9cda
+    - ea2b0126e1e0541e9875337ce72504c5
+    - a865d7f80077142afaa688c2bafe6179
+    - 01275fa3733f846e09ef03886426dfbb
+    - 1af75171b832f4e9fa2bce6893af89e1
+    - 77f652bcd4ba24c4ab240e78b2304faa
+    - fb0313ff4830d44169b8db17bee57725
+    - 9d1f4673729af4b0b8545a30e9ba4bb6
+    - 54d6fb79fe67143fdab19f723d052d83
+    - 0cfe31b47a9324e4eb804f67a0a8ac45
+    - 75aa1d909a7ee456893d4f276bd0f132
+    - 352b0c328486f4b3e80aa74117e593dc
+    - 584445f4232ef47fe9a091a3b2d1ebfd
+    - ec74860566dcd449aba240ad36f35e93
+    - b63cfaaea2b1e4b5a857a577c496cd0d
+    - 7083e589a99f4480e8e53cebd39753e7
+    - f0d6d5f094a9945bfa94c054c5ace74d
+    spriteTextureTimeStamps:
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
+    - 1588521025
     managedSpriteCollection: 0
     loadable: 0
     assetName: 

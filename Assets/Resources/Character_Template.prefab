@@ -15,6 +15,9 @@ GameObject:
   - component: {fileID: 2499794384206817622}
   - component: {fileID: 4023942057746041124}
   - component: {fileID: -1671807579563937929}
+  - component: {fileID: 1579071608432526313}
+  - component: {fileID: 8498869321859264792}
+  - component: {fileID: 9142881537790434284}
   m_Layer: 0
   m_Name: Character_Template
   m_TagString: Untagged
@@ -288,7 +291,7 @@ MonoBehaviour:
         actionEnabled: 0101
         actionIsOpen: 0101
         actionStartIndex: 0000000001000000
-        actionHashCodes: 5c0045055c004505
+        actionHashCodes: 5c0045059f081903
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 1
@@ -317,7 +320,13 @@ MonoBehaviour:
         fsmEnumParams: []
         fsmFloatParams: []
         fsmIntParams: []
-        fsmBoolParams: []
+        fsmBoolParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmVector2Params: []
         fsmVector3Params: []
         fsmColorParams: []
@@ -329,12 +338,13 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 1300000013000000
+        paramDataType: 130000001300000011000000
         paramName:
         - _containerGo
         - containerGo
-        paramDataPos: 0000000001000000
-        paramByteDataSize: 0000000000000000
+        - destroyEntity
+        paramDataPos: 000000000100000000000000
+        paramByteDataSize: 000000000000000000000000
     - name: LightAttack1
       description: 
       colorIndex: 0
@@ -364,7 +374,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 5c004505
+        actionHashCodes: 9f081903
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 1
@@ -387,7 +397,13 @@ MonoBehaviour:
         fsmEnumParams: []
         fsmFloatParams: []
         fsmIntParams: []
-        fsmBoolParams: []
+        fsmBoolParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmVector2Params: []
         fsmVector3Params: []
         fsmColorParams: []
@@ -399,11 +415,12 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 13000000
+        paramDataType: 1300000011000000
         paramName:
         - containerGo
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
+        - destroyEntity
+        paramDataPos: 0000000000000000
+        paramByteDataSize: 0000000000000000
     - name: LightAttack2
       description: 
       colorIndex: 0
@@ -433,7 +450,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 5c004505
+        actionHashCodes: 9f081903
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 1
@@ -456,7 +473,13 @@ MonoBehaviour:
         fsmEnumParams: []
         fsmFloatParams: []
         fsmIntParams: []
-        fsmBoolParams: []
+        fsmBoolParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmVector2Params: []
         fsmVector3Params: []
         fsmColorParams: []
@@ -468,11 +491,12 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 13000000
+        paramDataType: 1300000011000000
         paramName:
         - containerGo
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
+        - destroyEntity
+        paramDataPos: 0000000000000000
+        paramByteDataSize: 0000000000000000
     - name: HeavyAttack1
       description: 
       colorIndex: 0
@@ -502,7 +526,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 5c004505
+        actionHashCodes: 9f081903
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 1
@@ -525,7 +549,13 @@ MonoBehaviour:
         fsmEnumParams: []
         fsmFloatParams: []
         fsmIntParams: []
-        fsmBoolParams: []
+        fsmBoolParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmVector2Params: []
         fsmVector3Params: []
         fsmColorParams: []
@@ -537,11 +567,12 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 13000000
+        paramDataType: 1300000011000000
         paramName:
         - containerGo
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
+        - destroyEntity
+        paramDataPos: 0000000000000000
+        paramByteDataSize: 0000000000000000
     - name: HeavyAttack2
       description: 
       colorIndex: 0
@@ -571,7 +602,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 5c004505
+        actionHashCodes: 9f081903
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 1
@@ -594,7 +625,13 @@ MonoBehaviour:
         fsmEnumParams: []
         fsmFloatParams: []
         fsmIntParams: []
-        fsmBoolParams: []
+        fsmBoolParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmVector2Params: []
         fsmVector3Params: []
         fsmColorParams: []
@@ -606,11 +643,12 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 13000000
+        paramDataType: 1300000011000000
         paramName:
         - containerGo
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
+        - destroyEntity
+        paramDataPos: 0000000000000000
+        paramByteDataSize: 0000000000000000
     - name: LevelUp
       description: 
       colorIndex: 0
@@ -640,7 +678,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 5c004505
+        actionHashCodes: 9f081903
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 1
@@ -663,7 +701,13 @@ MonoBehaviour:
         fsmEnumParams: []
         fsmFloatParams: []
         fsmIntParams: []
-        fsmBoolParams: []
+        fsmBoolParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmVector2Params: []
         fsmVector3Params: []
         fsmColorParams: []
@@ -675,11 +719,12 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 13000000
+        paramDataType: 1300000011000000
         paramName:
         - containerGo
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
+        - destroyEntity
+        paramDataPos: 0000000000000000
+        paramByteDataSize: 0000000000000000
     - name: Die
       description: 
       colorIndex: 0
@@ -688,19 +733,11 @@ MonoBehaviour:
         x: 412.5
         y: 570.03906
         width: 100
-        height: 32
+        height: 16
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
-      transitions:
-      - fsmEvent:
-          name: FINISHED
-          isSystemEvent: 1
-          isGlobal: 0
-        toState: Idle
-        linkStyle: 0
-        linkConstraint: 0
-        colorIndex: 0
+      transitions: []
       actionData:
         actionNames:
         - HutongGames.PlayMaker.Actions.PlaySpriteAnimation
@@ -709,7 +746,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 5c004505
+        actionHashCodes: 9f081903
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 1
@@ -732,7 +769,13 @@ MonoBehaviour:
         fsmEnumParams: []
         fsmFloatParams: []
         fsmIntParams: []
-        fsmBoolParams: []
+        fsmBoolParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 1
         fsmVector2Params: []
         fsmVector3Params: []
         fsmColorParams: []
@@ -744,11 +787,12 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 13000000
+        paramDataType: 1300000011000000
         paramName:
         - containerGo
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
+        - destroyEntity
+        paramDataPos: 0000000000000000
+        paramByteDataSize: 0000000000000000
     events:
     - name: Idle
       isSystemEvent: 0
@@ -859,3 +903,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05210bfa0bfc64fdab153a8952146f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1579071608432526313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8465990903326039109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a878a6ff128243dfb1d89ca0273f059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnStateChange:
+    m_PersistentCalls:
+      m_Calls: []
+  basicEditor: 1
+  generalProps: 0
+  limitsProps: 0
+  advancedProps: 0
+  minPointers: 0
+  maxPointers: 0
+  useSendMessage: 0
+  sendStateChangeMessages: 0
+  sendMessageTarget: {fileID: 0}
+  useUnityEvents: 0
+  sendStateChangeEvents: 0
+  requireGestureToFail: {fileID: 0}
+  friendlyGestures: []
+  OnTap:
+    m_PersistentCalls:
+      m_Calls: []
+  numberOfTapsRequired: 1
+  timeLimit: Infinity
+  distanceLimit: Infinity
+  combinePointers: 0
+  combinePointersInterval: 0.3
+--- !u!114 &8498869321859264792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8465990903326039109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 891b56d6714cc4dcab89859cc9e48121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &9142881537790434284
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8465990903326039109}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0

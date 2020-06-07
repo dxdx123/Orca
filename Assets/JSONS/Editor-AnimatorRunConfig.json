@@ -85,5 +85,34 @@
       1,
       1
     ]
+  },
+  "4": {
+    "id": "4",
+    "Character": "Sheep",
+    "singleRun": false,
+    "AnimatorUp": "RunUp",
+    "ScaleUp": [
+      1,
+      1,
+      1
+    ],
+    "AnimatorRight": "RunRight",
+    "ScaleRight": [
+      1,
+      1,
+      1
+    ],
+    "AnimatorDown": "RunDown",
+    "ScaleDown": [
+      1,
+      1,
+      1
+    ],
+    "AnimatorLeft": "RunRight",
+    "ScaleLeft": [
+      1,
+      1,
+      1
+    ]
   }
 }

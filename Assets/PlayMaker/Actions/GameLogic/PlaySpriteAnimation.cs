@@ -12,6 +12,7 @@ namespace HutongGames.PlayMaker.Actions
 	public class PlaySpriteAnimation : FsmStateAction
 	{
 		public FsmGameObject containerGo;
+		public FsmBool destroyEntity;
 		
 		public override void OnEnter()
 		{
@@ -40,15 +41,22 @@ namespace HutongGames.PlayMaker.Actions
 				PlaySprite(entity, animator, state)
 					.Then(() =>
 					{
-						Finish();
-
-						if (entity.isEnabled)
+						if (destroyEntity.Value)
 						{
-							entity.ReplaceState(CharacterState.Idle);
+							entity.isDestroy = true;
 						}
 						else
 						{
-							// nothing
+							Finish();
+
+							if (entity.isEnabled)
+							{
+								entity.ReplaceState(CharacterState.Idle);
+							}
+							else
+							{
+								// nothing
+							}
 						}
 					})
 					.Catch(ex => Debug.LogException(ex));

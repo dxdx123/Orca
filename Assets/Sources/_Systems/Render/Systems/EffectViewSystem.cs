@@ -56,7 +56,12 @@ public class EffectViewSystem : ReactiveSystem<GameEntity>
                 viewController.Initialize(e);
                 e.AddView(viewController);
 
-                tk2dAnimator.AnimationCompleted = (animator, clip) => { e.isDestroy = true; };
+                tk2dAnimator.AnimationCompleted = (animator, clip) =>
+                {
+                    // Destroy When Animate Finish
+                    // Depends on AnimationClip
+                    e.isDestroy = true;
+                };
                 
                 tk2dAnimator.Play(effectName);
             })

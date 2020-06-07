@@ -24,12 +24,12 @@ public class DummyTestMoveSystem : IExecuteSystem
             TestCreateEffect();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             DestroyScene();
         }
         
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             LoadScene();
         }

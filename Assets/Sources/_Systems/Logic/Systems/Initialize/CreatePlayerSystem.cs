@@ -31,6 +31,34 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         var enemyEntity = CreateEnemy(playerEntity);
         
         playerEntity.AddTarget(enemyEntity);
+        
+        var sheepList = CreateSheep();
+        SheepManager.Instance.Initialize(sheepList);
+    }
+
+    private List<GameEntity> CreateSheep()
+    {
+        int length = 100;
+
+        var list = new List<GameEntity>(length);
+
+        for (int i = 0; i < length; ++i)
+        {
+            GameEntity e = _gameContext.CreateEntity();
+
+            e.AddCharacter(Character.Sheep);
+
+            float offsetX = Random.Range(-4f, 4f);
+            float offsetY = Random.Range(-4f, 4f);
+            
+            e.AddPosition(10f + offsetX, 22f + offsetY);
+            e.AddState(CharacterState.Idle);
+            e.AddDirection(CharacterDirection.Right);
+            
+            list.Add(e);
+        }
+
+        return list;
     }
 
     private GameEntity CreatePlayer()

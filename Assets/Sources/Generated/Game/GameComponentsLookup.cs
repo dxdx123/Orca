@@ -35,13 +35,14 @@ public static class GameComponentsLookup {
     public const int Speed = 24;
     public const int State = 25;
     public const int Target = 26;
-    public const int Transform = 27;
-    public const int UnderControl = 28;
-    public const int UpdateQuadTree = 29;
-    public const int Velocity = 30;
-    public const int View = 31;
+    public const int Touch = 27;
+    public const int Transform = 28;
+    public const int UnderControl = 29;
+    public const int UpdateQuadTree = 30;
+    public const int Velocity = 31;
+    public const int View = 32;
 
-    public const int TotalComponents = 32;
+    public const int TotalComponents = 33;
 
     public static readonly string[] componentNames = {
         "AfterEffect",
@@ -71,6 +72,7 @@ public static class GameComponentsLookup {
         "Speed",
         "State",
         "Target",
+        "Touch",
         "Transform",
         "UnderControl",
         "UpdateQuadTree",
@@ -106,6 +108,7 @@ public static class GameComponentsLookup {
         typeof(SpeedComponent),
         typeof(StateComponent),
         typeof(TargetComponent),
+        typeof(TouchComponent),
         typeof(TransformComponent),
         typeof(UnderControlComponent),
         typeof(UpdateQuadTreeComponent),

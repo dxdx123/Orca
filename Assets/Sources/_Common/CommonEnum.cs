@@ -9,6 +9,7 @@ public enum Character
     Archer,
     ArcherWildcat,
     Ettin,
+    Sheep,
 }
 
 public enum CharacterAction
@@ -45,4 +46,5 @@ public enum AIType
 {
     Puppy,
     Enemy,
+    Neutral,
 }

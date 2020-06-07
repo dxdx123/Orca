@@ -447,8 +447,8 @@ MonoBehaviour:
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,
         type: 3}
       spriteId: 34
-      triggerEvent: 0
-      eventInfo: 
+      triggerEvent: 1
+      eventInfo: HelloWorld
       eventInt: 0
       eventFloat: 0
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,

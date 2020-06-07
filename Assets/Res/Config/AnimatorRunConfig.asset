@@ -43,3 +43,13 @@ MonoBehaviour:
     scaleDown: {x: 1, y: 1, z: 1}
     animatorLeft: RunRight
     scaleLeft: {x: -1, y: 1, z: 1}
+  - character: 4
+    singleRun: 0
+    animatorUp: RunUp
+    scaleUp: {x: 1, y: 1, z: 1}
+    animatorRight: RunRight
+    scaleRight: {x: 1, y: 1, z: 1}
+    animatorDown: RunDown
+    scaleDown: {x: 1, y: 1, z: 1}
+    animatorLeft: RunRight
+    scaleLeft: {x: 1, y: 1, z: 1}
