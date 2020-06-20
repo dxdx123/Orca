@@ -37,7 +37,7 @@ public class MenuManager : MonoBehaviour
 
     private Dictionary<Type, string> _assetDict = new Dictionary<Type, string>()
     {
-        {typeof(TestMenu), "Assets/_Experiment/TestMenu.prefab"},
+        // {typeof(TestMenu), "Assets/_Experiment/TestMenu.prefab"},
     };
     
     private string GetAssetPath<T>() where T : Menu<T>

@@ -12,43 +12,47 @@ public static class GameComponentsLookup {
     public const int AI = 1;
     public const int AnimatorState = 2;
     public const int Attack = 3;
-    public const int AttempDirection = 4;
-    public const int AttempMove = 5;
-    public const int BehaviorTree = 6;
-    public const int CameraTarget = 7;
-    public const int Character = 8;
-    public const int Config = 9;
-    public const int CreateMap = 10;
-    public const int CreatePlayer = 11;
-    public const int Destroy = 12;
-    public const int Direction = 13;
-    public const int Effect = 14;
-    public const int FindPath = 15;
-    public const int FSM = 16;
-    public const int Map = 17;
-    public const int Moving = 18;
-    public const int Pathfinding = 19;
-    public const int PathfindingMove = 20;
-    public const int PoolAsset = 21;
-    public const int Position = 22;
-    public const int Scene = 23;
-    public const int Speed = 24;
-    public const int State = 25;
-    public const int Target = 26;
-    public const int Touch = 27;
-    public const int Transform = 28;
-    public const int UnderControl = 29;
-    public const int UpdateQuadTree = 30;
-    public const int Velocity = 31;
-    public const int View = 32;
+    public const int AttackCoolDown = 4;
+    public const int AttackInterval = 5;
+    public const int AttempDirection = 6;
+    public const int AttempMove = 7;
+    public const int BehaviorTree = 8;
+    public const int CameraTarget = 9;
+    public const int Character = 10;
+    public const int Config = 11;
+    public const int CreateMap = 12;
+    public const int CreatePlayer = 13;
+    public const int Destroy = 14;
+    public const int Direction = 15;
+    public const int Effect = 16;
+    public const int FindPath = 17;
+    public const int FSM = 18;
+    public const int Map = 19;
+    public const int Moving = 20;
+    public const int Pathfinding = 21;
+    public const int PathfindingMove = 22;
+    public const int PoolAsset = 23;
+    public const int Position = 24;
+    public const int Scene = 25;
+    public const int Speed = 26;
+    public const int State = 27;
+    public const int Target = 28;
+    public const int Touch = 29;
+    public const int Transform = 30;
+    public const int UnderControl = 31;
+    public const int UpdateQuadTree = 32;
+    public const int Velocity = 33;
+    public const int View = 34;
 
-    public const int TotalComponents = 33;
+    public const int TotalComponents = 35;
 
     public static readonly string[] componentNames = {
         "AfterEffect",
         "AI",
         "AnimatorState",
         "Attack",
+        "AttackCoolDown",
+        "AttackInterval",
         "AttempDirection",
         "AttempMove",
         "BehaviorTree",
@@ -85,6 +89,8 @@ public static class GameComponentsLookup {
         typeof(AIComponent),
         typeof(AnimatorStateComponent),
         typeof(AttackComponent),
+        typeof(AttackCoolDownComponent),
+        typeof(AttackIntervalComponent),
         typeof(AttempDirectionComponent),
         typeof(AttempMoveComponent),
         typeof(BehaviorTreeComponent),

@@ -42,6 +42,8 @@ public class LogicSystems : Feature
 
         Add(new PuppySystem(contexts));
 
+        // Attack
+        Add(new AttackCoolDownSystem(contexts));
         Add(new AttackSystem(contexts));
 
         Add(new DestroyPathfindingSystem(contexts));

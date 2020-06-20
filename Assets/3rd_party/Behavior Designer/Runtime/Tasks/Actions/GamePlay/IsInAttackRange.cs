@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BehaviorDesigner.Runtime.Tasks
 {
-    public class IsInRange : Action
+    public class IsInAttackRange : Action
     {
         public SharedGameObject target;
         public SharedFloat distance;
@@ -20,7 +20,15 @@ namespace BehaviorDesigner.Runtime.Tasks
 
             if (diff <= sqrDistance)
             {
-                return TaskStatus.Success;
+                // check if same y
+                if (Mathf.Approximately(srcPos.y, destPos.y))
+                {
+                    return TaskStatus.Success;
+                }
+                else
+                {
+                    return TaskStatus.Failure;
+                }
             }
             else
             {

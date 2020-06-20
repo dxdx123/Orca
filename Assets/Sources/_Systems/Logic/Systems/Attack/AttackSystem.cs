@@ -18,16 +18,24 @@ public class AttackSystem : ReactiveSystem<GameEntity>
 
     protected override bool Filter(GameEntity entity)
     {
-        return entity.hasTarget;
+        return entity.hasTarget && entity.hasAttackCoolDown && entity.hasAttackInterval;
     }
 
     protected override void Execute(List<GameEntity> entities)
     {
         foreach (var e in entities)
         {
-            e.ReplaceState(CharacterState.LightAttack1);
-
-            e.isAttack = false;
+            if (e.attackCoolDown.coolDown > 0)
+            {
+                // still cool down
+                e.isAttack = false;
+            }
+            else
+            {
+                e.ReplaceState(CharacterState.LightAttack1);
+                e.isAttack = false;
+                e.attackCoolDown.coolDown = e.attackInterval.interval;
+            }
         }
     }
 }
