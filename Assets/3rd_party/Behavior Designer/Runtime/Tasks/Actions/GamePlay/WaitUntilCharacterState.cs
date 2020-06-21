@@ -8,7 +8,6 @@ namespace BehaviorDesigner.Runtime.Tasks
 {
     public class WaitUntilCharacterState : Action
     {
-        public SharedGameObject target;
         public SharedString state;
 
         public override TaskStatus OnUpdate()
