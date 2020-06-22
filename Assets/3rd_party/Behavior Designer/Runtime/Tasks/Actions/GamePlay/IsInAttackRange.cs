@@ -11,6 +11,9 @@ namespace BehaviorDesigner.Runtime.Tasks
 
         public override TaskStatus OnUpdate()
         {
+            if (target == null || target.Value == null)
+                return TaskStatus.Failure;
+            
             Vector3 srcPos = transform.position;
             Vector3 destPos = target.Value.transform.position;
 

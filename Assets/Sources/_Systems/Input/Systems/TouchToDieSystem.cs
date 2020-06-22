@@ -25,7 +25,7 @@ public class TouchToDieSystem : ReactiveSystem<GameEntity>
         foreach (var entity in entities)
         {
             // entity.ReplaceState(CharacterState.Die);
-            SheepManager.Instance.BlowSheep(entity);
+            // SheepManager.Instance.BlowSheep(entity);
             
             entity.isTouch = false;
         }

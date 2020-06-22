@@ -28,9 +28,9 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         var playerEntity = CreatePlayer();
         
         // var puppyEntity = CreatePuppy(playerEntity);
-        var enemyEntity = CreateEnemy(playerEntity);
+        var enemyEntity = CreateEnemy();
         
-        playerEntity.AddTarget(enemyEntity);
+        // playerEntity.AddTarget(enemyEntity);
         
         // var sheepList = CreateSheep();
         // SheepManager.Instance.Initialize(sheepList);
@@ -89,12 +89,11 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         return e;
     }
 
-    private GameEntity CreateEnemy(GameEntity entity)
+    private GameEntity CreateEnemy()
     {
         GameEntity e = _gameContext.CreateEntity();
 
         e.AddAI(AIType.Enemy);
-        e.AddTarget(entity);
         e.AddCharacter(Character.Ettin);
         e.AddPosition(14.0f, 21.5f);
         e.AddState(CharacterState.Idle);

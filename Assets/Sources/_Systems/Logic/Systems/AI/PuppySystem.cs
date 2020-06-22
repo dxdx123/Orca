@@ -37,7 +37,7 @@ public class PuppySystem : ReactiveSystem<GameEntity>
         foreach (var e in entities)
         {
             var behaviorTree = e.behaviorTree.behaviorTree;
-            behaviorTree.SetVariable("Master", (SharedGameObject)gameObject);
+            // behaviorTree.SetVariable("Master", (SharedGameObject)gameObject);
             behaviorTree.EnableBehavior();
         }
     }
