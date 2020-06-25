@@ -34,18 +34,19 @@ public static class GameComponentsLookup {
     public const int PoolAsset = 23;
     public const int Position = 24;
     public const int Scene = 25;
-    public const int Speed = 26;
-    public const int State = 27;
-    public const int Target = 28;
-    public const int Touch = 29;
-    public const int Transform = 30;
-    public const int UnderControl = 31;
-    public const int UpdateQuadTree = 32;
-    public const int Velocity = 33;
-    public const int View = 34;
-    public const int ViewEventTrigger = 35;
+    public const int Spawner = 26;
+    public const int Speed = 27;
+    public const int State = 28;
+    public const int Target = 29;
+    public const int Touch = 30;
+    public const int Transform = 31;
+    public const int UnderControl = 32;
+    public const int UpdateQuadTree = 33;
+    public const int Velocity = 34;
+    public const int View = 35;
+    public const int ViewEventTrigger = 36;
 
-    public const int TotalComponents = 36;
+    public const int TotalComponents = 37;
 
     public static readonly string[] componentNames = {
         "AfterEffect",
@@ -74,6 +75,7 @@ public static class GameComponentsLookup {
         "PoolAsset",
         "Position",
         "Scene",
+        "Spawner",
         "Speed",
         "State",
         "Target",
@@ -113,6 +115,7 @@ public static class GameComponentsLookup {
         typeof(PoolAssetComponent),
         typeof(PositionComponent),
         typeof(SceneComponent),
+        typeof(SpawnerComponent),
         typeof(SpeedComponent),
         typeof(StateComponent),
         typeof(TargetComponent),

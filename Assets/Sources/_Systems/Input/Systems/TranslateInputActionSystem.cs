@@ -74,6 +74,13 @@ public class TranslateInputActionSystem : ReactiveSystem<InputEntity>
             if (enemy != null)
             {
                 underControlEntity.ReplaceTarget(enemy);
+                
+                // direction
+
+                float srcX = underControlEntity.position.x;
+                float destX = enemy.position.x;
+                
+                underControlEntity.ReplaceDirection(destX >= srcX ? CharacterDirection.Right : CharacterDirection.Left);
             }
             else
             {

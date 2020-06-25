@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using BehaviorDesigner.Runtime;
 using Entitas;
 using UnityEngine;
 
@@ -35,22 +36,32 @@ public class EffectDestroySystem : IExecuteSystem
 
             if((destPos - srcPos).sqrMagnitude < SIZE)
             {
-                entity.isDestroy = true;
-
                 if (entity.hasAfterEffect)
                 {
                     SpawnAfterEffect(entity.afterEffect.effect, destPos, entity.hasDirection ? entity.direction.direction : CharacterDirection.Left);
+
+                    Attack(entity.spawner.spawner, targetEntity);
                 }
                 else
                 {
-                    // nothing
+                    Attack(entity.spawner.spawner, targetEntity);
                 }
+                
+                entity.isDestroy = true;
+
             }
             else
             {
                 // nothing
             }
         }
+    }
+
+    private void Attack(GameEntity attacker, GameEntity victim)
+    {
+        victim.ReplaceTarget(attacker);
+        victim.behaviorTree.behaviorTree.SetVariable(
+            "Master", (SharedGameObject)attacker.view.viewController.gameObject);
     }
 
     private void SpawnAfterEffect(string effectName, Vector2 destPos, CharacterDirection direction)

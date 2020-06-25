@@ -6,17 +6,17 @@ using UnityEngine;
 
 public class AttackEffectSystem : ReactiveSystem<GameEntity>
 {
-    private GameContext _gameContext;
+    public const string EFFECT_NAME = "hero_priest_bolt_fly";
+    public const string AFTER_EFFECT_NAME = "hero_priest_bolt_destroy";
+
+    public const float SPEED = 5.0f;
     
-    // private IGroup<GameEntity> _aiGroup;
-    // private readonly List<GameEntity> _cleanBuffer = new List<GameEntity>();
+    private GameContext _gameContext;
     
     public AttackEffectSystem(Contexts contexts)
         : base(contexts.game)
     {
         _gameContext = contexts.game;
-        
-        // _aiGroup = contexts.game.GetGroup(GameMatcher.AI);
     }
     
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
@@ -55,14 +55,11 @@ public class AttackEffectSystem : ReactiveSystem<GameEntity>
             : new Vector2(-offset.x, offset.y);
         
         e.AddPosition(x + newOffset.x, y + newOffset.y);
-        e.AddSpeed(5.0f);
-        e.AddEffect("hero_priest_bolt_fly");
-        e.AddAfterEffect("hero_priest_bolt_destroy");
+        e.AddSpeed(SPEED);
+        e.AddEffect(EFFECT_NAME);
+        e.AddAfterEffect(AFTER_EFFECT_NAME);
                 
         e.AddTarget(enemy);
-        
-        // enemy.ReplaceTarget(underControlEntity);
-        // enemy.behaviorTree.behaviorTree.SetVariable(
-        //     "Master", (SharedGameObject)underControlEntity.view.viewController.gameObject);
+        e.AddSpawner(underControlEntity);
     }
 }
