@@ -21,9 +21,6 @@ namespace BehaviorDesigner.Runtime.Tasks
         
         public override TaskStatus OnUpdate()
         {
-            if (target == null || target.Value == null)
-                return TaskStatus.Failure;
-            
             var srcEntity = gameObject.GetEntityLink().entity as GameEntity;
             Assert.IsNotNull(srcEntity);
 
@@ -105,9 +102,6 @@ namespace BehaviorDesigner.Runtime.Tasks
 
         public override void OnEnd()
         {
-            if (target == null || target.Value == null)
-                return;
-            
             _chasing = false;
             _lastDestPosition = target.Value.transform.position;
         }

@@ -26,8 +26,10 @@ public class EffectDestroySystem : IExecuteSystem
         
         foreach (var entity in list)
         {
-            var targetPos = entity.target.target.position;
-            var destPos = new Vector2(targetPos.x, targetPos.y);
+            GameEntity targetEntity = entity.target.target;
+            var targetPos = targetEntity.position;
+            float offsetY = targetEntity.view.viewController.displaySprite.CurrentSprite.GetUntrimmedBounds().extents.y;
+            var destPos = new Vector2(targetPos.x, targetPos.y + offsetY);
             
             var srcPos = new Vector2(entity.position.x, entity.position.y);
 

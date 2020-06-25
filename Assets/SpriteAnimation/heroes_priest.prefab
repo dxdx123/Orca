@@ -447,8 +447,8 @@ MonoBehaviour:
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,
         type: 3}
       spriteId: 34
-      triggerEvent: 1
-      eventInfo: HelloWorld
+      triggerEvent: 0
+      eventInfo: 
       eventInt: 0
       eventFloat: 0
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,
@@ -700,8 +700,8 @@ MonoBehaviour:
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,
         type: 3}
       spriteId: 62
-      triggerEvent: 0
-      eventInfo: 
+      triggerEvent: 1
+      eventInfo: '{"x":-0.2,"y":0.6}'
       eventInt: 0
       eventFloat: 0
     - spriteCollection: {fileID: 5103754412103620601, guid: 2b716cf378ddf41c9880606aad36a0cb,

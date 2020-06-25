@@ -43,8 +43,9 @@ public static class GameComponentsLookup {
     public const int UpdateQuadTree = 32;
     public const int Velocity = 33;
     public const int View = 34;
+    public const int ViewEventTrigger = 35;
 
-    public const int TotalComponents = 35;
+    public const int TotalComponents = 36;
 
     public static readonly string[] componentNames = {
         "AfterEffect",
@@ -81,7 +82,8 @@ public static class GameComponentsLookup {
         "UnderControl",
         "UpdateQuadTree",
         "Velocity",
-        "View"
+        "View",
+        "ViewEventTrigger"
     };
 
     public static readonly System.Type[] componentTypes = {
@@ -119,6 +121,7 @@ public static class GameComponentsLookup {
         typeof(UnderControlComponent),
         typeof(UpdateQuadTreeComponent),
         typeof(VelocityComponent),
-        typeof(ViewComponent)
+        typeof(ViewComponent),
+        typeof(ViewEventTriggerComponent)
     };
 }

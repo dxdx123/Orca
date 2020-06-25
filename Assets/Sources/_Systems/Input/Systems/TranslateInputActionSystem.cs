@@ -1,13 +1,16 @@
 
 using System;
 using System.Collections.Generic;
+using BehaviorDesigner.Runtime;
 using Entitas;
+using UnityEngine;
 
 public class TranslateInputActionSystem : ReactiveSystem<InputEntity>
 {
     private GameContext _gameContext;
 
     private IGroup<GameEntity> _underControlGroup;
+    private IGroup<GameEntity> _aiGroup;
     private readonly List<GameEntity> _cleanBuffer = new List<GameEntity>();
     
     public TranslateInputActionSystem(Contexts contexts)
@@ -16,6 +19,7 @@ public class TranslateInputActionSystem : ReactiveSystem<InputEntity>
         _gameContext = contexts.game;
 
         _underControlGroup = _gameContext.GetGroup(GameMatcher.UnderControl);
+        _aiGroup = _gameContext.GetGroup(GameMatcher.AI);
     }
 
     protected override ICollector<InputEntity> GetTrigger(IContext<InputEntity> context)
@@ -39,7 +43,81 @@ public class TranslateInputActionSystem : ReactiveSystem<InputEntity>
         {
             e.ReplaceState(state);
         }
+
+        SetupTargetEnemy(action);
     }
+
+    private void SetupTargetEnemy(CharacterAction action)
+    {
+        switch (action)
+        {
+            case CharacterAction.LightAttack1:
+            case CharacterAction.LightAttack2:
+            case CharacterAction.HeavyAttack1:
+            case CharacterAction.HeavyAttack2:
+                SetupTargetEnemyInternal();
+                break;
+            
+            default:
+                break;
+        }
+    }
+    
+    private void SetupTargetEnemyInternal()
+    {
+        var entities = _underControlGroup.GetEntities(_cleanBuffer);
+        if (entities.Count == 1)
+        {
+            var underControlEntity = entities.SingleEntity();
+            GameEntity enemy = FindNearestEnemy(underControlEntity);
+
+            if (enemy != null)
+            {
+                underControlEntity.ReplaceTarget(enemy);
+            }
+            else
+            {
+                // nothing
+            }
+        }
+    }
+    
+    private GameEntity FindNearestEnemy(GameEntity underControlEntity)
+    {
+        var entities = _aiGroup.GetEntities(_cleanBuffer);
+
+        float minDistance = float.MaxValue;
+        GameEntity enemy = null;
+
+        Vector2 srcPos = new Vector2(underControlEntity.position.x, underControlEntity.position.y);
+        
+        foreach (var e in entities)
+        {
+            if (e.aI.type == AIType.Enemy)
+            {
+                Vector2 destPos = new Vector2(e.position.x, e.position.y);
+
+                float distance = (destPos - srcPos).sqrMagnitude;
+
+                if (distance < minDistance)
+                {
+                    enemy = e;
+                    minDistance = distance;
+                }
+                else
+                {
+                    // nothing
+                }
+            }
+            else
+            {
+                // nothing
+            }
+        }
+
+        return enemy;
+    }
+
 
     private CharacterState ParseActionState(CharacterAction action)
     {

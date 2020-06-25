@@ -27,7 +27,8 @@ public class LogicSystems : Feature
         Add(new PositionSystem(contexts));
         Add(new PathfindingPositionSystem(contexts));
 
-        Add(new DirectionSystem(contexts));
+        Add(new CharacterDirectionSystem(contexts));
+        Add(new EffectDirectionSystem(contexts));
 
         Add(new MovingAttempSystem(contexts));
         Add(new MoveStateSystem(contexts));
@@ -45,6 +46,7 @@ public class LogicSystems : Feature
         // Attack
         Add(new AttackCoolDownSystem(contexts));
         Add(new AttackSystem(contexts));
+        Add(new AttackEffectSystem(contexts));
 
         Add(new DestroyPathfindingSystem(contexts));
         Add(new DestroyViewSystem(contexts));

@@ -22,10 +22,10 @@ public class DummyTestMoveSystem : IExecuteSystem
     
     public void Execute()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TestCreateEffect();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     TestCreateEffect();
+        // }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
-public class DirectionSystem : ReactiveSystem<GameEntity>
+public class CharacterDirectionSystem : ReactiveSystem<GameEntity>
 {
     private GameContext _gameContext;
     
-    public DirectionSystem(Contexts contexts)
+    public CharacterDirectionSystem(Contexts contexts)
         : base(contexts.game)
     {
         _gameContext = contexts.game;
