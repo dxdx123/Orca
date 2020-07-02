@@ -50,7 +50,7 @@ public class ResourceManager
         else
         {
 #if UNITY_EDITOR
-            return ResourceManagerEditor.Instance.GetAssetEditor<T>(path, owner);
+            return ResourceManagerAsset.Instance.GetAssetAsset<T>(AssetEditorLoader.Instance, path, owner);
 #else
             return Promise<T>.Rejected(new Exception("None Editor can't load Asset"));
 #endif
@@ -68,7 +68,7 @@ public class ResourceManager
         else
         {
 #if UNITY_EDITOR
-            ResourceManagerEditor.Instance.DestroyAssetEditor(path, owner);
+            ResourceManagerAsset.Instance.DestroyAsset(path, owner);
 #endif
         }
     }
