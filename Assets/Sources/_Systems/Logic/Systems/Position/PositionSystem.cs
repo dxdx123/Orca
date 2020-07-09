@@ -16,7 +16,7 @@ public class PositionSystem : ReactiveSystem<GameEntity>, ICleanupSystem
 
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
     {
-        return context.CreateCollector(GameMatcher.AnyOf(GameMatcher.Transform, GameMatcher.Position));
+        return context.CreateCollector(GameMatcher.Transform.Added(), GameMatcher.Position.Added());
     }
 
     protected override bool Filter(GameEntity entity)

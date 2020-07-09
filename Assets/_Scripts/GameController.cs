@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
             ;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         _systems.Execute();
         

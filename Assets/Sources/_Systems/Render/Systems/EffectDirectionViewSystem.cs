@@ -13,12 +13,12 @@ public class EffectDirectionViewSystem : ReactiveSystem<GameEntity>
     
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
     {
-        return context.CreateCollector(GameMatcher.AllOf(GameMatcher.View, GameMatcher.Direction));
+        return context.CreateCollector(GameMatcher.View.Added(), GameMatcher.Direction.Added());
     }
 
     protected override bool Filter(GameEntity entity)
     {
-        return entity.hasView && entity.hasEffect;
+        return entity.hasView && entity.hasDirection;
     }
 
     protected override void Execute(List<GameEntity> entities)

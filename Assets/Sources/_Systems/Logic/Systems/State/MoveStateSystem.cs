@@ -13,7 +13,8 @@ public class MoveStateSystem : ReactiveSystem<GameEntity>
     
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
     {
-        return context.CreateCollector(GameMatcher.AnyOf(GameMatcher.AttempMove, GameMatcher.State));
+        // Bugs: https://github.com/mzaks/EntitasCookBook/blob/master/chapters/1_ingredients/108_reactive_system.md
+        return context.CreateCollector(GameMatcher.AttempMove.Added(), GameMatcher.State.Added());
     }
 
     protected override bool Filter(GameEntity entity)
