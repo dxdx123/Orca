@@ -1,20 +1,20 @@
 {
   "1": {
     "id": "1",
-    "directory": "Assets/_Experiment/TestResourceManager",
-    "pattern": "*.png",
+    "directory": "Assets/Res/Core",
+    "pattern": "*.asset",
     "searchOption": "AllDirectories",
-    "filePattern": "\\.png",
+    "filePattern": "\\.asset",
     "fileBuildType": "Preserve",
-    "sourcePattern": "(Assets/_Experiment/TestResourceManager/Textures)/.+/(.+\\.png)",
-    "destPattern": "$1/$2.assetbundle",
-    "variantSourcePattern": "Assets/_Experiment/TestResourceManager/Textures/(.+)/.+\\.png",
-    "variantDestPattern": "$1",
-    "variantStrategy": "SimpleVariant"
+    "sourcePattern": "(.+)/.+\\.asset",
+    "destPattern": "$1.assetbundle",
+    "variantSourcePattern": null,
+    "variantDestPattern": null,
+    "variantStrategy": null
   },
   "2": {
     "id": "2",
-    "directory": "Assets/_Experiment/TestResourceManager",
+    "directory": "Assets/_Experiment/TestResourceVisual/Prefabs",
     "pattern": "*.prefab",
     "searchOption": "AllDirectories",
     "filePattern": "\\.prefab",

@@ -34,7 +34,7 @@ public class ResourceManagerAssetBundle
 
     class AssetBundleWrapper
     {
-        class RefData
+        public class RefData
         {
             public object owner;
             public List<int> internalRefList = new List<int>(DefaultListSize);
@@ -73,6 +73,8 @@ public class ResourceManagerAssetBundle
 
                 refData.internalRefList.Add(id);
             }
+
+            RaiseIncreaseEvent(path, owner);
         }
 
         public bool IsContainTarget(object owner, int id)
@@ -99,22 +101,18 @@ public class ResourceManagerAssetBundle
                 bool removed = _referenceList.Remove(refData);
                 Assert.IsTrue(removed, $"remove {owner} is not exist");
             }
+
+            RaiseDecreaseEvent(path, owner);
+        }
+
+        public List<RefData> GetReferenceList()
+        {
+            return _referenceList;
         }
 
         public int GetReferenceCount()
         {
             return _referenceList.Count;
-        }
-
-        public int GetTotalReferenceCount()
-        {
-            int sum = 0;
-            for (int i = 0, length = _referenceList.Count; i < length; ++i)
-            {
-                sum += _referenceList[i].internalRefList.Count;
-            }
-
-            return sum;
         }
 
         public void Destroy()
@@ -146,6 +144,9 @@ public class ResourceManagerAssetBundle
 
     private Dictionary<string, AssetBundleWrapper> _assetBundleWrappers = new Dictionary<string, AssetBundleWrapper>(DefaultListSize);
 
+    private static ResourceRefIncreaseEvent RefIncreaseEvent = new ResourceRefIncreaseEvent();
+    private static ResourceRefDecreaseEvent RefDecreaseEvent = new ResourceRefDecreaseEvent();
+    
     private ResourceManagerAssetBundle() { }
 
     public void Initialize(AssetBundleManifest manifest, IAssetBundleRoute route)
@@ -206,6 +207,11 @@ public class ResourceManagerAssetBundle
         AssetBundleWrapper wrapper;
         if (_assetBundleWrappers.TryGetValue(assetBundleName, out wrapper))
         {
+            if (wrapper.assetBundle == null)
+            {
+                throw new Exception($"Sync Load AssetBundle {assetBundleName} but got Async Bundle loading...");
+            }
+            
             wrapper.AddReference(owner, id);
 
             return wrapper.promise;
@@ -228,7 +234,7 @@ public class ResourceManagerAssetBundle
             wrapper.AddReference(owner, id);
 
             _assetBundleWrappers.Add(assetBundleName, wrapper);
-
+            
             return promise;
         }
     }
@@ -575,8 +581,8 @@ public class ResourceManagerAssetBundle
             promise = promise,
             loadingAssetSet = new HashSet<string>(),
         };
-        assetBundleWrapper.AddReference(owner, id);
         _assetBundleWrappers.Add(assetBundleName, assetBundleWrapper);
+        assetBundleWrapper.AddReference(owner, id);
     }
 
     private IEnumerator BrandNewLoadAssetBundleSole(Promise<AssetBundle> promise, string assetBundleName)
@@ -648,6 +654,22 @@ public class ResourceManagerAssetBundle
         }
     }
 
+    private static void RaiseIncreaseEvent(string assetBundleName, object owner)
+    {
+        RefIncreaseEvent.assetBundleName = assetBundleName;
+        RefIncreaseEvent.owner = owner;
+        
+        Events.instance.Raise(RefIncreaseEvent);
+    }
+
+    private static void RaiseDecreaseEvent(string assetBundleName, object owner)
+    {
+        RefDecreaseEvent.assetBundleName = assetBundleName;
+        RefDecreaseEvent.owner = owner;
+        
+        Events.instance.Raise(RefDecreaseEvent);
+    }
+
     private static int GetNextIdAssetBundle()
     {
         _idAssetBundle++;
@@ -655,16 +677,31 @@ public class ResourceManagerAssetBundle
         return _idAssetBundle;
     }
 
-    public int GetAssetBundleCount()
+    public Dictionary<string, List<object>> GetReferenceDict()
     {
-        int sum = 0;
-
+        var dict = new Dictionary<string, List<object>>();
+        
         foreach (var item in _assetBundleWrappers)
         {
-            var wrapper = item.Value;
-            sum += wrapper.GetTotalReferenceCount();
+            string assetBundleName = item.Key;
+            AssetBundleWrapper wrapper = item.Value;
+
+            var list = new List<object>();
+
+            foreach (AssetBundleWrapper.RefData refData in wrapper.GetReferenceList())
+            {
+                object owner = refData.owner;
+                int internalCount = refData.internalRefList.Count;
+
+                for (int i = 0; i < internalCount; ++i)
+                {
+                    list.Add(owner);
+                }
+            }
+            
+            dict.Add(assetBundleName, list);
         }
 
-        return sum;
+        return dict;
     }
 }
