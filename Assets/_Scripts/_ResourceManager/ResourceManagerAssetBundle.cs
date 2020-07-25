@@ -581,8 +581,8 @@ public class ResourceManagerAssetBundle
             promise = promise,
             loadingAssetSet = new HashSet<string>(),
         };
-        _assetBundleWrappers.Add(assetBundleName, assetBundleWrapper);
         assetBundleWrapper.AddReference(owner, id);
+        _assetBundleWrappers.Add(assetBundleName, assetBundleWrapper);
     }
 
     private IEnumerator BrandNewLoadAssetBundleSole(Promise<AssetBundle> promise, string assetBundleName)
@@ -656,6 +656,13 @@ public class ResourceManagerAssetBundle
 
     private static void RaiseIncreaseEvent(string assetBundleName, object owner)
     {
+        MainThreadDispatcher.StartUpdateMicroCoroutine(RaiseIncreaseEventInternal(assetBundleName, owner));
+    }
+
+    private static IEnumerator RaiseIncreaseEventInternal(string assetBundleName, object owner)
+    {
+        yield return null;
+        
         RefIncreaseEvent.assetBundleName = assetBundleName;
         RefIncreaseEvent.owner = owner;
         
@@ -664,6 +671,13 @@ public class ResourceManagerAssetBundle
 
     private static void RaiseDecreaseEvent(string assetBundleName, object owner)
     {
+        MainThreadDispatcher.StartUpdateMicroCoroutine(RaiseDecreaseEventInternal(assetBundleName, owner));
+    }
+
+    private static IEnumerator RaiseDecreaseEventInternal(string assetBundleName, object owner)
+    {
+        yield return null;
+        
         RefDecreaseEvent.assetBundleName = assetBundleName;
         RefDecreaseEvent.owner = owner;
         
