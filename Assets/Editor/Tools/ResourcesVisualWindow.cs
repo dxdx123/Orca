@@ -6,7 +6,7 @@ using UnityEditor;
 
 public class ResourcesVisualWindow : EditorWindow
 {
-    [MenuItem("Tools/Resources Visual Window")]
+    [MenuItem("EditorTools/Resources Visual Window")]
     public static void MenuItem_ShowResourcesVisualWindow()
     {
         ResourcesVisualWindow window = GetWindow<ResourcesVisualWindow>("Resources Visual");
@@ -18,20 +18,9 @@ public class ResourcesVisualWindow : EditorWindow
     private Dictionary<string, bool> _diffDict;
 
     private Vector2 _scrollViewPos;
-
-    private GUIStyle _normalStyle;
-    private GUIStyle _redStyle;
     
     private void Awake()
     {
-        _normalStyle = new GUIStyle();
-        _normalStyle.normal.textColor = Color.white;
-        _normalStyle.hover.textColor = Color.white;
-        
-        _redStyle = new GUIStyle();
-        _redStyle.normal.textColor = Color.white;
-        _redStyle.hover.textColor = Color.white;
-        
         SetupData();
     }
 
@@ -87,23 +76,9 @@ public class ResourcesVisualWindow : EditorWindow
             List<object> refList = item.Value;
 
             string abTitle = $"{bundleName} - ({refList.Count})";
-
-            // ugly
             bool diff = _diffDict[bundleName];
-            var oldColor = GUI.color;
-
-            if (diff)
-            {
-                GUI.color = Color.red;
-            }
-            else
-            {
-                GUI.color = oldColor;
-            }
-
-            _showRefs[index] = EditorGUILayout.Foldout(_showRefs[index], abTitle);
             
-            GUI.color = oldColor;
+            _showRefs[index] = EditorGUILayout.Foldout(_showRefs[index], abTitle, diff ? GenerateGUIStyle(Color.red) : GenerateGUIStyle(Color.white));
 
             if (_showRefs[index])
             {
@@ -119,6 +94,24 @@ public class ResourcesVisualWindow : EditorWindow
 
             ++index;
         }
+    }
+
+    private GUIStyle GenerateGUIStyle(Color color)
+    {
+        GUIStyle myFoldoutStyle = new GUIStyle(EditorStyles.foldout);
+        
+        myFoldoutStyle.fontStyle = FontStyle.Bold;
+        myFoldoutStyle.fontSize = 14;
+        myFoldoutStyle.normal.textColor = color;
+        myFoldoutStyle.onNormal.textColor = color;
+        myFoldoutStyle.hover.textColor = color;
+        myFoldoutStyle.onHover.textColor = color;
+        myFoldoutStyle.focused.textColor = color;
+        myFoldoutStyle.onFocused.textColor = color;
+        myFoldoutStyle.active.textColor = color;
+        myFoldoutStyle.onActive.textColor = color;
+
+        return myFoldoutStyle;
     }
 
     private void OnDisable()
