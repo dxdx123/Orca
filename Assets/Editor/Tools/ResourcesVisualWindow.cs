@@ -14,7 +14,8 @@ public class ResourcesVisualWindow : EditorWindow
     }
 
     private bool[] _showRefs;
-    private Dictionary<string, List<object>> _rawDict;
+    private HashSet<string> _foldOutSet = new HashSet<string>(); // which path is foldout open
+    private Dictionary<string, List<Tuple<object, int>>> _rawDict;
     private Dictionary<string, bool> _diffDict;
 
     private Vector2 _scrollViewPos;
@@ -63,17 +64,18 @@ public class ResourcesVisualWindow : EditorWindow
         EditorGUILayout.EndScrollView();
     }
 
-    // TODO:: Refractory me
     private void DrawContent()
     {
         if (_rawDict == null)
             return;
+        
+        _foldOutSet.Clear();
             
         int index = 0;
-        foreach (KeyValuePair<string, List<object>> item in _rawDict)
+        foreach (KeyValuePair<string, List<Tuple<object, int>>> item in _rawDict)
         {
             string bundleName = item.Key;
-            List<object> refList = item.Value;
+            List<Tuple<object, int>> refList = item.Value;
 
             string abTitle = $"{bundleName} - ({refList.Count})";
             bool diff = _diffDict[bundleName];
@@ -86,16 +88,22 @@ public class ResourcesVisualWindow : EditorWindow
 
                 foreach (var obj in refList)
                 {
-                    EditorGUILayout.LabelField($"* {obj.ToString()}");
+                    EditorGUILayout.LabelField($"{obj.Item2.ToString()} - {obj.Item1.ToString()}");
                 }
 
                 EditorGUI.indentLevel--;
+
+                _foldOutSet.Add(bundleName);
+            }
+            else
+            {
+                // nothing
             }
 
             ++index;
         }
     }
-
+    
     private GUIStyle GenerateGUIStyle(Color color)
     {
         GUIStyle myFoldoutStyle = new GUIStyle(EditorStyles.foldout);
@@ -124,17 +132,34 @@ public class ResourcesVisualWindow : EditorWindow
 
     private void SetupData()
     {
-        Dictionary<string, List<object>> newDict = ResourceManagerAssetBundle.Instance.GetReferenceDict();
+        Dictionary<string, List<System.Tuple<object, int>>> newDict = ResourceManagerAssetBundle.Instance.GetReferenceDict();
 
         _diffDict = GenerateDiffDict(_rawDict, newDict);
         
-        int length = newDict.Count;
-        _showRefs = new bool[length];
+        _showRefs = GenerateShowRefs(newDict);
 
         _rawDict = newDict;
     }
 
-    private Dictionary<string, bool> GenerateDiffDict(Dictionary<string, List<object>> oldDict, Dictionary<string, List<object>> newDict)
+    private bool[] GenerateShowRefs(Dictionary<string, List<Tuple<object, int>>> newDict)
+    {
+        int length = newDict.Count;
+        bool[] showRefs = new bool[length];
+
+        int index = 0;
+        foreach (var item in newDict)
+        {
+            string bundleName = item.Key;
+
+            showRefs[index] = _foldOutSet.Contains(bundleName);
+            
+            ++index;
+        }
+
+        return showRefs;
+    }
+
+    private Dictionary<string, bool> GenerateDiffDict(Dictionary<string, List<Tuple<object, int>>> oldDict, Dictionary<string, List<Tuple<object, int>>> newDict)
     {
         var dict = new Dictionary<string, bool>(newDict.Count);
 
@@ -151,9 +176,9 @@ public class ResourcesVisualWindow : EditorWindow
             foreach (var item in newDict)
             {
                 string assetBundleName = item.Key;
-                List<object> newList = item.Value;
+                List<Tuple<object, int>> newList = item.Value;
 
-                List<object> oldList;
+                List<Tuple<object, int>> oldList;
                 if (oldDict.TryGetValue(assetBundleName, out oldList))
                 {
                     bool same = IsSameList(oldList, newList);
@@ -171,7 +196,7 @@ public class ResourcesVisualWindow : EditorWindow
         return dict;
     }
 
-    private bool IsSameList(List<object> oldList, List<object> newList)
+    private bool IsSameList(List<Tuple<object, int>> oldList, List<Tuple<object, int>> newList)
     {
         if (oldList != null && newList != null && oldList.Count == newList.Count)
         {
@@ -179,8 +204,8 @@ public class ResourcesVisualWindow : EditorWindow
 
             for (int i = 0; i < length; ++i)
             {
-                object oldObj = oldList[i];
-                object newObj = newList[i];
+                object oldObj = oldList[i].Item1;
+                object newObj = newList[i].Item1;
 
                 if (!oldObj.Equals(newObj))
                 {

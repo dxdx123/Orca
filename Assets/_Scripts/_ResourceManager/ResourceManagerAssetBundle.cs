@@ -691,16 +691,16 @@ public class ResourceManagerAssetBundle
         return _idAssetBundle;
     }
 
-    public Dictionary<string, List<object>> GetReferenceDict()
+    public Dictionary<string, List<System.Tuple<object, int>>> GetReferenceDict()
     {
-        var dict = new Dictionary<string, List<object>>();
+        var dict = new Dictionary<string, List<System.Tuple<object, int>>>();
         
         foreach (var item in _assetBundleWrappers)
         {
             string assetBundleName = item.Key;
             AssetBundleWrapper wrapper = item.Value;
 
-            var list = new List<object>();
+            var list = new List<System.Tuple<object, int>>();
 
             foreach (AssetBundleWrapper.RefData refData in wrapper.GetReferenceList())
             {
@@ -709,7 +709,10 @@ public class ResourceManagerAssetBundle
 
                 for (int i = 0; i < internalCount; ++i)
                 {
-                    list.Add(owner);
+                    int internalId = refData.internalRefList[i];
+                    var data = System.Tuple.Create(owner, internalId);
+                    
+                    list.Add(data);
                 }
             }
             
