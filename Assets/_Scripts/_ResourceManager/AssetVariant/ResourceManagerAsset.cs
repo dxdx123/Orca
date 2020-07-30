@@ -140,6 +140,10 @@ public class ResourceManagerAsset
             {
                 DestroyAllAsset(path);
             }
+            else
+            {
+                // nothing
+            }
         }
         else
         {
@@ -170,9 +174,65 @@ public class ResourceManagerAsset
         }
     }
 
-    public IPromise<T> GetAssetAsset<T>(IResourceLoader loader, string path, object owner) where T : UnityEngine.Object
+    public IPromise<T> GetAssetAssetSync<T>(IResourceLoader loader, string path, object owner) where T : Object
     {
-        AssetWrapper assetWrapper = null;
+        AssetWrapper assetWrapper;
+
+        int id = GetNextIDAsset();
+
+        if (_assetWrappers.TryGetValue(path, out assetWrapper))
+        {
+            assetWrapper.AddReference(owner, id);
+
+            if (assetWrapper.loadDone)
+            {
+                T asset = assetWrapper.asset as T;
+                if (asset)
+                {
+                    return Promise<T>.Resolved(asset);
+                }
+                else
+                {
+                    return Promise<T>.Rejected(new Exception($"asset == null. path: {path}"));
+                }
+            }
+            else
+            {
+                throw new Exception($"GetAssetAssetSync got async loading. path: {path}");
+            }
+        }
+        else
+        {
+            var promise = new Promise<T>();
+
+            assetWrapper = new AssetWrapper()
+            {
+                path = path,
+                loader = loader,
+                asset = null,
+                loadDone = false,
+                loadDoneAction = new List<Action>(DEFAULT_LIST_SIZE),
+            };
+            assetWrapper.AddReference(owner, id);
+            _assetWrappers.Add(path, assetWrapper);
+
+            loader.BrandNewLoadAssetSync<T>(path)
+                .Then(asset =>
+                {
+                    assetWrapper.asset = asset;
+                    assetWrapper.loadDone = true;
+                    
+                    promise.Resolve(asset as T);
+                })
+                .Catch(ex => promise.Reject(ex));
+
+            return promise;
+        }
+    }
+    
+    public IPromise<T> GetAssetAsset<T>(IResourceLoader loader, string path, object owner) where T : Object
+    {
+        AssetWrapper assetWrapper;
 
         int id = GetNextIDAsset();
         if (_assetWrappers.TryGetValue(path, out assetWrapper))
@@ -275,7 +335,7 @@ public class ResourceManagerAsset
     {
         var promise = new Promise<T>();
 
-        var AssetWrapper = new AssetWrapper()
+        var assetWrapper = new AssetWrapper()
         {
             path = path,
             loader = loader,
@@ -283,23 +343,23 @@ public class ResourceManagerAsset
             loadDone = false,
             loadDoneAction = new List<Action>(DEFAULT_LIST_SIZE),
         };
-        AssetWrapper.AddReference(owner, id);
-        AddLoadDoneAction(promise, AssetWrapper, path, owner, id);
+        assetWrapper.AddReference(owner, id);
+        AddLoadDoneAction(promise, assetWrapper, path, owner, id);
 
-        _assetWrappers.Add(path, AssetWrapper);
+        _assetWrappers.Add(path, assetWrapper);
 
         loader.BrandNewLoadAsset<T>(path)
             .Then(obj =>
             {
-                AssetWrapper.asset = obj;
+                assetWrapper.asset = obj;
 
-                OnAssetLoadFinish(AssetWrapper);
+                OnAssetLoadFinish(assetWrapper);
             })
             .Catch(ex =>
             {
-                AssetWrapper.asset = null;
+                assetWrapper.asset = null;
                 
-                OnAssetLoadFinish(AssetWrapper);
+                OnAssetLoadFinish(assetWrapper);
             });
         
 

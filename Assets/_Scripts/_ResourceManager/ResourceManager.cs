@@ -24,7 +24,7 @@ public class ResourceManager
         }
     }
 
-    private readonly Dictionary<string, string> _assetBundleDict = new Dictionary<string, string>();
+    private readonly Dictionary<string, string> _assetPathDict = new Dictionary<string, string>();
     private readonly Dictionary<string, string> _lowerDict = new Dictionary<string, string>();
 
     private ResourceManager()
@@ -38,14 +38,33 @@ public class ResourceManager
         _useBundle = useAssetBundle;
     }
 
+    public IPromise<T> GetAssetSync<T>(string path, object owner) where T : Object
+    {
+        if (_useBundle)
+        {
+            string assetPath = GetAssetBundleName(path);
+            string assetName = GetAssetName(path);
+
+            return GetAssetFromAssetBundleSync<T>(assetPath, assetName, owner);
+        }
+        else
+        {
+#if UNITY_EDITOR
+            return ResourceManagerAsset.Instance.GetAssetAssetSync<T>(AssetEditorLoader.Instance, path, owner);
+#else
+            return Promise<T>.Rejected(new Exception("None Editor can't load Asset"));
+#endif
+        } 
+    }
+
     public IPromise<T> GetAsset<T>(string path, object owner) where T : Object
     {
         if (_useBundle)
         {
-            string assetBundleName = GetAssetBundleName(path);
+            string assetPath = GetAssetBundleName(path);
             string assetName = GetAssetName(path);
 
-            return GetAssetFromAssetBundle<T>(assetBundleName, assetName, owner);
+            return GetAssetFromAssetBundle<T>(assetPath, assetName, owner);
         }
         else
         {
@@ -69,29 +88,36 @@ public class ResourceManager
         {
 #if UNITY_EDITOR
             ResourceManagerAsset.Instance.DestroyAsset(path, owner);
+#else
+            return Promise<T>.Rejected(new Exception("None Editor can't destroy Asset"));
 #endif
         }
     }
-
-    private IPromise<T> GetAssetFromAssetBundle<T>(string assetBundleName, string assetName, object owner) where T : Object
+    
+    private IPromise<T> GetAssetFromAssetBundleSync<T>(string assetPath, string assetName, object owner) where T : Object
     {
-        return ResourceManagerAssetBundle.Instance.GetAssetBundleAsset<T>(assetBundleName, assetName, owner);
+        return ResourceManagerAssetBundle.Instance.GetAssetBundleAssetSync<T>(assetPath, assetName, owner);
+    }
+
+    private IPromise<T> GetAssetFromAssetBundle<T>(string assetPath, string assetName, object owner) where T : Object
+    {
+        return ResourceManagerAssetBundle.Instance.GetAssetBundleAsset<T>(assetPath, assetName, owner);
     }
 
     public string GetAssetBundleName(string path)
     {
-        string assetBundleName;
-        if (_assetBundleDict.TryGetValue(path, out assetBundleName))
+        string assetPath;
+        if (_assetPathDict.TryGetValue(path, out assetPath))
         {
-            return assetBundleName;
+            return assetPath;
         }
         else
         {
-            assetBundleName = path.ToLower();
+            assetPath = path.ToLower();
 
-            _assetBundleDict.Add(path, assetBundleName);
+            _assetPathDict.Add(path, assetPath);
 
-            return assetBundleName;
+            return assetPath;
         }
     }
 

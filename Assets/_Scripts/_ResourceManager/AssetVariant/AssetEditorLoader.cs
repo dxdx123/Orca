@@ -44,6 +44,20 @@ public class AssetEditorLoader : IResourceLoader
 #endif
     }
 
+    public IPromise<Object> BrandNewLoadAssetSync<T>(string path) where T : Object
+    {
+        Object asset = AssetDatabase.LoadAssetAtPath<T>(path);
+
+        if (asset)
+        {
+            return Promise<Object>.Resolved(asset);
+        }
+        else
+        {
+            return Promise<Object>.Rejected(new Exception($"asset == null: {path}"));
+        }
+    }
+
 #if UNITY_EDITOR
     private IEnumerator LoadAssetEditor<T>(string path, Action<Object> resolve, Action<Exception> reject) where T : Object
     {

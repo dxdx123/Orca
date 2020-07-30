@@ -281,6 +281,33 @@ public class ResourceManagerAssetBundle
         return promise;
     }
 
+    public IPromise<T> GetAssetBundleAssetSync<T>(string assetPath, string assetName, object owner) where T : Object
+    {
+        Assert.IsNotNull(assetPath);
+        Assert.IsNotNull(assetName);
+        Assert.IsNotNull(owner);
+        
+        var promise = new Promise<T>();
+
+        GetAssetBundleSync(assetPath, owner)
+            .Then(assetBundle =>
+            {
+                string assetBundleName = _route.LookupAssetBundleName(assetPath);
+
+                var wrapper = _assetBundleWrappers[assetBundleName];
+                Assert.IsNotNull(wrapper);
+
+                return LoaAssetSync<T>(assetName, assetBundle, wrapper);
+            })
+            .Then(asset =>
+            {
+                promise.Resolve(asset);
+            })
+            .Catch(ex => { promise.Reject(ex); });
+
+        return promise;
+    }
+
     public IPromise<T> GetAssetBundleAsset<T>(string assetPath, string assetName, object owner) where T : Object
     {
         Assert.IsNotNull(assetPath);
@@ -330,6 +357,51 @@ public class ResourceManagerAssetBundle
 
         return promise;
     }
+    
+    private IPromise<T> LoaAssetSync<T>(string assetName, AssetBundle assetBundle, AssetBundleWrapper wrapper) where T : Object
+    {
+        WeakReference<Object> assetRef;
+        if (wrapper.assetDict.TryGetValue(assetName, out assetRef))
+        {
+            Object assetObj;
+            if (assetRef.TryGetTarget(out assetObj))
+            {
+                T asset = assetObj as T;
+
+                if (asset)
+                {
+                    return Promise<T>.Resolved(asset);
+                }
+                else
+                {
+                    return Promise<T>.Rejected(
+                        new Exception($"LoadAssetSync can't cast assetObj {assetObj.GetType()} to {typeof(T)}"));
+                }
+            }
+            else
+            {
+                Debug.LogError($"Asset NOT release, Please check: {assetName}");
+                wrapper.assetDict.Remove(assetName);
+            }
+        }
+        
+        Promise<T> loadPromise = new Promise<T>();
+        
+        T theAsset =  assetBundle.LoadAsset<T>(assetName);
+
+        if(theAsset)
+        {
+            wrapper.assetDict[assetName] = new WeakReference<Object>(theAsset);
+            
+            loadPromise.Resolve(theAsset);
+        }
+        else
+        {
+            loadPromise.Reject(new Exception($"Fail to LoaAssetSync assetBundle: {assetBundle}, assetName: {assetName}"));
+        }
+
+        return loadPromise;
+    }
 
     private IPromise<T> LoaAssetAsync<T>(string assetName, AssetBundle assetBundle, AssetBundleWrapper wrapper) where T : Object
     {
@@ -348,7 +420,7 @@ public class ResourceManagerAssetBundle
                 else
                 {
                     return Promise<T>.Rejected(
-                        new Exception($"LoadAssetSync can't cast assetObj {assetObj.GetType()} to {typeof(T)}"));
+                        new Exception($"LoaAssetAsync can't cast assetObj {assetObj.GetType()} to {typeof(T)}"));
                 }
             }
             else

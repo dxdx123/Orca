@@ -37,6 +37,11 @@ public class AssetWebRequestTextureLoader : IResourceLoader
         });
     }
 
+    public IPromise<Object> BrandNewLoadAssetSync<T>(string path) where T : Object
+    {
+        throw new NotImplementedException();
+    }
+
     private IEnumerator LoadTexture(string url, Action<Object> resolve, Action<Exception> reject)
     {
         using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(url))
