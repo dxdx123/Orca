@@ -11,7 +11,7 @@ using Object = UnityEngine.Object;
 
 public class ResourceManagerAsset
 {
-    public const int DEFAULT_LIST_SIZE = 4;
+    private const int DEFAULT_LIST_SIZE = 4;
 
     private static ResourceManagerAsset _instance;
 
@@ -36,7 +36,7 @@ public class ResourceManagerAsset
         class RefData
         {
             public object owner;
-            public List<int> internalRefList = new List<int>(DEFAULT_LIST_SIZE);
+            public readonly List<int> internalRefList = new List<int>(DEFAULT_LIST_SIZE);
         }
 
         public string path;
@@ -46,7 +46,7 @@ public class ResourceManagerAsset
         public bool loadDone;
         public List<Action> loadDoneAction;
 
-        private List<RefData> _referenceList = new List<RefData>(DEFAULT_LIST_SIZE);
+        private readonly List<RefData> _referenceList = new List<RefData>(DEFAULT_LIST_SIZE);
 
         private RefData FindRefData(object owner)
         {
@@ -79,7 +79,7 @@ public class ResourceManagerAsset
             if (refData.internalRefList.Count == 0)
             {
                 bool removed = _referenceList.Remove(refData);
-                Assert.IsTrue(removed, string.Format("remove {0} is not exist", owner));
+                Assert.IsTrue(removed, $"remove {owner} is not exist");
             }
         }
 
@@ -114,20 +114,9 @@ public class ResourceManagerAsset
 
             return refData != null && refData.internalRefList.Contains(id);
         }
-
-        public int GetReferenceCount()
-        {
-            int refCount = 0;
-            for (int i = 0, length = _referenceList.Count; i < length; ++i)
-            {
-                refCount += _referenceList[i].internalRefList.Count;
-            }
-
-            return refCount;
-        }
     }
 
-    private Dictionary<string, AssetWrapper> _assetWrappers = new Dictionary<string, AssetWrapper>();
+    private readonly Dictionary<string, AssetWrapper> _assetWrappers = new Dictionary<string, AssetWrapper>();
 
     public void DestroyAsset(string path, object owner)
     {
@@ -147,13 +136,13 @@ public class ResourceManagerAsset
         }
         else
         {
-            throw new Exception(string.Format("DestroyAsset path: {0} owner: {1}", path, owner));
+            throw new Exception($"DestroyAsset path: {path} owner: {owner}");
         }
     }
 
     private void DestroyAllAsset(string path)
     {
-        AssetWrapper wrapper = null;
+        AssetWrapper wrapper;
         if (_assetWrappers.TryGetValue(path, out wrapper))
         {
             if (wrapper.loadDone)
@@ -178,7 +167,7 @@ public class ResourceManagerAsset
     {
         AssetWrapper assetWrapper;
 
-        int id = GetNextIDAsset();
+        int id = GetNextIdAsset();
 
         if (_assetWrappers.TryGetValue(path, out assetWrapper))
         {
@@ -234,18 +223,18 @@ public class ResourceManagerAsset
     {
         AssetWrapper assetWrapper;
 
-        int id = GetNextIDAsset();
+        int id = GetNextIdAsset();
         if (_assetWrappers.TryGetValue(path, out assetWrapper))
         {
             assetWrapper.AddReference(owner, id);
 
             if (assetWrapper.loadDone)
             {
-                return RetriveAsset<T>(assetWrapper, path, owner, id);
+                return RetrieveAsset<T>(assetWrapper, path, owner, id);
             }
             else
             {
-                return DelayRetriveAsset<T>(assetWrapper, path, owner, id);
+                return DelayRetrieveAsset<T>(assetWrapper, path, owner, id);
             }
         }
         else
@@ -254,7 +243,7 @@ public class ResourceManagerAsset
         }
     }
 
-    private IPromise<T> RetriveAsset<T>(AssetWrapper assetWrapper, string path, object owner, int id) where T : Object
+    private IPromise<T> RetrieveAsset<T>(AssetWrapper assetWrapper, string path, object owner, int id) where T : Object
     {
         var promise = new Promise<T>();
 
@@ -288,7 +277,7 @@ public class ResourceManagerAsset
 
     private void AddLoadDoneAction<T>(Promise<T> promise, AssetWrapper assetWrapper, string path, object owner, int id) where T : Object
     {
-        Action loadDoneAction = new Action(() =>
+        Action loadDoneAction = () =>
         {
             T asset = assetWrapper.asset as T;
 
@@ -316,12 +305,12 @@ public class ResourceManagerAsset
                     promise.Reject(new Exception($"asset == null: {path}"));
                 }
             }
-        });
+        };
 
         assetWrapper.loadDoneAction.Add(loadDoneAction);
     }
 
-    private IPromise<T> DelayRetriveAsset<T>(AssetWrapper assetWrapper, string path, object owner, int id) where T : Object
+    private IPromise<T> DelayRetrieveAsset<T>(AssetWrapper assetWrapper, string path, object owner, int id) where T : Object
     {
         var promise = new Promise<T>();
 
@@ -331,7 +320,7 @@ public class ResourceManagerAsset
     }
 
 
-    private IPromise<T> BrandNewLoadAsset<T>(IResourceLoader loader, string path, object owner, int id) where T : UnityEngine.Object
+    private IPromise<T> BrandNewLoadAsset<T>(IResourceLoader loader, string path, object owner, int id) where T : Object
     {
         var promise = new Promise<T>();
 
@@ -401,12 +390,12 @@ public class ResourceManagerAsset
         return !wrapper.IsContainTarget(owner, id);
     }
 
-    private static int _idAsset= 0;
+    private static int assetId;
 
-    private static int GetNextIDAsset()
+    private static int GetNextIdAsset()
     {
-        _idAsset = _idAsset + 1;
+        assetId = assetId + 1;
 
-        return _idAsset;
+        return assetId;
     }
 }

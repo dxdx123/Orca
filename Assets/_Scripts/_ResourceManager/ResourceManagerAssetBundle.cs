@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using System;
-using System.Runtime.InteropServices;
 using UnityEngine.Assertions;
 
 using Object = UnityEngine.Object;
@@ -29,8 +28,9 @@ public class ResourceManagerAssetBundle
     private AssetBundleManifestCache _manifest;
     private IAssetBundleRoute _route;
 
-    private static int _idAssetBundle = 0;
-    public const int DefaultListSize = 4;
+    private static int assetBundleId;
+
+    private const int DefaultListSize = 4;
 
     class AssetBundleWrapper
     {
@@ -142,10 +142,10 @@ public class ResourceManagerAssetBundle
         }
     }
 
-    private Dictionary<string, AssetBundleWrapper> _assetBundleWrappers = new Dictionary<string, AssetBundleWrapper>(DefaultListSize);
+    private readonly Dictionary<string, AssetBundleWrapper> _assetBundleWrappers = new Dictionary<string, AssetBundleWrapper>(DefaultListSize);
 
-    private static ResourceRefIncreaseEvent RefIncreaseEvent = new ResourceRefIncreaseEvent();
-    private static ResourceRefDecreaseEvent RefDecreaseEvent = new ResourceRefDecreaseEvent();
+    private static readonly ResourceRefIncreaseEvent RefIncreaseEvent = new ResourceRefIncreaseEvent();
+    private static readonly ResourceRefDecreaseEvent RefDecreaseEvent = new ResourceRefDecreaseEvent();
     
     private ResourceManagerAssetBundle() { }
 
@@ -440,7 +440,7 @@ public class ResourceManagerAssetBundle
 
     private IEnumerator LoadAssetBundleAsset<T>(AssetBundleWrapper wrapper, Promise<T> promise, AssetBundle assetBundle, string assetName) where T : Object
     {
-        var assetReq = assetBundle.LoadAssetAsync<T>(assetName);
+        AssetBundleRequest assetReq = assetBundle.LoadAssetAsync<T>(assetName);
         while (!assetReq.isDone)
             yield return null;
 
@@ -758,9 +758,9 @@ public class ResourceManagerAssetBundle
 
     private static int GetNextIdAssetBundle()
     {
-        _idAssetBundle++;
+        assetBundleId++;
 
-        return _idAssetBundle;
+        return assetBundleId;
     }
 
     public Dictionary<string, List<System.Tuple<object, int>>> GetReferenceDict()

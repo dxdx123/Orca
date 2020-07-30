@@ -7,7 +7,7 @@ public class AssetBundleManifestCache
 {
     private AssetBundleManifest _manifest;
 
-    private Dictionary<string, string[]> _depDict = new Dictionary<string, string[]>(128);
+    private readonly Dictionary<string, string[]> _depDict = new Dictionary<string, string[]>(128);
 
     public AssetBundleManifestCache(AssetBundleManifest manifest)
     {

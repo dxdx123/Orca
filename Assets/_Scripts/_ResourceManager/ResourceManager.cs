@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using RSG;
 using System.Collections.Generic;
-using RSG;
-using UniRx;
-using UnityEditor;
-using UnityEngine;
+
 using Object = UnityEngine.Object;
 
 public class ResourceManager
@@ -31,7 +27,7 @@ public class ResourceManager
     {
     }
 
-    private bool _useBundle = false;
+    private bool _useBundle;
 
     public void Initialize(bool useAssetBundle)
     {
@@ -104,7 +100,7 @@ public class ResourceManager
         return ResourceManagerAssetBundle.Instance.GetAssetBundleAsset<T>(assetPath, assetName, owner);
     }
 
-    public string GetAssetBundleName(string path)
+    private string GetAssetBundleName(string path)
     {
         string assetPath;
         if (_assetPathDict.TryGetValue(path, out assetPath))
@@ -121,7 +117,7 @@ public class ResourceManager
         }
     }
 
-    public string GetAssetName(string str)
+    private string GetAssetName(string str)
     {
         string lowerString;
 

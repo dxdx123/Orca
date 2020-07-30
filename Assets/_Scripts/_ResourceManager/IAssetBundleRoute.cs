@@ -16,7 +16,7 @@ public class AssetBundleRoute : IAssetBundleRoute
     private readonly Dictionary<string, string> _pathDict = new Dictionary<string, string>(128);
     private readonly Dictionary<string, string> _assetBundleNameDict = new Dictionary<string, string>(128);
 
-    private AssetBundleVariantData _assetBundleVariantData;
+    private readonly AssetBundleVariantData _assetBundleVariantData;
     public AssetBundleRoute(AssetBundleRouteData assetBundleRouteData, AssetBundleVariantData assetBundleVariantData)
     {
         InitializePath2AssetBundle(assetBundleRouteData.list);

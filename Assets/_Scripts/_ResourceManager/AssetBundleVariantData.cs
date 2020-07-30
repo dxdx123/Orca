@@ -16,8 +16,8 @@ public class AssetBundleVariantData : ScriptableObject
     public List<Id2AbPathWrapper> idAbPathList;
 
     private Dictionary<string, AsestBundleVariantStategy> _abPath2StrategyDict = null;
-    private Dictionary<string, string> _abPath2IdDict = null;
-    private Dictionary<Tuple<string, string>, string> _id2AbPathDict = null;
+    private Dictionary<string, string> _abPath2IdDict;
+    private Dictionary<Tuple<string, string>, string> _id2AbPathDict;
     
     public void Initialize()
     {
@@ -77,14 +77,14 @@ public class AssetBundleVariantData : ScriptableObject
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class AbPath2IdWrapper
 {
     public string abPath;
     public string id;
 }
 
-[System.Serializable]
+[Serializable]
 public class Id2AbPathWrapper
 {
     public string id;
