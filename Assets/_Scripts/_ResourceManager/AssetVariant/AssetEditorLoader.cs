@@ -46,6 +46,7 @@ public class AssetEditorLoader : IResourceLoader
 
     public IPromise<Object> BrandNewLoadAssetSync<T>(string path) where T : Object
     {
+#if UNITY_EDITOR
         Object asset = AssetDatabase.LoadAssetAtPath<T>(path);
 
         if (asset)
@@ -56,6 +57,9 @@ public class AssetEditorLoader : IResourceLoader
         {
             return Promise<Object>.Rejected(new Exception($"asset == null: {path}"));
         }
+#else
+        throw new NotImplementedException();
+#endif
     }
 
 #if UNITY_EDITOR

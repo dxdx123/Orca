@@ -165,14 +165,12 @@ public class ResourceManagerAssetBundle
 
         string assetBundleName = _route.LookupAssetBundleName(assetPath);
 
-        int id = GetNextIdAssetBundle();
-        
         var dependencies = _manifest.GetAllDependencies(assetBundleName);
         int length = dependencies.Length;
 
         if (length == 0)
         {
-            return LoadAssetBundleSyncInternal(assetBundleName, owner, id);
+            return LoadAssetBundleSyncInternal(assetBundleName, owner);
         }
         else
         {
@@ -182,11 +180,11 @@ public class ResourceManagerAssetBundle
             for (int i = 0; i < length; ++i)
             {
                 string depBundleName = dependencies[i];
-                promises[i] = LoadAssetBundleSyncInternal(depBundleName, owner, id);
+                promises[i] = LoadAssetBundleSyncInternal(depBundleName, owner);
             }
             
             // self
-            promises[length] = LoadAssetBundleSyncInternal(assetBundleName, owner, id);
+            promises[length] = LoadAssetBundleSyncInternal(assetBundleName, owner);
 
             var promise = new Promise<AssetBundle>();
 
@@ -202,8 +200,10 @@ public class ResourceManagerAssetBundle
         }
     }
 
-    private IPromise<AssetBundle> LoadAssetBundleSyncInternal(string assetBundleName, object owner, int id)
+    private IPromise<AssetBundle> LoadAssetBundleSyncInternal(string assetBundleName, object owner)
     {
+        int id = GetNextIdAssetBundle();
+        
         AssetBundleWrapper wrapper;
         if (_assetBundleWrappers.TryGetValue(assetBundleName, out wrapper))
         {
@@ -260,19 +260,20 @@ public class ResourceManagerAssetBundle
                 AssetBundleWrapper wrapper;
                 if (_assetBundleWrappers.TryGetValue(assetBundleName, out wrapper))
                 {
-                    TryDestroyNoRefAssetBundle(assetBundleName, wrapper, true);
-
                     if (wrapper.IsContainTarget(owner, id))
                     {
                         promise.Resolve(assetBundle);
                     }
                     else
                     {
+                        DestroyAssetBundleDependencies(assetBundleName, owner);
+                        TryDestroyNoRefAssetBundle(assetBundleName, wrapper, true, owner);
                         promise.Reject(ex);
                     }
                 }
                 else
                 {
+                    DestroyAssetBundleDependencies(assetBundleName, owner);
                     promise.Reject(new Exception(
                         $"Load AssetBundle done but all refs destroyed assetBundleName: {assetBundleName}, owner: {owner}, id: {id}"));
                 }
@@ -337,19 +338,21 @@ public class ResourceManagerAssetBundle
                 AssetBundleWrapper wrapper;
                 if (_assetBundleWrappers.TryGetValue(assetBundleName, out wrapper))
                 {
-                    TryDestroyNoRefAssetBundle(assetBundleName, wrapper, true);
-
                     if (wrapper.IsContainTarget(owner, id))
                     {
                         promise.Resolve(asset);
                     }
                     else
                     {
+                        DestroyAssetBundleDependencies(assetBundleName, owner);
+                        TryDestroyNoRefAssetBundle(assetBundleName, wrapper, true, owner);
+
                         promise.Reject(ex);
                     }
                 }
                 else
                 {
+                    DestroyAssetBundleDependencies(assetBundleName, owner);
                     promise.Reject(new Exception(
                         $"Load Assets done but ALL refs destroyed assetBundleName: {assetBundleName}, assetName: {assetName}, owner: {owner}, id: {id}"));                    
                 }
@@ -483,7 +486,6 @@ public class ResourceManagerAssetBundle
                     }
                     else
                     {
-                        TryDestroyNoRefAssetBundle(assetBundleName, wrapper, true);
                         promise.Reject(new Exception(
                             $"Load AssetBundle done but NO refs assetBundleName: {assetBundleName}, owner: {owner}, id: {id}"));                    
                     }
@@ -498,11 +500,11 @@ public class ResourceManagerAssetBundle
         return promise;
     }
 
-    private void TryDestroyNoRefAssetBundle(string assetBundleName, AssetBundleWrapper wrapper, bool includeDep)
+    private void TryDestroyNoRefAssetBundle(string assetBundleName, AssetBundleWrapper wrapper, bool includeDep, object owner)
     {
         if (includeDep)
         {
-            CheckNoRefWrapper(assetBundleName, wrapper);
+            CheckNoRefWrapper(assetBundleName, wrapper, owner);
 
             var dependencies = _manifest.GetAllDependencies(assetBundleName);
             for (int i = 0, length = dependencies.Length; i < length; ++i)
@@ -512,23 +514,25 @@ public class ResourceManagerAssetBundle
                 var depWrapper = _assetBundleWrappers[depBundle];
                 Assert.IsNotNull(depWrapper);
 
-                CheckNoRefWrapper(depBundle, depWrapper);
+                CheckNoRefWrapper(depBundle, depWrapper, owner);
             }
         }
         else
         {
-            CheckNoRefWrapper(assetBundleName, wrapper);
+            CheckNoRefWrapper(assetBundleName, wrapper, owner);
         }
     }
 
-    private void CheckNoRefWrapper(string assetBundleName, AssetBundleWrapper wrapper)
+    private void CheckNoRefWrapper(string assetBundleName, AssetBundleWrapper wrapper, object owner)
     {
         if (wrapper.GetReferenceCount() == 0)
         {
             wrapper.Destroy();
 
-            bool remove = _assetBundleWrappers.Remove(assetBundleName);
-            Assert.IsTrue(remove);
+            bool removed = _assetBundleWrappers.Remove(assetBundleName);
+            Assert.IsTrue(removed);
+            
+            RaiseDecreaseEvent(assetBundleName, owner);
         }
         else
         {
@@ -544,14 +548,29 @@ public class ResourceManagerAssetBundle
         {
             wrapper.AddReference(owner, id);
 
-            var dependencies = _manifest.GetAllDependencies(assetBundleName);
-            for(int i=0, length=dependencies.Length; i<length; ++i)
+            if (includeDep)
             {
-                string depBundles = dependencies[i];
-                var depWrapper = _assetBundleWrappers[depBundles];
-                Assert.IsNotNull(depWrapper);
+                var dependencies = _manifest.GetAllDependencies(assetBundleName);
+                for (int i = 0, length = dependencies.Length; i < length; ++i)
+                {
+                    int depId = GetNextIdAssetBundle();
+                    
+                    string depBundleName = dependencies[i];
+                    AssetBundleWrapper depWrapper;
 
-                depWrapper.AddReference(owner, id);
+                    if (_assetBundleWrappers.TryGetValue(depBundleName, out depWrapper))
+                    {
+                        depWrapper.AddReference(owner, depId);
+                    }
+                    else
+                    {
+                        // nothing
+                    }
+                }
+            }
+            else
+            {
+                // nothing
             }
 
             return wrapper.promise;
@@ -690,17 +709,29 @@ public class ResourceManagerAssetBundle
 
         string assetBundleName = _route.LookupAssetBundleName(assetPath);
 
+        bool selfDestroy = DestroyAssetBundleSolo(assetBundleName, owner);
+
+        if (selfDestroy)
+        {
+            DestroyAssetBundleDependencies(assetBundleName, owner);
+        }
+        else
+        {
+            // waiting
+        }
+    }
+
+    private void DestroyAssetBundleDependencies(string assetBundleName, object owner)
+    {
         string[] dependencies = _manifest.GetAllDependencies(assetBundleName);
-        for(int i=0, length = dependencies.Length; i<length; ++i)
+        for (int i = 0, length = dependencies.Length; i < length; ++i)
         {
             string depAssetBundle = dependencies[i];
             DestroyAssetBundleSolo(depAssetBundle, owner);
         }
-
-        DestroyAssetBundleSolo(assetBundleName, owner);
     }
 
-    private void DestroyAssetBundleSolo(string assetBundleName, object owner)
+    private bool DestroyAssetBundleSolo(string assetBundleName, object owner)
     {
         AssetBundleWrapper wrapper;
         if(_assetBundleWrappers.TryGetValue(assetBundleName, out wrapper))
@@ -711,18 +742,23 @@ public class ResourceManagerAssetBundle
             {
                 wrapper.RemoveReference(owner);
 
-                TryDestroyNoRefAssetBundle(assetBundleName, wrapper, false);
+                TryDestroyNoRefAssetBundle(assetBundleName, wrapper, false, owner);
+
+                return true;
             }
             else
             {
                 // still loading
                 wrapper.RemoveReference(owner);
+
+                return false;
             }
         }
         else
         {
             // no ref
             Debug.LogError($"Destroy Not Loaded AssetBundle assetBundleName: {assetBundleName} owner: {owner}");
+            return true;
         }
     }
 

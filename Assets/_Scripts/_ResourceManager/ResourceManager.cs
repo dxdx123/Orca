@@ -21,7 +21,6 @@ public class ResourceManager
     }
 
     private readonly Dictionary<string, string> _assetPathDict = new Dictionary<string, string>();
-    private readonly Dictionary<string, string> _lowerDict = new Dictionary<string, string>();
 
     private ResourceManager()
     {
@@ -39,7 +38,7 @@ public class ResourceManager
         if (_useBundle)
         {
             string assetPath = GetAssetBundleName(path);
-            string assetName = GetAssetName(path);
+            string assetName = path;
 
             return GetAssetFromAssetBundleSync<T>(assetPath, assetName, owner);
         }
@@ -48,7 +47,7 @@ public class ResourceManager
 #if UNITY_EDITOR
             return ResourceManagerAsset.Instance.GetAssetAssetSync<T>(AssetEditorLoader.Instance, path, owner);
 #else
-            return Promise<T>.Rejected(new Exception("None Editor can't load Asset"));
+            return Promise<T>.Rejected(new System.Exception("None Editor can't load Asset"));
 #endif
         } 
     }
@@ -58,7 +57,7 @@ public class ResourceManager
         if (_useBundle)
         {
             string assetPath = GetAssetBundleName(path);
-            string assetName = GetAssetName(path);
+            string assetName = path;
 
             return GetAssetFromAssetBundle<T>(assetPath, assetName, owner);
         }
@@ -67,7 +66,7 @@ public class ResourceManager
 #if UNITY_EDITOR
             return ResourceManagerAsset.Instance.GetAssetAsset<T>(AssetEditorLoader.Instance, path, owner);
 #else
-            return Promise<T>.Rejected(new Exception("None Editor can't load Asset"));
+            return Promise<T>.Rejected(new System.Exception("None Editor can't load Asset"));
 #endif
         }
     }
@@ -85,7 +84,7 @@ public class ResourceManager
 #if UNITY_EDITOR
             ResourceManagerAsset.Instance.DestroyAsset(path, owner);
 #else
-            return Promise<T>.Rejected(new Exception("None Editor can't destroy Asset"));
+            throw new System.Exception("None Editor can't destroy Asset");
 #endif
         }
     }
@@ -114,24 +113,6 @@ public class ResourceManager
             _assetPathDict.Add(path, assetPath);
 
             return assetPath;
-        }
-    }
-
-    private string GetAssetName(string str)
-    {
-        string lowerString;
-
-        if (_lowerDict.TryGetValue(str, out lowerString))
-        {
-            return lowerString;
-        }
-        else
-        {
-            lowerString = str.ToLower();
-
-            _lowerDict.Add(str, lowerString);
-
-            return lowerString;
         }
     }
 }
