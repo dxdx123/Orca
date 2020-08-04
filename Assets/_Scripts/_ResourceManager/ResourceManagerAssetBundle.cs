@@ -158,12 +158,10 @@ public class ResourceManagerAssetBundle
         _route = route;
     }
 
-    public IPromise<AssetBundle> GetAssetBundleSync(string assetPath, object owner)
+    public IPromise<AssetBundle> GetAssetBundleSync(string assetBundleName, object owner)
     {
-        Assert.IsNotNull(assetPath);
+        Assert.IsNotNull(assetBundleName);
         Assert.IsNotNull(owner);
-
-        string assetBundleName = _route.LookupAssetBundleName(assetPath);
 
         var dependencies = _manifest.GetAllDependencies(assetBundleName);
         int length = dependencies.Length;
@@ -239,12 +237,10 @@ public class ResourceManagerAssetBundle
         }
     }
 
-    public IPromise<AssetBundle> GetAssetBundle(string assetPath, object owner)
+    public IPromise<AssetBundle> GetAssetBundle(string assetBundleName, object owner)
     {
-        Assert.IsNotNull(assetPath);
+        Assert.IsNotNull(assetBundleName);
         Assert.IsNotNull(owner);
-
-        string assetBundleName = _route.LookupAssetBundleName(assetPath);
 
         var promise = new Promise<AssetBundle>();
 
@@ -289,12 +285,12 @@ public class ResourceManagerAssetBundle
         Assert.IsNotNull(owner);
         
         var promise = new Promise<T>();
+        
+        string assetBundleName = _route.LookupAssetBundleName(assetPath);
 
-        GetAssetBundleSync(assetPath, owner)
+        GetAssetBundleSync(assetBundleName, owner)
             .Then(assetBundle =>
             {
-                string assetBundleName = _route.LookupAssetBundleName(assetPath);
-
                 var wrapper = _assetBundleWrappers[assetBundleName];
                 Assert.IsNotNull(wrapper);
 
