@@ -373,8 +373,7 @@ public class ResourceManagerAssetBundle
                 }
                 else
                 {
-                    return Promise<T>.Rejected(
-                        new Exception($"LoadAssetSync can't cast assetObj {assetObj.GetType()} to {typeof(T)}"));
+                    wrapper.assetDict.Remove(assetName);
                 }
             }
             else
@@ -418,8 +417,7 @@ public class ResourceManagerAssetBundle
                 }
                 else
                 {
-                    return Promise<T>.Rejected(
-                        new Exception($"LoaAssetAsync can't cast assetObj {assetObj.GetType()} to {typeof(T)}"));
+                    wrapper.assetDict.Remove(assetName);
                 }
             }
             else

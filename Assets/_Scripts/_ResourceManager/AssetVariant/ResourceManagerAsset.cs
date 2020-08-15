@@ -54,7 +54,7 @@ public class ResourceManagerAsset
             {
                 RefData refData = _referenceList[i];
 
-                if (refData.owner == owner)
+                if (refData.owner.Equals(owner))
                 {
                     return refData;
                 }
