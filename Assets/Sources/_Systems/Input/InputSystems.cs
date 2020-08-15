@@ -9,7 +9,9 @@ public class InputSystems : Feature
     {
         Add(new EmitInputSystem(contexts));
         Add(new TouchScreenSystem(contexts));
-        Add(new TouchToDieSystem(contexts));
+        
+        // Add(new TouchToDieSystem(contexts));
+        Add(new TouchEnemySystem(contexts));
         
         Add(new TranslateInputMoveSystem(contexts));
         Add(new TranslateInputActionSystem(contexts));

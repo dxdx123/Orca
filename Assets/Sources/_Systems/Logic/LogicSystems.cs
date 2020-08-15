@@ -38,7 +38,6 @@ public class LogicSystems : Feature
         Add(new CameraFollowSystem(contexts));
         
         // Pathfinding
-        Add(new DummyTestMoveSystem(contexts));
         Add(new FindPathSystem(contexts));
 
         Add(new PuppySystem(contexts));
@@ -50,5 +49,11 @@ public class LogicSystems : Feature
 
         Add(new DestroyPathfindingSystem(contexts));
         Add(new DestroyViewSystem(contexts));
+        
+        // Buff
+        Add(new BuffOccurSystem(contexts));
+        
+        // Debug
+        Add(new DummyTestMoveSystem(contexts));
     }
 }

@@ -17,36 +17,38 @@ public static class GameComponentsLookup {
     public const int AttempDirection = 6;
     public const int AttempMove = 7;
     public const int BehaviorTree = 8;
-    public const int CameraTarget = 9;
-    public const int Character = 10;
-    public const int Config = 11;
-    public const int CreateMap = 12;
-    public const int CreatePlayer = 13;
-    public const int Destroy = 14;
-    public const int Direction = 15;
-    public const int Effect = 16;
-    public const int FindPath = 17;
-    public const int FSM = 18;
-    public const int Map = 19;
-    public const int Moving = 20;
-    public const int Pathfinding = 21;
-    public const int PathfindingMove = 22;
-    public const int PoolAsset = 23;
-    public const int Position = 24;
-    public const int Scene = 25;
-    public const int Spawner = 26;
-    public const int Speed = 27;
-    public const int State = 28;
-    public const int Target = 29;
-    public const int Touch = 30;
-    public const int Transform = 31;
-    public const int UnderControl = 32;
-    public const int UpdateQuadTree = 33;
-    public const int Velocity = 34;
-    public const int View = 35;
-    public const int ViewEventTrigger = 36;
+    public const int BuffOccurAction = 9;
+    public const int BuffOccur = 10;
+    public const int CameraTarget = 11;
+    public const int Character = 12;
+    public const int Config = 13;
+    public const int CreateMap = 14;
+    public const int CreatePlayer = 15;
+    public const int Destroy = 16;
+    public const int Direction = 17;
+    public const int Effect = 18;
+    public const int FindPath = 19;
+    public const int FSM = 20;
+    public const int Map = 21;
+    public const int Moving = 22;
+    public const int Pathfinding = 23;
+    public const int PathfindingMove = 24;
+    public const int PoolAsset = 25;
+    public const int Position = 26;
+    public const int Scene = 27;
+    public const int Spawner = 28;
+    public const int Speed = 29;
+    public const int State = 30;
+    public const int Target = 31;
+    public const int Touch = 32;
+    public const int Transform = 33;
+    public const int UnderControl = 34;
+    public const int UpdateQuadTree = 35;
+    public const int Velocity = 36;
+    public const int View = 37;
+    public const int ViewEventTrigger = 38;
 
-    public const int TotalComponents = 37;
+    public const int TotalComponents = 39;
 
     public static readonly string[] componentNames = {
         "AfterEffect",
@@ -58,6 +60,8 @@ public static class GameComponentsLookup {
         "AttempDirection",
         "AttempMove",
         "BehaviorTree",
+        "BuffOccurAction",
+        "BuffOccur",
         "CameraTarget",
         "Character",
         "Config",
@@ -98,6 +102,8 @@ public static class GameComponentsLookup {
         typeof(AttempDirectionComponent),
         typeof(AttempMoveComponent),
         typeof(BehaviorTreeComponent),
+        typeof(BuffOccurActionComponent),
+        typeof(BuffOccurComponent),
         typeof(CameraTargetComponent),
         typeof(CharacterComponent),
         typeof(ConfigComponent),

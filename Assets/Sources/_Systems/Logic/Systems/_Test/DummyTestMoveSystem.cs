@@ -27,15 +27,54 @@ public class DummyTestMoveSystem : IExecuteSystem
         //     TestCreateEffect();
         // }
 
+        // if (Input.GetKeyDown(KeyCode.Alpha1))
+        // {
+        //     DestroyScene();
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.Alpha2))
+        // {
+        //     LoadScene();
+        // }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            DestroyScene();
+            AddBuff();
         }
         
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            LoadScene();
+            RemoveBuff();
         }
+        
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TriggerBuff();
+        }
+    }
+
+    private void TriggerBuff()
+    {
+        var entities = _underControlGroup.GetEntities(_cleanBuffer);
+        var underControlEntity = entities.SingleEntity();
+
+        underControlEntity.view.viewController.TriggerBuff("TestBuff");
+    }
+
+    private void RemoveBuff()
+    {
+        var entities = _underControlGroup.GetEntities(_cleanBuffer);
+        var underControlEntity = entities.SingleEntity();
+
+        underControlEntity.view.viewController.RemoveBuff("TestBuff");
+    }
+
+    private void AddBuff()
+    {
+        var entities = _underControlGroup.GetEntities(_cleanBuffer);
+        var underControlEntity = entities.SingleEntity();
+
+        underControlEntity.view.viewController.AddBuff("TestBuff");
     }
 
     private void LoadScene()

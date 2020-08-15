@@ -26,7 +26,7 @@ public class CharacterDirectionViewSystem : ReactiveSystem<GameEntity>
 
     protected override bool Filter(GameEntity entity)
     {
-        return  entity.hasView && entity.hasCharacter;
+        return  entity.hasView && entity.view.viewController.displaySprite && entity.hasCharacter;
     }
 
     protected override void Execute(List<GameEntity> entities)

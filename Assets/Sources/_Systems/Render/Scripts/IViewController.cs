@@ -11,4 +11,8 @@ public interface IViewController
 
     void Initialize(GameEntity entity);
     void Destroy();
+
+    void AddBuff(string buffName);
+    void RemoveBuff(string buffName);
+    void TriggerBuff(string buffName);
 }

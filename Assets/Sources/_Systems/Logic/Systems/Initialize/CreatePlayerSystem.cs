@@ -72,6 +72,9 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         e.AddState(CharacterState.Idle);
         e.AddDirection(CharacterDirection.Right);
 
+        // var buff = new SimpleBuff();
+        // e.AddBuff(buff);
+        
         return e;
     }
     
@@ -101,7 +104,7 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         
         e.AddAttackInterval(1.5f);
         e.AddAttackCoolDown(0.0f);
-
+        
         return e;
     }
 }

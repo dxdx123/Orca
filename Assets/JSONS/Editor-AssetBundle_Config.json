@@ -24,5 +24,31 @@
     "variantSourcePattern": null,
     "variantDestPattern": null,
     "variantStrategy": null
+  },
+  "3": {
+    "id": "3",
+    "directory": "Assets/_Experiment/TestResourceVisual/Materials",
+    "pattern": "*.mat",
+    "searchOption": "AllDirectories",
+    "filePattern": "\\.mat",
+    "fileBuildType": "Preserve",
+    "sourcePattern": "(.+)",
+    "destPattern": "$1.assetbundle",
+    "variantSourcePattern": null,
+    "variantDestPattern": null,
+    "variantStrategy": null
+  },
+  "4": {
+    "id": "4",
+    "directory": "Assets/_Experiment/TestResourceVisual/Textures",
+    "pattern": "*.png",
+    "searchOption": "AllDirectories",
+    "filePattern": "\\.png",
+    "fileBuildType": "Preserve",
+    "sourcePattern": "(.+)",
+    "destPattern": "$1.assetbundle",
+    "variantSourcePattern": null,
+    "variantDestPattern": null,
+    "variantStrategy": null
   }
 }

@@ -40,11 +40,11 @@ public class EffectDestroySystem : IExecuteSystem
                 {
                     SpawnAfterEffect(entity.afterEffect.effect, destPos, entity.hasDirection ? entity.direction.direction : CharacterDirection.Left);
 
-                    Attack(entity.spawner.spawner, targetEntity);
+                    // Attack(entity.spawner.spawner, targetEntity);
                 }
                 else
                 {
-                    Attack(entity.spawner.spawner, targetEntity);
+                    // Attack(entity.spawner.spawner, targetEntity);
                 }
                 
                 entity.isDestroy = true;
