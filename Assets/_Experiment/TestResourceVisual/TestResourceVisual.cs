@@ -111,15 +111,11 @@ public class TestResourceVisual : MonoBehaviour
         _sphereGoList.Add(data);
         
         int beginFrame = Time.frameCount;
-        ResourceManager.Instance.GetAssetSync<GameObject>(path, this)
-            .Then(asset =>
-            {
-                Debug.Log($"LoadSync begin: {beginFrame} end: {Time.frameCount}");
-                
-                var sphereGo = Instantiate(asset);
-                data.go = sphereGo;
-            })
-            .Catch(ex => Debug.LogException(ex));
+        var asset = ResourceManager.Instance.GetAssetSync<GameObject>(path, this);
+        Debug.Log($"LoadSync begin: {beginFrame} end: {Time.frameCount}");
+        
+        var sphereGo = Instantiate(asset);
+        data.go = sphereGo;
     }
     
     public void OnButton_UnLoadSphere()

@@ -48,35 +48,45 @@ public class AssetPoolManager
 
     private void InitializeMap(int mapSize)
     {
-        _mapAsset = Resources.Load<GameObject>("Map_Template");
+        // _mapAsset = Resources.Load<GameObject>("Map_Template");
+        _mapAsset = ResourceManager.Instance.GetAssetSync<GameObject>(
+            "Assets/Res/Sync/Map_Template.prefab", this);
         
         PoolManager.Instance.WarmPool(_mapAsset, mapSize);
     }
 
     private void InitializeCharacter(int characterSize)
     {
-        _characterAsset = Resources.Load<GameObject>("Character_Template");
+        // _characterAsset = Resources.Load<GameObject>("Character_Template");
+        _characterAsset = ResourceManager.Instance.GetAssetSync<GameObject>(
+            "Assets/Res/Sync/Character_Template.prefab", this);
         
         PoolManager.Instance.WarmPool(_characterAsset, characterSize);
     }
     
     private void InitializePuppy(int puppySize)
     {
-        _puppyAsset = Resources.Load<GameObject>("Puppy_Template");
+        // _puppyAsset = Resources.Load<GameObject>("Puppy_Template");
+        _puppyAsset = ResourceManager.Instance.GetAssetSync<GameObject>(
+            "Assets/Res/Sync/Puppy_Template.prefab", this);
         
         PoolManager.Instance.WarmPool(_puppyAsset, puppySize);
     }
 
     private void InitializeEnemy(int enemySize)
     {
-        _enemyAsset = Resources.Load<GameObject>("Enemy_Template");
+        // _enemyAsset = Resources.Load<GameObject>("Enemy_Template");
+        _enemyAsset = ResourceManager.Instance.GetAssetSync<GameObject>(
+            "Assets/Res/Sync/Enemy_Template.prefab", this);
         
         PoolManager.Instance.WarmPool(_enemyAsset, enemySize);
     }
 
     private void InitializeEffect(int effectSize)
     {
-        _effectAsset = Resources.Load<GameObject>("Effect_Template");
+        // _effectAsset = Resources.Load<GameObject>("Effect_Template");
+        _effectAsset = ResourceManager.Instance.GetAssetSync<GameObject>(
+            "Assets/Res/Sync/Effect_Template.prefab", this);
         
         PoolManager.Instance.WarmPool(_effectAsset, effectSize);
     }

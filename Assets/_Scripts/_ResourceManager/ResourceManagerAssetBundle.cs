@@ -158,11 +158,26 @@ public class ResourceManagerAssetBundle
         _route = route;
     }
 
-    public IPromise<AssetBundle> GetAssetBundleSync(string assetBundleName, object owner)
+    public AssetBundle GetAssetBundleSync(string assetBundleName, object owner)
     {
         Assert.IsNotNull(assetBundleName);
         Assert.IsNotNull(owner);
 
+        AssetBundle assetBundle = null;
+
+        GetAssetBundleSyncInternal(assetBundleName, owner)
+            .Then(ab => { assetBundle = ab; })
+            .Catch(ex =>
+            {
+                Debug.LogException(ex);
+                assetBundle = null;
+            });
+
+        return assetBundle;
+    }
+
+    private IPromise<AssetBundle> GetAssetBundleSyncInternal(string assetBundleName, object owner)
+    {
         var dependencies = _manifest.GetAllDependencies(assetBundleName);
         int length = dependencies.Length;
 
@@ -180,7 +195,7 @@ public class ResourceManagerAssetBundle
                 string depBundleName = dependencies[i];
                 promises[i] = LoadAssetBundleSyncInternal(depBundleName, owner);
             }
-            
+
             // self
             promises[length] = LoadAssetBundleSyncInternal(assetBundleName, owner);
 
@@ -288,7 +303,7 @@ public class ResourceManagerAssetBundle
         
         string assetBundleName = _route.LookupAssetBundleName(assetPath);
 
-        GetAssetBundleSync(assetBundleName, owner)
+        GetAssetBundleSyncInternal(assetBundleName, owner)
             .Then(assetBundle =>
             {
                 var wrapper = _assetBundleWrappers[assetBundleName];

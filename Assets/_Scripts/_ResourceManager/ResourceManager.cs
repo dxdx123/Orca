@@ -1,6 +1,6 @@
 ﻿using RSG;
 using System.Collections.Generic;
-
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 public class ResourceManager
@@ -33,7 +33,25 @@ public class ResourceManager
         _useBundle = useAssetBundle;
     }
 
-    public IPromise<T> GetAssetSync<T>(string path, object owner) where T : Object
+    public T GetAssetSync<T>(string path, object owner) where T : Object
+    {
+        T result = null;
+
+        GetAssetSyncInternal<T>(path, owner)
+            .Then(asset =>
+            {
+                result = asset;
+            })
+            .Catch(ex =>
+            {
+                Debug.LogException(ex);
+                result = null;
+            });
+
+        return result;
+    }
+
+    private IPromise<T> GetAssetSyncInternal<T>(string path, object owner) where T : Object
     {
         if (_useBundle)
         {
@@ -49,7 +67,7 @@ public class ResourceManager
 #else
             return Promise<T>.Rejected(new System.Exception("None Editor can't load Asset"));
 #endif
-        } 
+        }
     }
 
     public IPromise<T> GetAsset<T>(string path, object owner) where T : Object
