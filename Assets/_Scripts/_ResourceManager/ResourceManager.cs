@@ -1,6 +1,8 @@
-﻿using RSG;
+﻿using System;
+using RSG;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Object = UnityEngine.Object;
 
 public class ResourceManager
@@ -22,6 +24,8 @@ public class ResourceManager
 
     private readonly Dictionary<string, string> _assetPathDict = new Dictionary<string, string>();
 
+    private readonly Dictionary<object, List<string>> _ownerDict = new Dictionary<object, List<string>>();
+    
     private ResourceManager()
     {
     }
@@ -35,6 +39,11 @@ public class ResourceManager
 
     public T GetAssetSync<T>(string path, object owner) where T : Object
     {
+        Assert.IsNotNull(path);
+        Assert.IsNotNull(owner);
+        
+        AddReference(path, owner);
+        
         T result = null;
 
         GetAssetSyncInternal<T>(path, owner)
@@ -72,6 +81,11 @@ public class ResourceManager
 
     public IPromise<T> GetAsset<T>(string path, object owner) where T : Object
     {
+        Assert.IsNotNull(path);
+        Assert.IsNotNull(owner);
+        
+        AddReference(path, owner);
+        
         if (_useBundle)
         {
             string assetPath = GetAssetBundleName(path);
@@ -91,6 +105,44 @@ public class ResourceManager
 
     public void DestroyAsset(string path, object owner)
     {
+        Assert.IsNotNull(path);
+        Assert.IsNotNull(owner);
+        
+        DestroyAssetInternal(path, owner, true);
+    }
+
+    public void DestroyAllAsset(object owner)
+    {
+        Assert.IsNotNull(owner);
+
+        List<string> list;
+
+        if (_ownerDict.TryGetValue(owner, out list))
+        {
+            foreach (var path in list)
+            {
+                DestroyAssetInternal(path, owner, false);
+            }
+            
+            _ownerDict.Remove(owner);
+        }
+        else
+        {
+            // nothing
+        }
+    }
+
+    private void DestroyAssetInternal(string path, object owner, bool removeReference)
+    {
+        if (removeReference)
+        {
+            RemoveReference(path, owner);
+        }
+        else
+        {
+            // nothing
+        }
+        
         if (_useBundle)
         {
             string assetBundleName = GetAssetBundleName(path);
@@ -106,7 +158,7 @@ public class ResourceManager
 #endif
         }
     }
-    
+
     private IPromise<T> GetAssetFromAssetBundleSync<T>(string assetPath, string assetName, object owner) where T : Object
     {
         return ResourceManagerAssetBundle.Instance.GetAssetBundleAssetSync<T>(assetPath, assetName, owner);
@@ -131,6 +183,66 @@ public class ResourceManager
             _assetPathDict.Add(path, assetPath);
 
             return assetPath;
+        }
+    }
+    
+    // =============================== helper ===============================
+    private void AddReference(string path, object owner)
+    {
+        List<string> list;
+        if (_ownerDict.TryGetValue(owner, out list))
+        {
+            list.Add(path);
+        }
+        else
+        {
+            list = new List<string>(1)
+            {
+                path
+            };
+            
+            _ownerDict.Add(owner, list);
+        }
+    }
+
+    private void RemoveReference(string path, object owner)
+    {
+        List<string> list;
+
+        if (_ownerDict.TryGetValue(owner, out list))
+        {
+            int index = -1;
+
+            for (int i = 0; i < list.Count; ++i)
+            {
+                if (path == list[i])
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index != -1)
+            {
+                list.RemoveAt(index);
+
+                if (list.Count > 0)
+                {
+                    // still got ref
+                }
+                else
+                {
+                    _ownerDict.Remove(owner);
+                }
+            }
+            else
+            {
+                throw new Exception($"RemoveReference not found path, path: {path}, owner: {owner}");
+            }
+        }
+        else
+        {
+            throw new Exception($"RemoveReference not found list, path: {path}, owner: {owner}");
         }
     }
 }
