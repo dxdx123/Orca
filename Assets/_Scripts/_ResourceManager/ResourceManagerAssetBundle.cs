@@ -482,9 +482,7 @@ public class ResourceManagerAssetBundle
         var promise = new Promise<AssetBundle>();
 
         GetAssetBundleInternal(assetBundleName, owner, id, true)
-            .Then(assetBundle => { })
-            .Catch(Debug.LogException)
-            .Finally(() => 
+            .Then(_ =>
             {
                 AssetBundleWrapper wrapper;
                 if (_assetBundleWrappers.TryGetValue(assetBundleName, out wrapper))
@@ -496,14 +494,18 @@ public class ResourceManagerAssetBundle
                     else
                     {
                         promise.Reject(new Exception(
-                            $"Load AssetBundle done but NO refs assetBundleName: {assetBundleName}, owner: {owner}, id: {id}"));                    
+                            $"Load AssetBundle done but NO refs assetBundleName: {assetBundleName}, owner: {owner}, id: {id}"));
                     }
                 }
                 else
                 {
                     promise.Reject(new Exception(
-                        $"Load AssetBundle done but ALL refs destroyed assetBundleName: {assetBundleName}, owner: {owner}, id: {id}"));                    
+                        $"Load AssetBundle done but ALL refs destroyed assetBundleName: {assetBundleName}, owner: {owner}, id: {id}"));
                 }
+            })
+            .Catch(ex =>
+            {
+                promise.Reject(ex);
             });
 
         return promise;
@@ -634,7 +636,6 @@ public class ResourceManagerAssetBundle
                     .Catch(ex =>
                     {
                         e = ex;
-                        Debug.LogException(ex);
                     })
                     .Finally(() =>
                     {
