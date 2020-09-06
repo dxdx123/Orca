@@ -32,9 +32,16 @@ public class TranslateMovingSystem : IExecuteSystem
 
         bool hasInputMove = buffer.Count > 0;
 
-        SetControlGroupMoving(hasInputMove);
+        if (hasInputMove)
+        {
+            SetControlGroupMoving(true);
 
-        TranslateIdleToRunState();
+            TranslateIdleToRunState();
+        }
+        else
+        {
+            SetControlGroupMoving(false);
+        }
     }
 
     private void TranslateIdleToRunState()
@@ -72,7 +79,8 @@ public class TranslateMovingSystem : IExecuteSystem
         {
             var e = underControlList[i];
 
-            bool moving = hasInputMove || (e.hasPathfindingMove || e.hasFindPath);
+            bool pathfinding = (e.hasPathfinding || e.hasPathfindingMove || e.hasFindPath);
+            bool moving = hasInputMove || pathfinding;
             e.isAttempMove = moving;
         }
         
@@ -82,7 +90,8 @@ public class TranslateMovingSystem : IExecuteSystem
         {
             var e = aiList[i];
 
-            bool moving = (e.hasPathfindingMove || e.hasFindPath);
+            bool pathfinding = (e.hasPathfinding || e.hasPathfindingMove || e.hasFindPath);
+            bool moving = pathfinding;
             e.isAttempMove = moving;
         }
     }

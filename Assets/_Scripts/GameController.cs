@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Entitas;
 using UnityEngine;
 
+[DefaultExecutionOrder(-999)]
 public class GameController : MonoBehaviour
 {
     private Systems _systems;
@@ -26,7 +27,7 @@ public class GameController : MonoBehaviour
             ;
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         _systems.Execute();
         

@@ -80,11 +80,15 @@ public class EntityPathfinding : AIPath
         
         if(_entity.hasPathfindingMove)
             _entity.RemovePathfindingMove();
+
+        _entity.isAttempMove = false;
+        _entity.isMoving = false;
         
         _entity = null;
         
         this.destination = Vector3.zero;
         transform.position = Vector3.zero;
+        
         
         PoolCacheManager.Instance.ReturnEntityPathfinding(this);
     }

@@ -31,8 +31,9 @@ public class LogicSystems : Feature
         Add(new EffectDirectionSystem(contexts));
 
         Add(new MovingAttempSystem(contexts));
-        Add(new MoveStateSystem(contexts));
         Add(new TranslateMovingSystem(contexts));
+        Add(new MoveStateSystem(contexts));
+        Add(new StopPathfindingSystem(contexts));
 
         Add(new UpdateQuadTreeMapSystem(contexts));
         Add(new CameraFollowSystem(contexts));
