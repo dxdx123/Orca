@@ -49,7 +49,14 @@ public class TouchScreenSystem : IInitializeSystem, ITearDownSystem
         
         foreach (var e in _underControlGroup.GetEntities(_cleanBuffer))
         {
-            e.ReplaceFindPath(worldPos.x, worldPos.y, true);
+            if (e.state.state == CharacterState.Idle || e.state.state == CharacterState.Run)
+            {
+                e.ReplaceFindPath(worldPos.x, worldPos.y, true);
+            }
+            else
+            {
+                // nothing
+            }
         }
     }
 
