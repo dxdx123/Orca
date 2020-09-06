@@ -18,7 +18,7 @@ public class PathfindingPositionSystem : ReactiveSystem<GameEntity>
 
     protected override bool Filter(GameEntity entity)
     {
-        return entity.hasPosition;
+        return entity.hasPosition && entity.hasPathfindingMove;
     }
 
     protected override void Execute(List<GameEntity> entities)

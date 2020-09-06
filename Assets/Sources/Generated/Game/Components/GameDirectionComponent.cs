@@ -6,6 +6,9 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+
+using UnityEngine;
+
 public partial class GameEntity {
 
     public DirectionComponent direction { get { return (DirectionComponent)GetComponent(GameComponentsLookup.Direction); } }

@@ -33,7 +33,7 @@ public class StopPathfindingSystem : ReactiveSystem<GameEntity>
     private void SetupTargetEnemyInternal(GameEntity entity)
     {
         var underControlEntity = entity;
-        GameEntity enemy = entity.target.target;
+        GameEntity enemy = entity.hasTarget ? entity.target.target : null;
 
         if (enemy != null)
         {

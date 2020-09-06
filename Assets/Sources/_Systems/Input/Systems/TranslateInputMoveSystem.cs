@@ -41,6 +41,7 @@ public class TranslateInputMoveSystem : ReactiveSystem<InputEntity>, ICleanupSys
         
         foreach (var e in _underControlGroup.GetEntities(_cleanBuffer))
         {
+            e.isAttempMove = false;
             e.AddVelocity(x, y, false);
         }
 

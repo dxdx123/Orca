@@ -61,10 +61,12 @@ public class CharacterDirectionViewSystem : ReactiveSystem<GameEntity>
 
                 if (destX > srcX)
                 {
+                    Debug.Log("!!! 1111");
                     displaySprite.scale = new Vector3(1, 1, 1);
                 }
                 else if(destX < srcX)
                 {
+                    Debug.Log("!!! 2222");
                     displaySprite.scale = new Vector3(-1, 1, 1);
                 }
                 else
@@ -90,6 +92,7 @@ public class CharacterDirectionViewSystem : ReactiveSystem<GameEntity>
             else
             {
                 var scale = GetAnimatorScale(config, direction);
+                Debug.Log("!!! 4444");
                 displaySprite.scale = scale;
             }
         }

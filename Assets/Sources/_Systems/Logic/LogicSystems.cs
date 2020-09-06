@@ -25,7 +25,6 @@ public class LogicSystems : Feature
 
         Add(new CharacterVelocitySystem(contexts));
         Add(new PositionSystem(contexts));
-        Add(new PathfindingPositionSystem(contexts));
 
         Add(new CharacterDirectionSystem(contexts));
         Add(new EffectDirectionSystem(contexts));
@@ -34,6 +33,7 @@ public class LogicSystems : Feature
         Add(new TranslateMovingSystem(contexts));
         Add(new MoveStateSystem(contexts));
         Add(new StopPathfindingSystem(contexts));
+        Add(new PathfindingPositionSystem(contexts));
 
         Add(new UpdateQuadTreeMapSystem(contexts));
         Add(new CameraFollowSystem(contexts));
