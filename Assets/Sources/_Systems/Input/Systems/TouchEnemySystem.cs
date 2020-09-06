@@ -75,6 +75,9 @@ public class TouchEnemySystem : ReactiveSystem<GameEntity>
             float destX = enemyEntity.position.x;
             
             underControlEntity.ReplaceDirection(destX >= srcX ? CharacterDirection.Right : CharacterDirection.Left);
+            
+            // moving
+            underControlEntity.isAttempMove = false;
         }
     }
     
