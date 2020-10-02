@@ -34,7 +34,7 @@ namespace TouchScript
             }
         }
 
-        static int _playModeSession;
+        static int _playModeSession = 0;
 
 
 #if UNITY_EDITOR

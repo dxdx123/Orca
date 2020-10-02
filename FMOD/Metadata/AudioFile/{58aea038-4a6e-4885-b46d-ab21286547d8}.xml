@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{58aea038-4a6e-4885-b46d-ab21286547d8}">
+		<property name="assetPath">
+			<value>kr4_main_music.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>64.470204081632659</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{19940262-38f7-45a9-bfd9-c8512ad3df49}</destination>
+		</relationship>
+	</object>
+</objects>
