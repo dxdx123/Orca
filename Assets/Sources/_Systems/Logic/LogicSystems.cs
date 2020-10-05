@@ -8,7 +8,6 @@ public class LogicSystems : Feature
         : base("Initialize Systems")
     {
         Add(new InitializeSystem(contexts));
-        Add(new PoolSystem(contexts));
 
         Add(new LoadSceneSystem(contexts));
         Add(new DestroySceneSystem(contexts));

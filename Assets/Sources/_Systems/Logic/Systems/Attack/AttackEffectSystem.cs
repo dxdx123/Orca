@@ -26,7 +26,7 @@ public class AttackEffectSystem : ReactiveSystem<GameEntity>
 
     protected override bool Filter(GameEntity entity)
     {
-        return entity.hasTarget;
+        return true;
     }
 
     protected override void Execute(List<GameEntity> entities)
@@ -34,10 +34,16 @@ public class AttackEffectSystem : ReactiveSystem<GameEntity>
         foreach (var e in entities)
         {
             Vector2 offset = JsonUtility.FromJson<Vector2>(e.viewEventTrigger.eventInfo);
-            
-            SpawnAttackEffect(e, offset);
-            
-            e.RemoveViewEventTrigger();
+
+            if (e.hasTarget)
+            {
+                SpawnAttackEffect(e, offset); 
+                e.RemoveViewEventTrigger();
+            }
+            else
+            {
+                e.RemoveViewEventTrigger();
+            }
         }
     }
 

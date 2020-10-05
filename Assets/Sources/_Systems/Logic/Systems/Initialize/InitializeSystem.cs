@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Entitas;
 using RSG;
+using UniRx;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class InitializeSystem : IInitializeSystem
 {
@@ -34,7 +37,17 @@ public class InitializeSystem : IInitializeSystem
             })
             .Then(() =>
             {
+                return InitializeAssetPool();
+            })
+            .Then(() =>
+            {
                 return InitializeConfig();
+            })
+            .Then(() =>
+            {
+                // _gameContext.SetScene("DefaultScene");
+                
+                Debug.Log("!!! InitializeSystem finish");
             })
             .Catch(ex => Debug.LogException(ex));
     }
@@ -42,6 +55,11 @@ public class InitializeSystem : IInitializeSystem
     private IPromise InitializePool()
     {
         return PoolCacheManager.Instance.WarmPathfinding(32);
+    }
+
+    private IPromise InitializeAssetPool()
+    {
+        return AssetPoolManager.Instance.Initialize(10, 10, 10, 64, 100);
     }
 
     private IPromise InitializeConfig()
@@ -77,8 +95,6 @@ public class InitializeSystem : IInitializeSystem
                 
                 _gameContext.SetConfig(_spriteConfig, _animatorRunConfig, _effectConfig, _mapConfig);
 
-                _gameContext.SetScene("DefaultScene");
-
                 promise.Resolve();
             })
             .Catch(ex =>
@@ -92,6 +108,88 @@ public class InitializeSystem : IInitializeSystem
 
     private IPromise InitializeResourceManager()
     {
+#if UNITY_EDITOR
+        bool useBundle = false;
+        ResourceManager.Instance.Initialize(useBundle);
+        
         return Promise.Resolved();
+#else
+        bool useBundle = true;
+        ResourceManager.Instance.Initialize(useBundle);
+        
+        return new Promise((resolve, reject) =>
+        {
+            MainThreadDispatcher.StartUpdateMicroCoroutine(InitializeAssetBundle(resolve, reject));
+        });        
+#endif
+    }
+
+    private IEnumerator InitializeAssetBundle(Action resolve, Action<Exception> reject)
+    {
+        AssetBundleManifest assetBundleManifest = null;
+        {
+            string manifestPath = $"{Application.streamingAssetsPath}/AssetBundles/AssetBundles";
+            var manifestABReq = AssetBundle.LoadFromFileAsync(manifestPath);
+            while (!manifestABReq.isDone)
+                yield return null;
+
+            var manifestAssetBundle = manifestABReq.assetBundle;
+            if (manifestAssetBundle != null)
+            {
+                string manifestName = "AssetBundleManifest";
+                var assetReq = manifestAssetBundle.LoadAssetAsync<AssetBundleManifest>(manifestName);
+
+                while (!assetReq.isDone)
+                    yield return null;
+
+                assetBundleManifest = assetReq.asset as AssetBundleManifest;
+                Assert.IsNotNull(assetBundleManifest);
+            }
+            else
+            {
+                reject(new Exception("manifest assetbundle == null"));
+                yield break;
+            }
+        }
+
+        AssetBundleRouteData assetBundleRouteData = null;
+        AssetBundleVariantData assetBundleVariantData = null;
+        {
+            string corePath = $"{Application.streamingAssetsPath}/AssetBundles/assets/res/core.assetbundle";
+            
+            var coreABReq = AssetBundle.LoadFromFileAsync(corePath);
+            while (!coreABReq.isDone)
+                yield return null;
+
+            var coreAssetBundle = coreABReq.assetBundle;
+            if (coreAssetBundle != null)
+            {
+                string routeName = "Assets/Res/Core/AssetBundleRouteData.asset";
+                var routeReq = coreAssetBundle.LoadAssetAsync<AssetBundleRouteData>(routeName);
+
+                while (!routeReq.isDone)
+                    yield return null;
+
+                assetBundleRouteData = routeReq.asset as AssetBundleRouteData;
+                Assert.IsNotNull(assetBundleRouteData);
+                
+                string variantName = "Assets/Res/Core/AssetBundleVariantData.asset";
+                var variantReq = coreAssetBundle.LoadAssetAsync<AssetBundleVariantData>(variantName);
+
+                while (!variantReq.isDone)
+                    yield return null;
+
+                assetBundleVariantData = variantReq.asset as AssetBundleVariantData;
+                Assert.IsNotNull(assetBundleVariantData);
+                
+                ResourceManagerAssetBundle.Instance.Initialize(assetBundleManifest, new AssetBundleRoute(assetBundleRouteData, assetBundleVariantData));
+
+                resolve();
+            }
+            else
+            {
+                reject(new Exception("manifest assetbundle == null"));
+            }
+        }
     }
 }

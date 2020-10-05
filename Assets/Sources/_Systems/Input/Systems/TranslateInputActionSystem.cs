@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using BehaviorDesigner.Runtime;
 using Entitas;
+using FMODUnity;
 using UnityEngine;
 
 public class TranslateInputActionSystem : ReactiveSystem<InputEntity>

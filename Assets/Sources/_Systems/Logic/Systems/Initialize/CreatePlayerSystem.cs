@@ -28,7 +28,7 @@ public class CreatePlayerSystem : ReactiveSystem<GameEntity>
         var playerEntity = CreatePlayer();
         
         // var puppyEntity = CreatePuppy(playerEntity);
-        var enemyEntity = CreateEnemy();
+        // var enemyEntity = CreateEnemy();
         
         // playerEntity.AddTarget(enemyEntity);
         

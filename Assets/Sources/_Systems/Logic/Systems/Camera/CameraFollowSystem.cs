@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CameraFollowSystem : IExecuteSystem
 {
-    public const float LERP_RATIO = 0.025f;
+    public static float LERP_RATIO = 0.025f * TimeManager.Instance.Ratio;
     
     private GameContext _gameContext;
     

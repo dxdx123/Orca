@@ -4,15 +4,12 @@ using Entitas;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class EmitInputSystem : IInitializeSystem, IExecuteSystem, ICleanupSystem, ITearDownSystem
+public class EmitInputSystem : IInitializeSystem, IExecuteSystem, ITearDownSystem
 {
     private InputActions _inputActions;
 
     private InputContext _inputContext;
     
-    private readonly IGroup<InputEntity> _inputGroup;
-    private readonly List<InputEntity> _cleanBuffer = new List<InputEntity>();
-
     private static readonly CharacterAction[] _characterActions = 
     {
         CharacterAction.LightAttack1,
@@ -30,7 +27,6 @@ public class EmitInputSystem : IInitializeSystem, IExecuteSystem, ICleanupSystem
         InitializeInputActions();
 
         _inputContext = contexts.input;
-        _inputGroup = _inputContext.GetGroup(InputMatcher.AnyOf(InputMatcher.InputMove, InputMatcher.InputAction));
     }
 
     private void InitializeInputActions()
@@ -67,9 +63,16 @@ public class EmitInputSystem : IInitializeSystem, IExecuteSystem, ICleanupSystem
             if (inputAction.triggered)
             {
                 CharacterAction action = _characterActions[i];
-                InputEntity inputEntity = _inputContext.CreateEntity();
+                // InputEntity inputEntity = _inputContext.CreateEntity();
+                //
+                // inputEntity.AddInputAction(action);
                 
-                inputEntity.AddInputAction(action);
+                var actionAction = new InputActionAction()
+                {
+                    characterAction = action,
+                };
+            
+                LockStepController.Instance.AddAction(actionAction);
 
                 // one Action per frame
                 break;
@@ -91,16 +94,16 @@ public class EmitInputSystem : IInitializeSystem, IExecuteSystem, ICleanupSystem
         }
         else
         { 
-            InputEntity inputEntity = _inputContext.CreateEntity();
-            inputEntity.AddInputMove(move.x, move.y);
-        }
-    }
+            // InputEntity inputEntity = _inputContext.CreateEntity();
+            // inputEntity.AddInputMove(move.x, move.y);
 
-    public void Cleanup()
-    {
-        foreach (var e in _inputGroup.GetEntities(_cleanBuffer))
-        {
-            e.Destroy();
+            var moveAction = new InputMoveAction()
+            {
+                moveX = move.x,
+                moveY = move.y,
+            };
+            
+            LockStepController.Instance.AddAction(moveAction);
         }
     }
 

@@ -61,7 +61,7 @@ public class CharacterVelocitySystem : ReactiveSystem<GameEntity>
 
     private void ChangePosition(GameEntity e, Vector2 velocity, bool flying)
     {
-        Vector2 distance = velocity * Time.deltaTime;
+        Vector2 distance = velocity * TimeManager.Instance.DeltaTime;
 
         Vector2 srcPosition = new Vector2(e.position.x, e.position.y);
         Vector2 destPosition = srcPosition + distance;
