@@ -44,7 +44,7 @@ public class ResourceManagerAssetBundle
         public AssetBundle assetBundle;
 
         public Promise<AssetBundle> promise;
-        public HashSet<string> loadingAssetSet;
+        public Dictionary<string, Promise> loadingAssetSet;
 
         private List<RefData> _referenceList = new List<RefData>(DefaultListSize);
         
@@ -240,7 +240,7 @@ public class ResourceManagerAssetBundle
             wrapper = new AssetBundleWrapper()
             {
                 assetBundle = assetBundle,
-                loadingAssetSet = new HashSet<string>(),
+                loadingAssetSet = new Dictionary<string, Promise>(),
                 path = assetBundleName,
                 promise = promise,
             };
@@ -418,6 +418,57 @@ public class ResourceManagerAssetBundle
 
     private IPromise<T> LoaAssetAsync<T>(string assetName, AssetBundle assetBundle, AssetBundleWrapper wrapper) where T : Object
     {
+        T asset = RetrieveAsset<T>(wrapper, assetName);
+
+        if (asset != null)
+        {
+            return Promise<T>.Resolved(asset);
+        }
+        else
+        {
+            Promise<T> assetPromise = new Promise<T>();
+            
+            Promise promise;
+            if (wrapper.loadingAssetSet.TryGetValue(assetName, out promise))
+            {
+                DelayResolveAsset(wrapper, assetName, promise, assetPromise);
+            }
+            else
+            {
+                promise = new Promise();
+                wrapper.loadingAssetSet.Add(assetName, promise);
+                
+                DelayResolveAsset(wrapper, assetName, promise, assetPromise);
+
+                MainThreadDispatcher.StartUpdateMicroCoroutine(LoadAssetBundleAsset<T>(wrapper, promise, assetBundle, assetName));
+            }
+
+            return assetPromise;
+        }
+    }
+
+    private void DelayResolveAsset<T>(AssetBundleWrapper wrapper, string assetName, Promise promise, Promise<T> assetPromise)
+        where T : Object
+    {
+        promise
+            .Then(() =>
+            {
+                T asset = RetrieveAsset<T>(wrapper, assetName);
+
+                if (asset != null)
+                {
+                    assetPromise.Resolve(asset);
+                }
+                else
+                {
+                    assetPromise.Reject(new Exception($"asset == null, path: {wrapper.path} assetName: ${assetName}"));
+                }
+            })
+            .Catch(ex => { assetPromise.Reject(ex); });
+    }
+
+    private T RetrieveAsset<T>(AssetBundleWrapper wrapper, string assetName) where T : Object
+    {
         WeakReference<Object> assetRef;
         if (wrapper.assetDict.TryGetValue(assetName, out assetRef))
         {
@@ -428,7 +479,7 @@ public class ResourceManagerAssetBundle
 
                 if (asset)
                 {
-                    return Promise<T>.Resolved(asset);
+                    return asset;
                 }
                 else
                 {
@@ -441,16 +492,12 @@ public class ResourceManagerAssetBundle
                 wrapper.assetDict.Remove(assetName);
             }
         }
-        
-        wrapper.loadingAssetSet.Add(assetName);
 
-        Promise<T> loadPromise = new Promise<T>();
-        MainThreadDispatcher.StartUpdateMicroCoroutine(LoadAssetBundleAsset(wrapper, loadPromise, assetBundle, assetName));
-
-        return loadPromise;
+        return null;
     }
 
-    private IEnumerator LoadAssetBundleAsset<T>(AssetBundleWrapper wrapper, Promise<T> promise, AssetBundle assetBundle, string assetName) where T : Object
+
+    private IEnumerator LoadAssetBundleAsset<T>(AssetBundleWrapper wrapper, Promise promise, AssetBundle assetBundle, string assetName) where T : Object
     {
         AssetBundleRequest assetReq = assetBundle.LoadAssetAsync<T>(assetName);
         while (!assetReq.isDone)
@@ -466,7 +513,7 @@ public class ResourceManagerAssetBundle
             // may be load twice
             wrapper.assetDict[assetName] = new WeakReference<Object>(asset);
             
-            promise.Resolve(asset);
+            promise.Resolve();
         }
         else
         {
@@ -680,7 +727,7 @@ public class ResourceManagerAssetBundle
             path = assetBundleName,
             assetBundle = null,
             promise = promise,
-            loadingAssetSet = new HashSet<string>(),
+            loadingAssetSet = new Dictionary<string, Promise>(),
         };
         assetBundleWrapper.AddReference(owner, id);
         _assetBundleWrappers.Add(assetBundleName, assetBundleWrapper);
